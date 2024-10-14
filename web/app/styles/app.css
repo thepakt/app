@@ -2,13 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html,
-  body {
-    @apply text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-200;
-  }
+html {
+  background-color: #faf9f7;
+}
 
-  .using-mouse * {
-    outline: none !important;
-  }
+body {
+  background-image: linear-gradient(to right, #f8f7f4 1px, transparent 1px),
+                    linear-gradient(to bottom, #f8f7f4 1px, transparent 1px);
+  background-size: 20px 20px;
 }

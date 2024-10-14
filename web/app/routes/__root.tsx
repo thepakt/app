@@ -84,55 +84,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Meta />
       </Head>
       <Body>
-        <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: "font-bold",
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>
-          {" | "}
-          <Link
-            to="/new-airdrop-for-claim"
-            activeProps={{
-              className: "font-bold",
-            }}
-            activeOptions={{ exact: true }}
-          >
-            New Airdrop for Claim
-          </Link>
-          {" | "}
-          <Link
-            to="/claim-airdrop"
-            activeProps={{
-              className: "font-bold",
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Claim Airdrop
-          </Link>
-          {/* TODO: hide this too in prod.. */}
-          {" | "}
-          {!isProduction && (
-            <Link
-              to="/multi-wallet-transaction"
-              activeProps={{
-                className: "font-bold",
-              }}
-              activeOptions={{ exact: true }}
-            >
-              Multi Wallet Transaction
-            </Link>
-          )}
-        </div>
-        <hr />
         {children}
         <ScrollRestoration />
-        {!isProduction && <TanStackRouterDevtools position="bottom-right" />}
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        {/* {!isProduction && <TanStackRouterDevtools position="bottom-right" />} */}
+        {/* <ReactQueryDevtools buttonPosition="bottom-left" /> */}
         <Scripts />
       </Body>
     </Html>

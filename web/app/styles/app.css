@@ -11,3 +11,16 @@ body {
                     linear-gradient(to bottom, #f8f7f4 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+@layer utilities {
+
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+
+  .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+}
+}
+

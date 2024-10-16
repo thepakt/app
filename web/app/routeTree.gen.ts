@@ -20,6 +20,7 @@ import { Route as NewAirdropForClaimImport } from './routes/new-airdrop-for-clai
 import { Route as MultiWalletTransactionImport } from './routes/multi-wallet-transaction'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as ClaimAirdropImport } from './routes/claim-airdrop'
+import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
@@ -75,6 +76,11 @@ const DeferredRoute = DeferredImport.update({
 
 const ClaimAirdropRoute = ClaimAirdropImport.update({
   path: '/claim-airdrop',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatRoute = ChatImport.update({
+  path: '/chat',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -144,6 +150,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatImport
       parentRoute: typeof rootRoute
     }
     '/claim-airdrop': {
@@ -322,6 +335,7 @@ const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof LayoutLayout2RouteWithChildren
+  '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
@@ -343,6 +357,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof LayoutLayout2RouteWithChildren
+  '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
@@ -363,6 +378,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
+  '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
@@ -387,6 +403,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/chat'
     | '/claim-airdrop'
     | '/deferred'
     | '/multi-wallet-transaction'
@@ -407,6 +424,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/chat'
     | '/claim-airdrop'
     | '/deferred'
     | '/multi-wallet-transaction'
@@ -425,6 +443,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_layout'
+    | '/chat'
     | '/claim-airdrop'
     | '/deferred'
     | '/multi-wallet-transaction'
@@ -448,6 +467,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
+  ChatRoute: typeof ChatRoute
   ClaimAirdropRoute: typeof ClaimAirdropRoute
   DeferredRoute: typeof DeferredRoute
   MultiWalletTransactionRoute: typeof MultiWalletTransactionRoute
@@ -463,6 +483,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
+  ChatRoute: ChatRoute,
   ClaimAirdropRoute: ClaimAirdropRoute,
   DeferredRoute: DeferredRoute,
   MultiWalletTransactionRoute: MultiWalletTransactionRoute,
@@ -489,6 +510,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_layout",
+        "/chat",
         "/claim-airdrop",
         "/deferred",
         "/multi-wallet-transaction",
@@ -509,6 +531,9 @@ export const routeTree = rootRoute
       "children": [
         "/_layout/_layout-2"
       ]
+    },
+    "/chat": {
+      "filePath": "chat.tsx"
     },
     "/claim-airdrop": {
       "filePath": "claim-airdrop.tsx"

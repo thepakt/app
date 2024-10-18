@@ -54,10 +54,12 @@ function RouteComponent() {
   }
 
   return (
-    <>
-      <TonConnectButton />
+    <div className="relative min-h-screen">
+      <div className="absolute top-4 right-4">
+        <TonConnectButton />
+      </div>
       <div className="w-full flex items-center justify-center">
-        <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full relative min-h-screen">
+        <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <AddTodoButton
             setTodos={setTodos}
             todos={todos}
@@ -93,7 +95,7 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

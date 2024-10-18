@@ -24,7 +24,7 @@ export default function AddTodo({
   return (
     <AnimatePresence>
       <motion.div
-        className="absolute flex items-center drop-shadow-lg justify-center text-white overflow-hidden rounded-[30px] bg-primary-600"
+        className="absolute flex items-center drop-shadow-lg justify-center text-white overflow-hidden rounded-[30px] bg-white/30"
         variants={AddTodoVariants}
         initial="closed"
         animate="closed"

@@ -7,7 +7,8 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, #2b2d2e, #101111);
+  /* background: linear-gradient(135deg, #1f1f1f, #101111); */
+  background-color: #1f1f1f;
   color: white;
   min-height: 100vh;
 }

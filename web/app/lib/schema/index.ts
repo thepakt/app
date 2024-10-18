@@ -1,9 +1,9 @@
 import { CoMap, co, Account, Profile } from "jazz-tools"
-import { TaskList } from "./todo"
+import { TaskList } from "./task"
 
 export class UserRoot extends CoMap {
   version = co.optional.number
-  walletAddress = co.optional.string // auth method (for now)
+  walletAddress = co.string // auth method (for now)
   tasks = co.ref(TaskList)
   investingInTodos = co.ref(TaskList)
   // TODO: can be derived..

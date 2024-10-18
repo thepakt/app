@@ -6,7 +6,7 @@ import { BaseModel } from "./base"
 export class Task extends BaseModel {
   title = co.string
   notes = co.optional.string
-  subtasks = co.ref(SubTaskList)
+  subtasks = co.optional.ref(SubTaskList)
   public = co.boolean
   completed = co.boolean
   bountyDueDate = co.optional.encoded(Encoders.Date)

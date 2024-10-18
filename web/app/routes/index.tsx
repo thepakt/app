@@ -40,7 +40,7 @@ function RouteComponent() {
   return (
     <>
       <div className="w-full flex items-center justify-center">
-        <div className="w-full p-4 py-[70px] max-w-[500px] h-full relative min-h-screen">
+        <div className="w-full p-4 py-[0.5em] max-w-[500px] h-full relative min-h-screen">
           <AddTodo
             setTodos={setTodos}
             todos={todos}

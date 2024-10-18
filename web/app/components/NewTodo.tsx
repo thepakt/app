@@ -1,6 +1,5 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
-import Todo from "./Todo"
 
 interface NewTodoProps {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
@@ -9,6 +8,7 @@ interface NewTodoProps {
 
 export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
   const [title, setTitle] = useState("")
+  const [notes, setNotes] = useState("")
   const [bounty, setBounty] = useState(100)
 
   const handleAddTodo = () => {
@@ -36,16 +36,26 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full bg-transparent border-b border-white/30 outline-none text-lg font-semibold mb-4"
+        className="w-full bg-transparent outline-none text-md font-light"
         placeholder="New Todo Title"
       />
-      <div className="flex justify-between items-center mb-4">
-        <span className="text-gray-400">Bounty:</span>
+      <textarea
+        value={notes}
+        onChange={(e) => {
+          setNotes(e.target.value)
+          e.target.style.height = "auto"
+          e.target.style.height = e.target.scrollHeight + "px"
+        }}
+        className="w-full bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden"
+        placeholder="Notes"
+      />
+      <div className="flex flex-col items-start mb-4">
+        <span className="text-gray-400">Due date:</span>
         <input
           type="number"
           value={bounty}
           onChange={(e) => setBounty(Number(e.target.value))}
-          className="w-20 bg-white/20 rounded-full px-3 py-1 text-right outline-none"
+          className="w-[15%] bg-white/30 rounded-xl px-3 text-right outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
       </div>
 

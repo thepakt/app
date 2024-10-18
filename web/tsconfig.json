@@ -18,6 +18,6 @@
       "~/*": ["./app/*"]
     },
     "noEmit": true,
-    "types": ["@ronin/ton"]
+    // "types": ["@ronin/ton"]
   }
 }

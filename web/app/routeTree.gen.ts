@@ -24,15 +24,12 @@ import { Route as DeferredImport } from './routes/deferred'
 import { Route as ClaimAirdropImport } from './routes/claim-airdrop'
 import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
-import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
+import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
-import { Route as LayoutLayout2Import } from './routes/_layout/_layout-2'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
-import { Route as LayoutLayout2LayoutBImport } from './routes/_layout/_layout-2/layout-b'
-import { Route as LayoutLayout2LayoutAImport } from './routes/_layout/_layout-2/layout-a'
 
 // Create/Update Routes
 
@@ -101,11 +98,6 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const UsersIndexRoute = UsersIndexImport.update({
   path: '/',
   getParentRoute: () => UsersRoute,
@@ -114,6 +106,11 @@ const UsersIndexRoute = UsersIndexImport.update({
 const PostsIndexRoute = PostsIndexImport.update({
   path: '/',
   getParentRoute: () => PostsRoute,
+} as any)
+
+const LayoutIndexRoute = LayoutIndexImport.update({
+  path: '/',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const UsersUserIdRoute = UsersUserIdImport.update({
@@ -126,37 +123,15 @@ const PostsPostIdRoute = PostsPostIdImport.update({
   getParentRoute: () => PostsRoute,
 } as any)
 
-const LayoutLayout2Route = LayoutLayout2Import.update({
-  id: '/_layout-2',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
 const PostsPostIdDeepRoute = PostsPostIdDeepImport.update({
   path: '/posts/$postId/deep',
   getParentRoute: () => rootRoute,
-} as any)
-
-const LayoutLayout2LayoutBRoute = LayoutLayout2LayoutBImport.update({
-  path: '/layout-b',
-  getParentRoute: () => LayoutLayout2Route,
-} as any)
-
-const LayoutLayout2LayoutARoute = LayoutLayout2LayoutAImport.update({
-  path: '/layout-a',
-  getParentRoute: () => LayoutLayout2Route,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -248,13 +223,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/_layout-2': {
-      id: '/_layout/_layout-2'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof LayoutLayout2Import
-      parentRoute: typeof LayoutImport
-    }
     '/posts/$postId': {
       id: '/posts/$postId'
       path: '/$postId'
@@ -268,6 +236,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/users/$userId'
       preLoaderRoute: typeof UsersUserIdImport
       parentRoute: typeof UsersImport
+    }
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexImport
+      parentRoute: typeof LayoutImport
     }
     '/posts/': {
       id: '/posts/'
@@ -283,20 +258,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersIndexImport
       parentRoute: typeof UsersImport
     }
-    '/_layout/_layout-2/layout-a': {
-      id: '/_layout/_layout-2/layout-a'
-      path: '/layout-a'
-      fullPath: '/layout-a'
-      preLoaderRoute: typeof LayoutLayout2LayoutAImport
-      parentRoute: typeof LayoutLayout2Import
-    }
-    '/_layout/_layout-2/layout-b': {
-      id: '/_layout/_layout-2/layout-b'
-      path: '/layout-b'
-      fullPath: '/layout-b'
-      preLoaderRoute: typeof LayoutLayout2LayoutBImport
-      parentRoute: typeof LayoutLayout2Import
-    }
     '/posts/$postId/deep': {
       id: '/posts/$postId/deep'
       path: '/posts/$postId/deep'
@@ -309,26 +270,12 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface LayoutLayout2RouteChildren {
-  LayoutLayout2LayoutARoute: typeof LayoutLayout2LayoutARoute
-  LayoutLayout2LayoutBRoute: typeof LayoutLayout2LayoutBRoute
-}
-
-const LayoutLayout2RouteChildren: LayoutLayout2RouteChildren = {
-  LayoutLayout2LayoutARoute: LayoutLayout2LayoutARoute,
-  LayoutLayout2LayoutBRoute: LayoutLayout2LayoutBRoute,
-}
-
-const LayoutLayout2RouteWithChildren = LayoutLayout2Route._addFileChildren(
-  LayoutLayout2RouteChildren,
-)
-
 interface LayoutRouteChildren {
-  LayoutLayout2Route: typeof LayoutLayout2RouteWithChildren
+  LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutLayout2Route: LayoutLayout2RouteWithChildren,
+  LayoutIndexRoute: LayoutIndexRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -359,8 +306,7 @@ const UsersRouteChildren: UsersRouteChildren = {
 const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '': typeof LayoutLayout2RouteWithChildren
+  '': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -375,16 +321,13 @@ export interface FileRoutesByFullPath {
   '/users': typeof UsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/': typeof LayoutIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
-  '/layout-a': typeof LayoutLayout2LayoutARoute
-  '/layout-b': typeof LayoutLayout2LayoutBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '': typeof LayoutLayout2RouteWithChildren
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -397,16 +340,14 @@ export interface FileRoutesByTo {
   '/try': typeof TryRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/': typeof LayoutIndexRoute
   '/posts': typeof PostsIndexRoute
   '/users': typeof UsersIndexRoute
-  '/layout-a': typeof LayoutLayout2LayoutARoute
-  '/layout-b': typeof LayoutLayout2LayoutBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
@@ -420,20 +361,17 @@ export interface FileRoutesById {
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
-  '/_layout/_layout-2': typeof LayoutLayout2RouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
+  '/_layout/': typeof LayoutIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
-  '/_layout/_layout-2/layout-a': typeof LayoutLayout2LayoutARoute
-  '/_layout/_layout-2/layout-b': typeof LayoutLayout2LayoutBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | ''
     | '/chat'
     | '/claim-airdrop'
@@ -449,15 +387,12 @@ export interface FileRouteTypes {
     | '/users'
     | '/posts/$postId'
     | '/users/$userId'
+    | '/'
     | '/posts/'
     | '/users/'
-    | '/layout-a'
-    | '/layout-b'
     | '/posts/$postId/deep'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | ''
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
@@ -470,14 +405,12 @@ export interface FileRouteTypes {
     | '/try'
     | '/posts/$postId'
     | '/users/$userId'
+    | '/'
     | '/posts'
     | '/users'
-    | '/layout-a'
-    | '/layout-b'
     | '/posts/$postId/deep'
   id:
     | '__root__'
-    | '/'
     | '/_layout'
     | '/chat'
     | '/claim-airdrop'
@@ -491,19 +424,16 @@ export interface FileRouteTypes {
     | '/todos'
     | '/try'
     | '/users'
-    | '/_layout/_layout-2'
     | '/posts/$postId'
     | '/users/$userId'
+    | '/_layout/'
     | '/posts/'
     | '/users/'
-    | '/_layout/_layout-2/layout-a'
-    | '/_layout/_layout-2/layout-b'
     | '/posts/$postId/deep'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
   ChatRoute: typeof ChatRoute
   ClaimAirdropRoute: typeof ClaimAirdropRoute
@@ -521,7 +451,6 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
   ChatRoute: ChatRoute,
   ClaimAirdropRoute: ClaimAirdropRoute,
@@ -550,7 +479,6 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/_layout",
         "/chat",
         "/claim-airdrop",
@@ -567,13 +495,10 @@ export const routeTree = rootRoute
         "/posts/$postId/deep"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
-        "/_layout/_layout-2"
+        "/_layout/"
       ]
     },
     "/chat": {
@@ -620,14 +545,6 @@ export const routeTree = rootRoute
         "/users/"
       ]
     },
-    "/_layout/_layout-2": {
-      "filePath": "_layout/_layout-2.tsx",
-      "parent": "/_layout",
-      "children": [
-        "/_layout/_layout-2/layout-a",
-        "/_layout/_layout-2/layout-b"
-      ]
-    },
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
@@ -636,6 +553,10 @@ export const routeTree = rootRoute
       "filePath": "users.$userId.tsx",
       "parent": "/users"
     },
+    "/_layout/": {
+      "filePath": "_layout/index.tsx",
+      "parent": "/_layout"
+    },
     "/posts/": {
       "filePath": "posts.index.tsx",
       "parent": "/posts"
@@ -643,14 +564,6 @@ export const routeTree = rootRoute
     "/users/": {
       "filePath": "users.index.tsx",
       "parent": "/users"
-    },
-    "/_layout/_layout-2/layout-a": {
-      "filePath": "_layout/_layout-2/layout-a.tsx",
-      "parent": "/_layout/_layout-2"
-    },
-    "/_layout/_layout-2/layout-b": {
-      "filePath": "_layout/_layout-2/layout-b.tsx",
-      "parent": "/_layout/_layout-2"
     },
     "/posts/$postId/deep": {
       "filePath": "posts_.$postId.deep.tsx"

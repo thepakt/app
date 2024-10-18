@@ -12,12 +12,14 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsersImport } from './routes/users'
+import { Route as TryImport } from './routes/try'
 import { Route as TodosImport } from './routes/todos'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as PostsImport } from './routes/posts'
 import { Route as NewRouteImport } from './routes/new-route'
 import { Route as NewAirdropForClaimImport } from './routes/new-airdrop-for-claim'
 import { Route as MultiWalletTransactionImport } from './routes/multi-wallet-transaction'
+import { Route as FeedImport } from './routes/feed'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as ClaimAirdropImport } from './routes/claim-airdrop'
 import { Route as ChatImport } from './routes/chat'
@@ -36,6 +38,11 @@ import { Route as LayoutLayout2LayoutAImport } from './routes/_layout/_layout-2/
 
 const UsersRoute = UsersImport.update({
   path: '/users',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TryRoute = TryImport.update({
+  path: '/try',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -66,6 +73,11 @@ const NewAirdropForClaimRoute = NewAirdropForClaimImport.update({
 
 const MultiWalletTransactionRoute = MultiWalletTransactionImport.update({
   path: '/multi-wallet-transaction',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FeedRoute = FeedImport.update({
+  path: '/feed',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -173,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DeferredImport
       parentRoute: typeof rootRoute
     }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedImport
+      parentRoute: typeof rootRoute
+    }
     '/multi-wallet-transaction': {
       id: '/multi-wallet-transaction'
       path: '/multi-wallet-transaction'
@@ -213,6 +232,13 @@ declare module '@tanstack/react-router' {
       path: '/todos'
       fullPath: '/todos'
       preLoaderRoute: typeof TodosImport
+      parentRoute: typeof rootRoute
+    }
+    '/try': {
+      id: '/try'
+      path: '/try'
+      fullPath: '/try'
+      preLoaderRoute: typeof TryImport
       parentRoute: typeof rootRoute
     }
     '/users': {
@@ -338,12 +364,14 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
+  '/feed': typeof FeedRoute
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
   '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
   '/new-route': typeof NewRouteRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
+  '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -360,11 +388,13 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
+  '/feed': typeof FeedRoute
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
   '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
   '/new-route': typeof NewRouteRoute
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
+  '/try': typeof TryRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts': typeof PostsIndexRoute
@@ -381,12 +411,14 @@ export interface FileRoutesById {
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
+  '/feed': typeof FeedRoute
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
   '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
   '/new-route': typeof NewRouteRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
+  '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
   '/_layout/_layout-2': typeof LayoutLayout2RouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -406,12 +438,14 @@ export interface FileRouteTypes {
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
+    | '/feed'
     | '/multi-wallet-transaction'
     | '/new-airdrop-for-claim'
     | '/new-route'
     | '/posts'
     | '/redirect'
     | '/todos'
+    | '/try'
     | '/users'
     | '/posts/$postId'
     | '/users/$userId'
@@ -427,11 +461,13 @@ export interface FileRouteTypes {
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
+    | '/feed'
     | '/multi-wallet-transaction'
     | '/new-airdrop-for-claim'
     | '/new-route'
     | '/redirect'
     | '/todos'
+    | '/try'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts'
@@ -446,12 +482,14 @@ export interface FileRouteTypes {
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
+    | '/feed'
     | '/multi-wallet-transaction'
     | '/new-airdrop-for-claim'
     | '/new-route'
     | '/posts'
     | '/redirect'
     | '/todos'
+    | '/try'
     | '/users'
     | '/_layout/_layout-2'
     | '/posts/$postId'
@@ -470,12 +508,14 @@ export interface RootRouteChildren {
   ChatRoute: typeof ChatRoute
   ClaimAirdropRoute: typeof ClaimAirdropRoute
   DeferredRoute: typeof DeferredRoute
+  FeedRoute: typeof FeedRoute
   MultiWalletTransactionRoute: typeof MultiWalletTransactionRoute
   NewAirdropForClaimRoute: typeof NewAirdropForClaimRoute
   NewRouteRoute: typeof NewRouteRoute
   PostsRoute: typeof PostsRouteWithChildren
   RedirectRoute: typeof RedirectRoute
   TodosRoute: typeof TodosRoute
+  TryRoute: typeof TryRoute
   UsersRoute: typeof UsersRouteWithChildren
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
@@ -486,12 +526,14 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRoute: ChatRoute,
   ClaimAirdropRoute: ClaimAirdropRoute,
   DeferredRoute: DeferredRoute,
+  FeedRoute: FeedRoute,
   MultiWalletTransactionRoute: MultiWalletTransactionRoute,
   NewAirdropForClaimRoute: NewAirdropForClaimRoute,
   NewRouteRoute: NewRouteRoute,
   PostsRoute: PostsRouteWithChildren,
   RedirectRoute: RedirectRoute,
   TodosRoute: TodosRoute,
+  TryRoute: TryRoute,
   UsersRoute: UsersRouteWithChildren,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
@@ -513,12 +555,14 @@ export const routeTree = rootRoute
         "/chat",
         "/claim-airdrop",
         "/deferred",
+        "/feed",
         "/multi-wallet-transaction",
         "/new-airdrop-for-claim",
         "/new-route",
         "/posts",
         "/redirect",
         "/todos",
+        "/try",
         "/users",
         "/posts/$postId/deep"
       ]
@@ -541,6 +585,9 @@ export const routeTree = rootRoute
     "/deferred": {
       "filePath": "deferred.tsx"
     },
+    "/feed": {
+      "filePath": "feed.tsx"
+    },
     "/multi-wallet-transaction": {
       "filePath": "multi-wallet-transaction.tsx"
     },
@@ -562,6 +609,9 @@ export const routeTree = rootRoute
     },
     "/todos": {
       "filePath": "todos.tsx"
+    },
+    "/try": {
+      "filePath": "try.tsx"
     },
     "/users": {
       "filePath": "users.tsx",

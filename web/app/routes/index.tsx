@@ -1,9 +1,12 @@
+import { createJazzReactApp } from "jazz-react"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState, useEffect } from "react"
 import { AnimatePresence } from "framer-motion"
 import Todo from "~/components/Todo"
 import AddTodoButton from "~/components/AddTodoButton"
 import NewTodo from "~/components/NewTodo"
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
+import { useAccountOrGuest } from "~/lib/providers/jazz-provider"
 
 interface TodoItem {
   id: number
@@ -14,6 +17,16 @@ interface TodoItem {
 }
 
 function RouteComponent() {
+  const { me } = useAccountOrGuest()
+
+  const address = useTonAddress()
+
+  useEffect(() => {
+    if (address) {
+      console.log(address, "address")
+    }
+  }, [address])
+
   const [todos, setTodos] = useState<TodoItem[]>([
     { id: 1, title: "make backend work", bounty: 100 },
     { id: 2, title: "make more todos", bounty: 10 },
@@ -41,6 +54,7 @@ function RouteComponent() {
 
   return (
     <>
+      <TonConnectButton />
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full relative min-h-screen">
           <AddTodoButton

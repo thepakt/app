@@ -1,21 +1,17 @@
+import type { QueryClient } from "@tanstack/react-query"
 import {
-  Link,
   Outlet,
   ScrollRestoration,
   createRootRouteWithContext,
 } from "@tanstack/react-router"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { TanStackRouterDevtools } from "@tanstack/router-devtools"
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start"
+import { TonConnectUIProvider } from "@tonconnect/ui-react"
 import * as React from "react"
-import type { QueryClient } from "@tanstack/react-query"
+import { Toaster } from "react-hot-toast"
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary"
 import { NotFound } from "~/components/NotFound"
 import appCss from "~/styles/app.css?url"
 import { seo } from "~/utils/seo"
-import { TonConnectUIProvider } from "@tonconnect/ui-react"
-import { Toaster } from "react-hot-toast"
-import { isProduction } from "~/lib/utils"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -69,6 +65,7 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <RootDocument>
+      {/* TODO: add our own manifestUrl */}
       <TonConnectUIProvider manifestUrl="https://gist.githubusercontent.com/nikitavoloboev/3a20b9deaa0c12e84f662776177aad52/raw/da68c1ae363a5b940f2f92bf997011332460e835/manifest.json">
         <Outlet />
       </TonConnectUIProvider>

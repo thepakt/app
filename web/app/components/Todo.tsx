@@ -68,7 +68,6 @@ const Todo: React.FC<TodoProps> = ({
                 >
                   {isBountyExpanded ? (
                     <div className="flex flex-row gap-1 items-center w-full bg-transparent pr-3 py-1">
-                      {/* <span className="text-gray-400">$</span> */}
                       <input
                         type="number"
                         className="w-full bg-transparent text-right outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pl-0"

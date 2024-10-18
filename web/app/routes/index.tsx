@@ -1,11 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Divide, DollarSign, PlusIcon, SquareIcon } from "lucide-react"
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { modalSpring } from "theme/transitions"
-import { AddTodoVariants } from "theme/variants"
+import { useState, useEffect } from "react"
+import { AnimatePresence } from "framer-motion"
 import Todo from "~/components/Todo"
 import AddTodo from "~/components/AddTodo"
+import NewTodo from "~/components/NewTodo"
 
 interface TodoItem {
   id: number
@@ -19,6 +17,7 @@ function RouteComponent() {
     { id: 2, title: "make more todos", bounty: 10 },
   ])
   const [expandedTodoId, setExpandedTodoId] = useState<number | null>(null)
+  const [isNewTodoOpen, setIsNewTodoOpen] = useState(false)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,8 +41,20 @@ function RouteComponent() {
     <>
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[70px] max-w-[500px] h-full relative min-h-screen">
-          <AddTodo setTodos={setTodos} todos={todos} />
-          <div className="flex flex-col gap-1">
+          <AddTodo
+            setTodos={setTodos}
+            todos={todos}
+            setIsNewTodoOpen={setIsNewTodoOpen}
+          />
+          <div className="flex flex-col gap-1 mt-16">
+            <AnimatePresence>
+              {isNewTodoOpen && (
+                <NewTodo
+                  setTodos={setTodos}
+                  onClose={() => setIsNewTodoOpen(false)}
+                />
+              )}
+            </AnimatePresence>
             {todos.map((todo) => (
               <Todo
                 key={todo.id}
@@ -62,5 +73,5 @@ function RouteComponent() {
 }
 
 export const Route = createFileRoute("/")({
-  component: () => <RouteComponent />,
+  component: RouteComponent,
 })

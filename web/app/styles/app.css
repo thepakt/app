@@ -7,9 +7,9 @@ html {
 }
 
 body {
-  background-image: linear-gradient(to right, #f8f7f4 1px, transparent 1px),
-                    linear-gradient(to bottom, #f8f7f4 1px, transparent 1px);
-  background-size: 20px 20px;
+  background: linear-gradient(135deg, #2b2d2e, #101111);
+  color: white;
+  min-height: 100vh;
 }
 
 @layer utilities {

@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
-import { SkeletonFeed } from "~/components/skeletons/SkeletonFeed"
+import { Filter } from "~/components/feed/Filter"
 
 export interface FeedItem {
   id: number
@@ -16,6 +16,7 @@ export interface FeedItem {
   }[]
 }
 function RouteComponent() {
+  const router = useRouter()
   const [feedItems, setFeedItems] = useState<FeedItem[]>([
     {
       id: 1,
@@ -63,9 +64,7 @@ function RouteComponent() {
       <section className="w-full p-4 py-[70px] max-w-[500px] h-full relative min-h-screen">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Feed</h1>
-          <button className="text-sm font-medium text-primary-500">
-            Filter
-          </button>
+          <Filter />
         </div>
         <ul className="flex flex-col gap-4">
           {feedItems.map((item) => (
@@ -75,11 +74,20 @@ function RouteComponent() {
             >
               <article>
                 <header className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="min-w-[42px] w-[42px] h-[42px] bg-neutral-700 rounded-full" />
+                  <div
+                    className="flex items-center cursor-pointer gap-2"
+                    onClick={() =>
+                      router.navigate({ to: `/profile/${item.username}` })
+                    }
+                  >
+                    <div className="min-w-[42px] w-[42px] hover:bg-neutral-600 transition-all h-[42px] bg-neutral-700 rounded-full" />
                     <div className="flex flex-col">
-                      <h2 className="text-sm font-bold ">{item.prettyName}</h2>
-                      <p className="text-xs text-gray-500">{item.username}</p>
+                      <h2 className="text-sm font-bold hover:text-primary-400 transition-all">
+                        {item.prettyName}
+                      </h2>
+                      <p className="text-xs text-gray-500 cursor-pointer hover:text-gray-400 transition-all">
+                        {item.username}
+                      </p>
                     </div>
                   </div>
                   <span className="w-fit text-end text-[14px] font-medium bg-neutral-700 px-3 rounded-md p-1">

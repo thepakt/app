@@ -2,13 +2,15 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useState, useEffect } from "react"
 import { AnimatePresence } from "framer-motion"
 import Todo from "~/components/Todo"
-import AddTodo from "~/components/AddTodo"
+import AddTodoButton from "~/components/AddTodoButton"
 import NewTodo from "~/components/NewTodo"
 
 interface TodoItem {
   id: number
   title: string
   bounty: number
+  notes?: string
+  estimatedTime?: string
 }
 
 function RouteComponent() {
@@ -41,7 +43,7 @@ function RouteComponent() {
     <>
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full relative min-h-screen">
-          <AddTodo
+          <AddTodoButton
             setTodos={setTodos}
             todos={todos}
             setIsNewTodoOpen={setIsNewTodoOpen}
@@ -60,9 +62,16 @@ function RouteComponent() {
                 key={todo.id}
                 id={todo.id}
                 title={todo.title}
+                notes={todo.notes ?? ""}
+                estimatedTime={todo.estimatedTime ?? ""}
                 bounty={todo.bounty}
                 isExpanded={expandedTodoId === todo.id}
                 onClick={() => handleTodoClick(todo.id)}
+                onUpdate={(id, updates) => {
+                  setTodos(
+                    todos.map((t) => (t.id === id ? { ...t, ...updates } : t)),
+                  )
+                }}
               />
             ))}
           </div>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
 interface NewTodoProps {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
@@ -7,10 +7,27 @@ interface NewTodoProps {
 }
 
 export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
+  const componentRef = useRef<HTMLDivElement>(null)
   const [title, setTitle] = useState("")
   const [notes, setNotes] = useState("")
   const [estimatedTime, setEstimatedTime] = useState("")
   const [bounty, setBounty] = useState("")
+
+  useEffect(() => {
+    const clickOutside = (event: MouseEvent) => {
+      if (
+        componentRef.current &&
+        !componentRef.current.contains(event.target as Node)
+      ) {
+        onClose()
+      }
+    }
+
+    document.addEventListener("mousedown", clickOutside)
+    return () => {
+      document.removeEventListener("mousedown", clickOutside)
+    }
+  }, [onClose])
 
   const handleAddTodo = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -34,6 +51,7 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
 
   return (
     <motion.div
+      ref={componentRef}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}

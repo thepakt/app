@@ -1,37 +1,62 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { CheckCircle2, Circle } from "lucide-react"
+import { Circle } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface TodoProps {
   id: number
   title: string
+  notes?: string
+  estimatedTime?: string
   bounty: number
   isExpanded: boolean
   onClick: () => void
+  onUpdate: (id: number, updates: Partial<TodoProps>) => void
 }
 
 const Todo: React.FC<TodoProps> = ({
   id,
   title,
+  notes,
+  estimatedTime,
   bounty,
   isExpanded,
   onClick,
+  onUpdate,
 }) => {
+  const [isEditing, setIsEditing] = useState(false)
   const [isBountyExpanded, setIsBountyExpanded] = useState(false)
+  const [editedTitle, setEditedTitle] = useState(title)
+  const [editedNotes, setEditedNotes] = useState(notes || "")
+  const [editedEstimatedTime, setEditedEstimatedTime] = useState(
+    estimatedTime || "",
+  )
+  const [editedBounty, setEditedBounty] = useState(bounty)
 
   useEffect(() => {
     if (!isExpanded) {
       setIsBountyExpanded(false)
+      handleSave()
     }
   }, [isExpanded])
+
+  const handleSave = () => {
+    if (isExpanded) {
+      onUpdate(id, {
+        title: editedTitle,
+        notes: editedNotes,
+        estimatedTime: editedEstimatedTime,
+        bounty: editedBounty,
+      })
+    }
+  }
 
   return (
     <motion.div
       layout
-      onClick={onClick}
-      className={`todo-item p-4 rounded-xl text-white font-medium cursor-pointer overflow-hidden ${
+      onClick={isEditing ? undefined : onClick}
+      className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer overflow-hidden ${
         isExpanded ? "bg-white/10 backdrop-blur-md" : "bg-white/5"
-      }`}
+      } transition-colors duration-300 ease-in-out hover:bg-white/15`}
       initial={false}
       animate={{
         height: isExpanded ? "auto" : "60px",
@@ -43,10 +68,19 @@ const Todo: React.FC<TodoProps> = ({
       }}
     >
       <div className="flex flex-col h-full">
-        <motion.div className="flex items-center gap-3" layout="position">
-          <Circle className="text-gray-400" size={24} />
-
-          <h3 className="text-lg font-semibold truncate">{title}</h3>
+        <motion.div className="flex items-center gap-4" layout="position">
+          <Circle className="w-6 h-6" />
+          {isExpanded ? (
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              className="flex-grow bg-transparent text-md font-light outline-none focus:border-white/50 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
+            <span className="flex-grow text-md font-light">{title}</span>
+          )}
         </motion.div>
         <AnimatePresence>
           {isExpanded && (
@@ -55,41 +89,37 @@ const Todo: React.FC<TodoProps> = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: 0.1 }}
-              className="flex flex-col mt-4 text-sm"
+              className="flex flex-col mt-6 text-sm space-y-4"
             >
-              <p className="opacity-50 mb-4">Something something...</p>
+              <div className="flex flex-col">
+                <span className="text-gray-400 mb-1">Notes</span>
+                <textarea
+                  value={editedNotes}
+                  onChange={(e) => setEditedNotes(e.target.value)}
+                  className="bg-inherit p-2 outline-none focus:ring-none"
+                  rows={2}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Estimated Time:</span>
+                <input
+                  type="text"
+                  value={editedEstimatedTime}
+                  onChange={(e) => setEditedEstimatedTime(e.target.value)}
+                  className="bg-white/5 rounded-lg p-2 w-32 text-right outline-none focus:ring-2 focus:ring-white/20 transition-shadow"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-400">Bounty:</span>
-                <motion.div
-                  className="bg-white/20 rounded-full overflow-hidden"
-                  animate={{
-                    width: isBountyExpanded ? "100px" : "auto",
-                  }}
-                >
-                  {isBountyExpanded ? (
-                    <div className="flex flex-row gap-1 items-center w-full bg-transparent pr-3 py-1">
-                      <input
-                        type="number"
-                        className="w-full bg-transparent text-right outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pl-0"
-                        defaultValue={bounty}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setIsBountyExpanded(true)
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <span
-                      className="px-3 py-1 block"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setIsBountyExpanded(true)
-                      }}
-                    >
-                      ${bounty}
-                    </span>
-                  )}
-                </motion.div>
+                <input
+                  type="number"
+                  value={editedBounty}
+                  onChange={(e) => setEditedBounty(Number(e.target.value))}
+                  className="bg-white/5 rounded-lg p-2 w-32 text-right outline-none focus:ring-2 focus:ring-white/20 transition-shadow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  onClick={(e) => e.stopPropagation()}
+                />
               </div>
             </motion.div>
           )}

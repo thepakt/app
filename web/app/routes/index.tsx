@@ -14,6 +14,7 @@ interface TodoItem {
   bounty: number
   notes?: string
   estimatedTime?: string
+  dueDate?: string | null
 }
 
 function RouteComponent() {
@@ -79,6 +80,7 @@ function RouteComponent() {
                 notes={todo.notes ?? ""}
                 estimatedTime={todo.estimatedTime ?? ""}
                 bounty={todo.bounty}
+                dueDate={todo.dueDate ? new Date(todo.dueDate) : undefined}
                 isExpanded={expandedTodoId === todo.id}
                 onClick={() => handleTodoClick(todo.id)}
                 onUpdate={(id, updates) => {

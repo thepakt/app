@@ -113,7 +113,10 @@ const Todo: React.FC<TodoProps> = ({
                 <span className="text-gray-400">Due Date:</span>
                 <DatePicker
                   selected={editedDueDate}
-                  onChange={(date: Date | null) => setEditedDueDate(date)}
+                  onChange={(date: Date | null) => {
+                    setEditedDueDate(date)
+                    handleSave()
+                  }}
                   className="bg-white/5 rounded-lg p-2 w-32 text-right outline-none focus:ring-2 focus:ring-white/20 transition-shadow"
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Select date"

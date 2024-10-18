@@ -42,6 +42,8 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
           {
             id: Date.now(),
             title: title.trim(),
+            notes: notes,
+            estimatedTime: estimatedTime,
             bounty: bounty ? parseFloat(bounty) : 0,
             dueDate: dueDate,
           },

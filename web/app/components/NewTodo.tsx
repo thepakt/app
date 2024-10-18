@@ -1,5 +1,7 @@
 import { motion } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 interface NewTodoProps {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
@@ -12,6 +14,7 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
   const [notes, setNotes] = useState("")
   const [estimatedTime, setEstimatedTime] = useState("")
   const [bounty, setBounty] = useState("")
+  const [dueDate, setDueDate] = useState<Date | null>(null)
 
   useEffect(() => {
     const clickOutside = (event: MouseEvent) => {
@@ -40,7 +43,7 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
             id: Date.now(),
             title: title.trim(),
             bounty: bounty ? parseFloat(bounty) : 0,
-            estimatedTime,
+            dueDate: dueDate,
           },
           ...prevTodos,
         ])
@@ -83,23 +86,23 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
         className="w-full bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"
         placeholder="Notes"
       />
-      <div className="flex items-center justify-between mb-2">
-        <div className="relative bg-white/10 rounded-xl px-3 py-1">
-          <input
-            type="text"
-            value={estimatedTime}
-            onChange={(e) => setEstimatedTime(e.target.value)}
-            className="bg-transparent outline-none text-sm pr-8"
-            placeholder="Estimated time"
+      <div className="flex flex-row items-center justify-between mb-2">
+        <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1">
+          <DatePicker
+            selected={dueDate}
+            onChange={(date: Date | null) => setDueDate(date)}
+            className="bg-transparent outline-none text-sm w-full"
+            placeholderText="Due date"
+            dateFormat="dd/MM/yyyy"
           />
           <button
-            onClick={() => {}}
+            onClick={() => setDueDate(null)}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"
           >
-            🕒
+            🗓️
           </button>
         </div>
-        <div className="relative bg-white/10 rounded-xl px-3 py-1">
+        <div className="relative w-[30%] bg-white/10 rounded-xl px-3 py-1">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $
           </span>

@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { Circle } from "lucide-react"
 import { useEffect, useState } from "react"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 interface TodoProps {
   id: number
@@ -8,6 +10,7 @@ interface TodoProps {
   notes?: string
   estimatedTime?: string
   bounty: number
+  dueDate?: Date | null
   isExpanded: boolean
   onClick: () => void
   onUpdate: (id: number, updates: Partial<TodoProps>) => void
@@ -19,6 +22,7 @@ const Todo: React.FC<TodoProps> = ({
   notes,
   estimatedTime,
   bounty,
+  dueDate,
   isExpanded,
   onClick,
   onUpdate,
@@ -31,6 +35,9 @@ const Todo: React.FC<TodoProps> = ({
     estimatedTime || "",
   )
   const [editedBounty, setEditedBounty] = useState(bounty)
+  const [editedDueDate, setEditedDueDate] = useState<Date | null>(
+    dueDate || null,
+  )
 
   useEffect(() => {
     if (!isExpanded) {
@@ -46,6 +53,7 @@ const Todo: React.FC<TodoProps> = ({
         notes: editedNotes,
         estimatedTime: editedEstimatedTime,
         bounty: editedBounty,
+        dueDate: editedDueDate,
       })
     }
   }
@@ -102,13 +110,13 @@ const Todo: React.FC<TodoProps> = ({
                 />
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-400">Estimated Time:</span>
-                <input
-                  type="text"
-                  value={editedEstimatedTime}
-                  onChange={(e) => setEditedEstimatedTime(e.target.value)}
+                <span className="text-gray-400">Due Date:</span>
+                <DatePicker
+                  selected={editedDueDate}
+                  onChange={(date: Date | null) => setEditedDueDate(date)}
                   className="bg-white/5 rounded-lg p-2 w-32 text-right outline-none focus:ring-2 focus:ring-white/20 transition-shadow"
-                  onClick={(e) => e.stopPropagation()}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Select date"
                 />
               </div>
               <div className="flex justify-between items-center">

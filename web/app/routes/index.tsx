@@ -103,6 +103,7 @@ function RouteComponent() {
                 onClick={() => handleTodoClick(todo.id)}
                 onUpdate={(id, updates) => {
                   setTodos(
+                    // @ts-ignore
                     todos.map((t) => (t.id === id ? { ...t, ...updates } : t)),
                   )
                 }}

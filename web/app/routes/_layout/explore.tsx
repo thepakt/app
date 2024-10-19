@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { feedItems } from "~/components/feed/feedItems"
 import { Filter } from "~/components/feed/Filter"
-import Layout from "~/components/Layout"
 
 function RouteComponent() {
   return (

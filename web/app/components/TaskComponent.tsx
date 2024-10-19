@@ -2,6 +2,8 @@ import { Task } from "@ronin/todo-escrow"
 import { AnimatePresence, motion } from "framer-motion"
 import { Circle } from "lucide-react"
 import "react-datepicker/dist/react-datepicker.css"
+import { useState } from "react"
+import Picker from "react-mobile-picker"
 
 export function TaskComponent({
   task,
@@ -12,6 +14,26 @@ export function TaskComponent({
   isExpanded: boolean
   onClick: (taskId: string) => void
 }) {
+  const [isEditingTime, setIsEditingTime] = useState(false)
+  const [estimatedTime, setEstimatedTime] = useState({
+    amount: task.bountyEstimatedTimeInHours || 1,
+    unit: "Hours",
+  })
+  const [estimatedTimeOptions, setEstimatedTimeOptions] = useState({
+    amount: Array.from({ length: 23 }, (_, i) => i + 1),
+    unit: ["Hours", "Days"],
+  })
+
+  const handlePickerChange = (newValue: Partial<typeof estimatedTime>) => {
+    setEstimatedTime((prev) => ({
+      ...prev,
+      ...newValue,
+    }))
+    // Update the task
+    if (newValue.amount) {
+      task.bountyEstimatedTimeInHours = newValue.amount
+    }
+  }
   const truncateNotes = (notes: string) => {
     const lines = notes.split("\n")
     if (lines.length > 10) {
@@ -61,6 +83,7 @@ export function TaskComponent({
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: 0.1 }}
               className="flex flex-col mt-6 text-sm space-y-4"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col">
                 <span className="text-gray-400 font-light mb-1">Notes</span>
@@ -77,23 +100,39 @@ export function TaskComponent({
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
+              <div className="flex flex-col">
+                <span
+                  className="text-gray-400 font-light mb-1 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsEditingTime(!isEditingTime)
+                  }}
+                >
+                  Estimated time: {estimatedTime.amount} {estimatedTime.unit}
+                </span>
+                {isEditingTime && (
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <Picker
+                      value={estimatedTime}
+                      onChange={handlePickerChange}
+                      height={150}
+                    >
+                      {Object.keys(estimatedTimeOptions).map((name) => (
+                        <Picker.Column key={name} name={name}>
+                          {estimatedTimeOptions[
+                            name as keyof typeof estimatedTimeOptions
+                          ].map((option) => (
+                            <Picker.Item key={option.toString()} value={option}>
+                              {option.toString()}
+                            </Picker.Item>
+                          ))}
+                        </Picker.Column>
+                      ))}
+                    </Picker>
+                  </div>
+                )}
+              </div>
               <div className="flex items-center space-x-2">
-                <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1">
-                  {/* TODO: should be hour / day picker */}
-                  {/* <DatePicker
-                    selected={task.dueDate}
-                    // onChange={(date: Date | null) => setDueDate(date)}
-                    className="bg-transparent outline-none text-sm w-full"
-                    placeholderText="Due date"
-                    dateFormat="dd/MM/yyyy"
-                  /> */}
-                  <button
-                    // onClick={() => setDueDate(null)}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  >
-                    🗓️
-                  </button>
-                </div>
                 <div className="flex-1 bg-white/10 rounded-lg p-2 flex items-center">
                   <span className="text-gray-400 mr-2">$</span>
                   <input

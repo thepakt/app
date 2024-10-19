@@ -5,10 +5,10 @@ mtcute powered Telegram bot
 ## Development
 
 ```bash
-pnpm install --frozen-lockfile
+bun install --frozen-lockfile
 cp .env.example .env
 # edit .env
-pnpm start
+bun start
 ```
 
 *generated with @mtcute/create-bot*

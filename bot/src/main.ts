@@ -1,19 +1,19 @@
-import { Dispatcher, filters } from '@mtcute/dispatcher'
-import { TelegramClient } from '@mtcute/node'
+import { TelegramClient } from "@mtcute/bun"
+import { Dispatcher, filters } from "@mtcute/dispatcher"
 
-import * as env from './env.js'
+import * as env from "./env.ts"
 
 const tg = new TelegramClient({
-    apiId: env.API_ID,
-    apiHash: env.API_HASH,
-    storage: 'bot-data/session',
+  apiId: env.API_ID,
+  apiHash: env.API_HASH,
+  storage: "bot-data/session",
 })
 
 const dp = Dispatcher.for(tg)
 
 dp.onNewMessage(filters.start, async (msg) => {
-    await msg.answerText('Hello, world!')
+  await msg.answerText("test")
 })
 
 const user = await tg.start({ botToken: env.BOT_TOKEN })
-console.log('Logged in as', user.username)
+console.log("Logged in as", user.username)

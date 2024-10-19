@@ -3,7 +3,6 @@ import Picker from "react-mobile-picker"
 import { useEffect, useRef, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import { useProxy } from "valtio/utils"
-import { SubTaskList } from "~/lib/schema/task"
 import { globalState } from "~/routes/__root"
 
 type TimeUnit = "Hours" | "Days" | "Weeks" | "Months"

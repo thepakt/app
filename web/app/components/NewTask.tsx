@@ -189,12 +189,9 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
                   public: false,
                   bountyEstimatedTimeInHours: estimatedTimeInHours.amount,
                   bountyPriceInUsdt: Number(bounty),
-                  // subtasks: subtasks.map((subtask) => ({
-                  //   title: subtask,
-                  //   completed: false,
-                  // })),
                 },
                 userWalletAddress: address,
+                subtasks,
               })
               queryClient.invalidateQueries({
                 queryKey: ["tasks"],

@@ -24,9 +24,9 @@ export const createTask = createServerFn(
       public: boolean
       bountyEstimatedTimeInHours: number
       bountyPriceInUsdt: number
-      // subtasks: { title: string; completed: boolean }[]
     }
     userWalletAddress: string
+    subtasks: string[]
   }) => {
     const user = await get.user.with({
       walletAddress: data.userWalletAddress,
@@ -36,6 +36,14 @@ export const createTask = createServerFn(
       ...data.task,
       public: true,
       creator: user.id,
+    })
+    if (!task) return
+    data.subtasks.forEach(async (subtask, index) => {
+      await create.subtask.with({
+        title: subtask,
+        orderNumber: index,
+        parentTask: task.id,
+      })
     })
     return task
   },

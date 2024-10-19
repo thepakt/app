@@ -69,6 +69,7 @@ const FeedItem = ({
             const moderator = await getModerator({})
             if (!moderator) return
             if (!taskWithCreator.creator?.walletAddress) return
+            // startLoader()
             const createdContract = await createContract({
               performer: Address.parse(taskWithCreator.creator.walletAddress),
               moderator: Address.parse(moderator.walletAddress),
@@ -79,6 +80,7 @@ const FeedItem = ({
               // TODO: make it smart so it adjusts based on the decimals of the jetton
               finishAmount: BigInt(200),
             })
+            // stopLoader()
             console.log(createdContract, "createdContract")
           }}
           className="flex flex-col items-center w-1/3"

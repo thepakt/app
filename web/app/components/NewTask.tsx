@@ -100,7 +100,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
         autoFocus
         onChange={(e) => setTitle(e.target.value)}
         className="w-full bg-transparent outline-none text-md font-light mb-2"
-        placeholder="New Todo Title"
+        placeholder="New Task"
       />
       <textarea
         value={notes}

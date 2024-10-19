@@ -12,28 +12,15 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsersImport } from './routes/users'
-import { Route as TryImport } from './routes/try'
-import { Route as TodosImport } from './routes/todos'
 import { Route as RedirectImport } from './routes/redirect'
-import { Route as PublicProfileImport } from './routes/public-profile'
-import { Route as PostsImport } from './routes/posts'
-import { Route as NewRouteImport } from './routes/new-route'
-import { Route as NewAirdropForClaimImport } from './routes/new-airdrop-for-claim'
-import { Route as MultiWalletTransactionImport } from './routes/multi-wallet-transaction'
 import { Route as FeedImport } from './routes/feed'
 import { Route as DeferredImport } from './routes/deferred'
-import { Route as ClaimAirdropImport } from './routes/claim-airdrop'
 import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
-import { Route as UsersIndexImport } from './routes/users.index'
-import { Route as PostsIndexImport } from './routes/posts.index'
-import { Route as UsersUserIdImport } from './routes/users.$userId'
-import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as LayoutTasksImport } from './routes/_layout/tasks'
 import { Route as LayoutProfileImport } from './routes/_layout/profile'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
-import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
 
 // Create/Update Routes
 
@@ -42,43 +29,8 @@ const UsersRoute = UsersImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const TryRoute = TryImport.update({
-  path: '/try',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const TodosRoute = TodosImport.update({
-  path: '/todos',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const RedirectRoute = RedirectImport.update({
   path: '/redirect',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PublicProfileRoute = PublicProfileImport.update({
-  path: '/public-profile',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PostsRoute = PostsImport.update({
-  path: '/posts',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const NewRouteRoute = NewRouteImport.update({
-  path: '/new-route',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const NewAirdropForClaimRoute = NewAirdropForClaimImport.update({
-  path: '/new-airdrop-for-claim',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const MultiWalletTransactionRoute = MultiWalletTransactionImport.update({
-  path: '/multi-wallet-transaction',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -89,11 +41,6 @@ const FeedRoute = FeedImport.update({
 
 const DeferredRoute = DeferredImport.update({
   path: '/deferred',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ClaimAirdropRoute = ClaimAirdropImport.update({
-  path: '/claim-airdrop',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -112,26 +59,6 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const UsersIndexRoute = UsersIndexImport.update({
-  path: '/',
-  getParentRoute: () => UsersRoute,
-} as any)
-
-const PostsIndexRoute = PostsIndexImport.update({
-  path: '/',
-  getParentRoute: () => PostsRoute,
-} as any)
-
-const UsersUserIdRoute = UsersUserIdImport.update({
-  path: '/$userId',
-  getParentRoute: () => UsersRoute,
-} as any)
-
-const PostsPostIdRoute = PostsPostIdImport.update({
-  path: '/$postId',
-  getParentRoute: () => PostsRoute,
-} as any)
-
 const LayoutTasksRoute = LayoutTasksImport.update({
   path: '/tasks',
   getParentRoute: () => LayoutRoute,
@@ -145,11 +72,6 @@ const LayoutProfileRoute = LayoutProfileImport.update({
 const LayoutExploreRoute = LayoutExploreImport.update({
   path: '/explore',
   getParentRoute: () => LayoutRoute,
-} as any)
-
-const PostsPostIdDeepRoute = PostsPostIdDeepImport.update({
-  path: '/posts/$postId/deep',
-  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -177,13 +99,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatImport
       parentRoute: typeof rootRoute
     }
-    '/claim-airdrop': {
-      id: '/claim-airdrop'
-      path: '/claim-airdrop'
-      fullPath: '/claim-airdrop'
-      preLoaderRoute: typeof ClaimAirdropImport
-      parentRoute: typeof rootRoute
-    }
     '/deferred': {
       id: '/deferred'
       path: '/deferred'
@@ -198,60 +113,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedImport
       parentRoute: typeof rootRoute
     }
-    '/multi-wallet-transaction': {
-      id: '/multi-wallet-transaction'
-      path: '/multi-wallet-transaction'
-      fullPath: '/multi-wallet-transaction'
-      preLoaderRoute: typeof MultiWalletTransactionImport
-      parentRoute: typeof rootRoute
-    }
-    '/new-airdrop-for-claim': {
-      id: '/new-airdrop-for-claim'
-      path: '/new-airdrop-for-claim'
-      fullPath: '/new-airdrop-for-claim'
-      preLoaderRoute: typeof NewAirdropForClaimImport
-      parentRoute: typeof rootRoute
-    }
-    '/new-route': {
-      id: '/new-route'
-      path: '/new-route'
-      fullPath: '/new-route'
-      preLoaderRoute: typeof NewRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsImport
-      parentRoute: typeof rootRoute
-    }
-    '/public-profile': {
-      id: '/public-profile'
-      path: '/public-profile'
-      fullPath: '/public-profile'
-      preLoaderRoute: typeof PublicProfileImport
-      parentRoute: typeof rootRoute
-    }
     '/redirect': {
       id: '/redirect'
       path: '/redirect'
       fullPath: '/redirect'
       preLoaderRoute: typeof RedirectImport
-      parentRoute: typeof rootRoute
-    }
-    '/todos': {
-      id: '/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosImport
-      parentRoute: typeof rootRoute
-    }
-    '/try': {
-      id: '/try'
-      path: '/try'
-      fullPath: '/try'
-      preLoaderRoute: typeof TryImport
       parentRoute: typeof rootRoute
     }
     '/users': {
@@ -282,41 +148,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutTasksImport
       parentRoute: typeof LayoutImport
     }
-    '/posts/$postId': {
-      id: '/posts/$postId'
-      path: '/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof PostsPostIdImport
-      parentRoute: typeof PostsImport
-    }
-    '/users/$userId': {
-      id: '/users/$userId'
-      path: '/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof UsersUserIdImport
-      parentRoute: typeof UsersImport
-    }
-    '/posts/': {
-      id: '/posts/'
-      path: '/'
-      fullPath: '/posts/'
-      preLoaderRoute: typeof PostsIndexImport
-      parentRoute: typeof PostsImport
-    }
-    '/users/': {
-      id: '/users/'
-      path: '/'
-      fullPath: '/users/'
-      preLoaderRoute: typeof UsersIndexImport
-      parentRoute: typeof UsersImport
-    }
-    '/posts/$postId/deep': {
-      id: '/posts/$postId/deep'
-      path: '/posts/$postId/deep'
-      fullPath: '/posts/$postId/deep'
-      preLoaderRoute: typeof PostsPostIdDeepImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -337,78 +168,30 @@ const LayoutRouteChildren: LayoutRouteChildren = {
 const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
-interface PostsRouteChildren {
-  PostsPostIdRoute: typeof PostsPostIdRoute
-  PostsIndexRoute: typeof PostsIndexRoute
-}
-
-const PostsRouteChildren: PostsRouteChildren = {
-  PostsPostIdRoute: PostsPostIdRoute,
-  PostsIndexRoute: PostsIndexRoute,
-}
-
-const PostsRouteWithChildren = PostsRoute._addFileChildren(PostsRouteChildren)
-
-interface UsersRouteChildren {
-  UsersUserIdRoute: typeof UsersUserIdRoute
-  UsersIndexRoute: typeof UsersIndexRoute
-}
-
-const UsersRouteChildren: UsersRouteChildren = {
-  UsersUserIdRoute: UsersUserIdRoute,
-  UsersIndexRoute: UsersIndexRoute,
-}
-
-const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
-  '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
   '/feed': typeof FeedRoute
-  '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
-  '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
-  '/new-route': typeof NewRouteRoute
-  '/posts': typeof PostsRouteWithChildren
-  '/public-profile': typeof PublicProfileRoute
   '/redirect': typeof RedirectRoute
-  '/todos': typeof TodosRoute
-  '/try': typeof TryRoute
-  '/users': typeof UsersRouteWithChildren
+  '/users': typeof UsersRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
   '/tasks': typeof LayoutTasksRoute
-  '/posts/$postId': typeof PostsPostIdRoute
-  '/users/$userId': typeof UsersUserIdRoute
-  '/posts/': typeof PostsIndexRoute
-  '/users/': typeof UsersIndexRoute
-  '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
-  '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
   '/feed': typeof FeedRoute
-  '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
-  '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
-  '/new-route': typeof NewRouteRoute
-  '/public-profile': typeof PublicProfileRoute
   '/redirect': typeof RedirectRoute
-  '/todos': typeof TodosRoute
-  '/try': typeof TryRoute
+  '/users': typeof UsersRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
   '/tasks': typeof LayoutTasksRoute
-  '/posts/$postId': typeof PostsPostIdRoute
-  '/users/$userId': typeof UsersUserIdRoute
-  '/posts': typeof PostsIndexRoute
-  '/users': typeof UsersIndexRoute
-  '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRoutesById {
@@ -416,26 +199,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
-  '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
   '/feed': typeof FeedRoute
-  '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
-  '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
-  '/new-route': typeof NewRouteRoute
-  '/posts': typeof PostsRouteWithChildren
-  '/public-profile': typeof PublicProfileRoute
   '/redirect': typeof RedirectRoute
-  '/todos': typeof TodosRoute
-  '/try': typeof TryRoute
-  '/users': typeof UsersRouteWithChildren
+  '/users': typeof UsersRoute
   '/_layout/explore': typeof LayoutExploreRoute
   '/_layout/profile': typeof LayoutProfileRoute
   '/_layout/tasks': typeof LayoutTasksRoute
-  '/posts/$postId': typeof PostsPostIdRoute
-  '/users/$userId': typeof UsersUserIdRoute
-  '/posts/': typeof PostsIndexRoute
-  '/users/': typeof UsersIndexRoute
-  '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRouteTypes {
@@ -444,74 +214,37 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/chat'
-    | '/claim-airdrop'
     | '/deferred'
     | '/feed'
-    | '/multi-wallet-transaction'
-    | '/new-airdrop-for-claim'
-    | '/new-route'
-    | '/posts'
-    | '/public-profile'
     | '/redirect'
-    | '/todos'
-    | '/try'
     | '/users'
     | '/explore'
     | '/profile'
     | '/tasks'
-    | '/posts/$postId'
-    | '/users/$userId'
-    | '/posts/'
-    | '/users/'
-    | '/posts/$postId/deep'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
     | '/chat'
-    | '/claim-airdrop'
     | '/deferred'
     | '/feed'
-    | '/multi-wallet-transaction'
-    | '/new-airdrop-for-claim'
-    | '/new-route'
-    | '/public-profile'
     | '/redirect'
-    | '/todos'
-    | '/try'
+    | '/users'
     | '/explore'
     | '/profile'
     | '/tasks'
-    | '/posts/$postId'
-    | '/users/$userId'
-    | '/posts'
-    | '/users'
-    | '/posts/$postId/deep'
   id:
     | '__root__'
     | '/'
     | '/_layout'
     | '/chat'
-    | '/claim-airdrop'
     | '/deferred'
     | '/feed'
-    | '/multi-wallet-transaction'
-    | '/new-airdrop-for-claim'
-    | '/new-route'
-    | '/posts'
-    | '/public-profile'
     | '/redirect'
-    | '/todos'
-    | '/try'
     | '/users'
     | '/_layout/explore'
     | '/_layout/profile'
     | '/_layout/tasks'
-    | '/posts/$postId'
-    | '/users/$userId'
-    | '/posts/'
-    | '/users/'
-    | '/posts/$postId/deep'
   fileRoutesById: FileRoutesById
 }
 
@@ -519,38 +252,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
   ChatRoute: typeof ChatRoute
-  ClaimAirdropRoute: typeof ClaimAirdropRoute
   DeferredRoute: typeof DeferredRoute
   FeedRoute: typeof FeedRoute
-  MultiWalletTransactionRoute: typeof MultiWalletTransactionRoute
-  NewAirdropForClaimRoute: typeof NewAirdropForClaimRoute
-  NewRouteRoute: typeof NewRouteRoute
-  PostsRoute: typeof PostsRouteWithChildren
-  PublicProfileRoute: typeof PublicProfileRoute
   RedirectRoute: typeof RedirectRoute
-  TodosRoute: typeof TodosRoute
-  TryRoute: typeof TryRoute
-  UsersRoute: typeof UsersRouteWithChildren
-  PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
+  UsersRoute: typeof UsersRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
   ChatRoute: ChatRoute,
-  ClaimAirdropRoute: ClaimAirdropRoute,
   DeferredRoute: DeferredRoute,
   FeedRoute: FeedRoute,
-  MultiWalletTransactionRoute: MultiWalletTransactionRoute,
-  NewAirdropForClaimRoute: NewAirdropForClaimRoute,
-  NewRouteRoute: NewRouteRoute,
-  PostsRoute: PostsRouteWithChildren,
-  PublicProfileRoute: PublicProfileRoute,
   RedirectRoute: RedirectRoute,
-  TodosRoute: TodosRoute,
-  TryRoute: TryRoute,
-  UsersRoute: UsersRouteWithChildren,
-  PostsPostIdDeepRoute: PostsPostIdDeepRoute,
+  UsersRoute: UsersRoute,
 }
 
 export const routeTree = rootRoute
@@ -568,19 +283,10 @@ export const routeTree = rootRoute
         "/",
         "/_layout",
         "/chat",
-        "/claim-airdrop",
         "/deferred",
         "/feed",
-        "/multi-wallet-transaction",
-        "/new-airdrop-for-claim",
-        "/new-route",
-        "/posts",
-        "/public-profile",
         "/redirect",
-        "/todos",
-        "/try",
-        "/users",
-        "/posts/$postId/deep"
+        "/users"
       ]
     },
     "/": {
@@ -597,49 +303,17 @@ export const routeTree = rootRoute
     "/chat": {
       "filePath": "chat.tsx"
     },
-    "/claim-airdrop": {
-      "filePath": "claim-airdrop.tsx"
-    },
     "/deferred": {
       "filePath": "deferred.tsx"
     },
     "/feed": {
       "filePath": "feed.tsx"
     },
-    "/multi-wallet-transaction": {
-      "filePath": "multi-wallet-transaction.tsx"
-    },
-    "/new-airdrop-for-claim": {
-      "filePath": "new-airdrop-for-claim.tsx"
-    },
-    "/new-route": {
-      "filePath": "new-route.tsx"
-    },
-    "/posts": {
-      "filePath": "posts.tsx",
-      "children": [
-        "/posts/$postId",
-        "/posts/"
-      ]
-    },
-    "/public-profile": {
-      "filePath": "public-profile.tsx"
-    },
     "/redirect": {
       "filePath": "redirect.tsx"
     },
-    "/todos": {
-      "filePath": "todos.tsx"
-    },
-    "/try": {
-      "filePath": "try.tsx"
-    },
     "/users": {
-      "filePath": "users.tsx",
-      "children": [
-        "/users/$userId",
-        "/users/"
-      ]
+      "filePath": "users.tsx"
     },
     "/_layout/explore": {
       "filePath": "_layout/explore.tsx",
@@ -652,25 +326,6 @@ export const routeTree = rootRoute
     "/_layout/tasks": {
       "filePath": "_layout/tasks.tsx",
       "parent": "/_layout"
-    },
-    "/posts/$postId": {
-      "filePath": "posts.$postId.tsx",
-      "parent": "/posts"
-    },
-    "/users/$userId": {
-      "filePath": "users.$userId.tsx",
-      "parent": "/users"
-    },
-    "/posts/": {
-      "filePath": "posts.index.tsx",
-      "parent": "/posts"
-    },
-    "/users/": {
-      "filePath": "users.index.tsx",
-      "parent": "/users"
-    },
-    "/posts/$postId/deep": {
-      "filePath": "posts_.$postId.deep.tsx"
     }
   }
 }

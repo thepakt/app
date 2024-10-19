@@ -92,3 +92,14 @@ export const getPublicTasks = createServerFn("POST", async (data: {}) => {
   const tasks = await get.tasks()
   return tasks
 })
+
+export const createAcceptTaskNotification = createServerFn(
+  "POST",
+  async (data: { taskId: string; contractId: string }) => {
+    const acceptTaskNotification = await create.acceptTaskNotification.with({
+      task: data.taskId,
+      contractAddress: data.contractId,
+    })
+    return acceptTaskNotification
+  },
+)

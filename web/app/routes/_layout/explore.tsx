@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Address } from "@ton/core"
 import { Heart, Share, Wallet } from "lucide-react"
-import { getModerator, getPublicTasks, getTaskWithItsCreator } from "~/actions"
+import { useState } from "react"
+import {
+  createAcceptTaskNotification,
+  getModerator,
+  getPublicTasks,
+  getTaskWithItsCreator,
+} from "~/actions"
 import useActions from "~/lib/investor/useActions"
 
 const FeedItem = ({
@@ -21,6 +27,8 @@ const FeedItem = ({
   estimatedTime: number
 }) => {
   const { createContract } = useActions()
+  const [waitingForTransaction, setWaitingForTransaction] = useState(false)
+
   return (
     <div className="bg-black/30 rounded-3xl p-6 mb-4 max-w-md mx-auto">
       <div className="flex items-center justify-between mb-4">
@@ -69,19 +77,25 @@ const FeedItem = ({
             const moderator = await getModerator({})
             if (!moderator) return
             if (!taskWithCreator.creator?.walletAddress) return
-            // startLoader()
-            const createdContract = await createContract({
+            setWaitingForTransaction(true)
+            const createdContractAddress = await createContract({
               performer: Address.parse(taskWithCreator.creator.walletAddress),
               moderator: Address.parse(moderator.walletAddress),
               tokenMaster: Address.parse(
                 "kQC6cYfMFYFur2IgJroc3wBxg-q4hOxsqGQwEYSEARxtOmZf", // LOM
               ),
+              // TODO: support subtasks
               tasks: [{ amount: BigInt(0) }],
+              // TODO: make this value dynamic
               // TODO: make it smart so it adjusts based on the decimals of the jetton
               finishAmount: BigInt(200),
             })
-            // stopLoader()
-            console.log(createdContract, "createdContract")
+            setWaitingForTransaction(false)
+            const acceptTaskNotification = await createAcceptTaskNotification({
+              taskId: taskWithCreator.id,
+              contractId: createdContractAddress.toString(),
+            })
+            console.log(acceptTaskNotification, "acceptTaskNotification")
           }}
           className="flex flex-col items-center w-1/3"
         >

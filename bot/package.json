@@ -1,0 +1,25 @@
+{
+    "name": "bot",
+    "type": "module",
+    "version": "0.0.1",
+    "packageManager": "pnpm@9.10.0",
+    "license": "MIT",
+    "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "start": "dotenv tsx ./src/main.ts",
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@mtcute/crypto-node": "^0.17.0",
+        "@mtcute/dispatcher": "^0.17.2",
+        "@mtcute/node": "^0.17.0",
+        "dotenv-cli": "^7.4.2"
+    },
+    "devDependencies": {
+        "@antfu/eslint-config": "^3.8.0",
+        "@types/node": "^22.7.7",
+        "tsx": "^4.19.1",
+        "typescript": "^5.6.3"
+    }
+}

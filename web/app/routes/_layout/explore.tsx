@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Address } from "@ton/core"
+import { motion } from "framer-motion"
 import { Heart, Share, Wallet } from "lucide-react"
 import { useState } from "react"
 import {
@@ -17,12 +18,14 @@ const FeedItem = ({
   // rating,
   title,
   notes,
+  index,
   bountyPriceInUsdt,
   bountyEstimatedTimeInHours,
 }: {
   username: string
   handle: string
   notes: string
+  index: number
   title: string
   bountyPriceInUsdt: number
   bountyEstimatedTimeInHours: number
@@ -31,7 +34,12 @@ const FeedItem = ({
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
 
   return (
-    <div className="bg-black/30 rounded-3xl p-6 mb-4 max-w-md mx-auto">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.08 }}
+      className="bg-black/30 rounded-3xl rounded-tl-[50px] p-5 mb-3 max-w-md mx-auto"
+    >
       <div className="flex items-center justify-between mb-4">
         {waitingForTransaction && (
           <div className="fixed top-0 left-0 flex items-center justify-center h-screen w-screen bg-black/30 z-50">
@@ -39,7 +47,7 @@ const FeedItem = ({
           </div>
         )}
         <div className="flex items-center">
-          <div className="w-[40px] h-[40px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+          <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div>
             <h2 className="text-white font-semibold">{username}</h2>
             <p className="text-gray-400 text-sm">{handle}</p>
@@ -106,7 +114,7 @@ const FeedItem = ({
             // })
             // console.log(acceptTaskNotification, "acceptTaskNotification")
           }}
-          className="flex bg-blue-500 justify-center gap-1 w-full items-center p-2 rounded-lg"
+          className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 rounded-lg"
         >
           <Wallet className="w-3 h-3 " />
           <span className="text-[10px] text-center">
@@ -114,7 +122,7 @@ const FeedItem = ({
           </span>
         </button>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -135,7 +143,9 @@ function RouteComponent() {
       {" "}
       <main className="container mx-auto px-4">
         {/* @ts-ignore */}
-        {data?.map((task, index) => <FeedItem key={index} {...task} />)}
+        {data?.map((task, index) => (
+          <FeedItem key={index} index={index} {...task} />
+        ))}
       </main>
     </div>
   )

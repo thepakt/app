@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { getActiveTasks } from "~/actions"
 import AddTodoButton from "~/components/AddTodoButton"
+import { DatePicker } from "~/components/DatePicker"
 import NewTask from "~/components/NewTask"
 import { TaskComponent } from "~/components/TaskComponent"
 
@@ -37,11 +38,28 @@ function RouteComponent() {
   if (error) {
     return <></>
   }
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const [date, setDate] = useState<{ amount: number; type: string }>({
+    amount: 1,
+    type: "Hours",
+  })
 
   return (
     <>
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
+          <DatePicker
+            isOpen={isDatePickerOpen}
+            onClose={() => setIsDatePickerOpen(false)}
+            setDate={setDate}
+          />
+
+          <button
+            onClick={() => setIsDatePickerOpen(true)}
+            className="absolute bottom-[200px] bg-red-500 right-0"
+          >
+            show picker
+          </button>
           <div className="flex flex-col gap-1 mt-16">
             <AnimatePresence>
               {isNewTodoOpen && (

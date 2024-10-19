@@ -12,6 +12,7 @@ import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary"
 import { NotFound } from "~/components/NotFound"
 import appCss from "~/styles/app.css?url"
 import { seo } from "~/utils/seo"
+import { proxy } from "valtio"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -60,6 +61,24 @@ export const Route = createRootRouteWithContext<{
   },
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
+})
+
+export type TaskType = {
+  id: string
+  title: ""
+  notes: null
+  subtasks: []
+  public: false
+  completed: false
+  bountyEstimatedTimeInHours: null
+  bountyPriceInUSDT: null
+}
+export const globalState = proxy({
+  user: {
+    walletAddress: "",
+    tasks: [] as TaskType[],
+    investingInTodos: [] as TaskType[],
+  },
 })
 
 function RootComponent() {

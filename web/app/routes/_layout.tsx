@@ -1,12 +1,24 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router"
-import { JazzAndAuth } from "~/lib/providers/jazz-provider"
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
+import { useEffect } from "react"
+import { createUser } from "~/actions"
+import Bottombar from "~/components/BottomBar"
 
 function LayoutComponent() {
+  const address = useTonAddress()
+  useEffect(() => {
+    if (address) {
+      createUser({ walletAddress: address })
+    }
+  }, [address])
+
   return (
     <>
-      <JazzAndAuth>
-        <Outlet />
-      </JazzAndAuth>
+      <div className="absolute top-4 right-4">
+        <TonConnectButton />
+      </div>
+      <Outlet />
+      <Bottombar />
     </>
   )
 }

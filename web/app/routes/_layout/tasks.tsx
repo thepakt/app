@@ -25,8 +25,9 @@ function RouteComponent() {
     }
   }, [])
 
+  // TODO: avoid using refetch, seems super bad
   const { data, isLoading, error } = useQuery({
-    queryKey: ["/tasks"],
+    queryKey: ["tasks"],
     queryFn: async () => {
       const res = await getActiveTasks({ walletAddress: address })
       console.log(res)
@@ -51,7 +52,8 @@ function RouteComponent() {
                 <NewTask onClose={() => setIsNewTodoOpen(false)} />
               )}
             </AnimatePresence>
-            {/* {data?.map((task) => (
+            {/* @ts-ignore */}
+            {data?.map((task) => (
               <TaskComponent
                 key={task.id}
                 task={task}
@@ -61,20 +63,22 @@ function RouteComponent() {
                   setExpandedTodoId((prevId) => (prevId === id ? null : id))
                 }}
               />
-            ))} */}
+            ))}
           </div>
         </div>
       </div>
-      <div className="absolute bottom-20 left-0 right-2 flex justify-center">
-        <AddTodoButton
-          setIsNewTodoOpen={setIsNewTodoOpen}
-          isNewTodoOpen={isNewTodoOpen}
-        />
-      </div>
+      {address && (
+        <div className="absolute bottom-20 left-0 right-2 flex justify-center">
+          <AddTodoButton
+            setIsNewTodoOpen={setIsNewTodoOpen}
+            isNewTodoOpen={isNewTodoOpen}
+          />
+        </div>
+      )}
     </>
   )
 }
 
-export const Route = createFileRoute("/tasks")({
+export const Route = createFileRoute("/_layout/tasks")({
   component: RouteComponent,
 })

@@ -1,3 +1,4 @@
+import { Task } from "@ronin/todo-escrow"
 import { createServerFn } from "@tanstack/start"
 import { get, create } from "ronin"
 
@@ -12,6 +13,30 @@ export const createUser = createServerFn(
       walletAddress: data.walletAddress,
     })
     return newUser
+  },
+)
+
+export const createTask = createServerFn(
+  "POST",
+  async (data: {
+    task: {
+      title: string
+      notes: string
+      public: boolean
+      bountyEstimatedTimeInHours: number
+      bountyPriceInUsdt: number
+    }
+    userWalletAddress: string
+  }) => {
+    const user = await get.user.with({
+      walletAddress: data.userWalletAddress,
+    })
+    if (!user) throw new Error("User not found")
+    const task = await create.task.with({
+      ...data.task,
+      creator: user.id,
+    })
+    return task
   },
 )
 

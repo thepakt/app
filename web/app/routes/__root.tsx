@@ -63,24 +63,6 @@ export const Route = createRootRouteWithContext<{
   component: RootComponent,
 })
 
-export type TaskType = {
-  id: string
-  title: ""
-  notes: null
-  subtasks: []
-  public: false
-  completed: false
-  bountyEstimatedTimeInHours: null
-  bountyPriceInUSDT: null
-}
-export const globalState = proxy({
-  user: {
-    walletAddress: "",
-    tasks: [] as TaskType[],
-    investingInTodos: [] as TaskType[],
-  },
-})
-
 function RootComponent() {
   return (
     <RootDocument>

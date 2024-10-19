@@ -1,15 +1,16 @@
+import { useQueryClient } from "@tanstack/react-query"
+import { useTonAddress } from "@tonconnect/ui-react"
 import { motion } from "framer-motion"
-import Picker from "react-mobile-picker"
 import { useEffect, useRef, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
-import { useProxy } from "valtio/utils"
-import { globalState } from "~/routes/__root"
+import Picker from "react-mobile-picker"
+import { createTask } from "~/actions"
 
 type TimeUnit = "Hours" | "Days"
 
 export default function NewTask({ onClose }: { onClose: () => void }) {
-  const global = useProxy(globalState)
-
+  const address = useTonAddress()
+  const queryClient = useQueryClient()
   const componentRef = useRef<HTMLDivElement>(null)
   const [title, setTitle] = useState("")
   const [notes, setNotes] = useState("")
@@ -80,58 +81,35 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
     }
   }, [onClose])
 
-  const handleAddTodo = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === "Enter" && !e.shiftKey && title.trim()) {
-      if (e.target instanceof HTMLTextAreaElement) {
-        return
-      }
-      // if (!me?.root) return
-      e.preventDefault()
-      global.user.tasks.push({
-        // @ts-ignore
-        title: title.trim(),
-        // @ts-ignore
-        notes: notes,
-        // @ts-ignore
-        subtasks: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        public: false,
-        completed: false,
-        id: crypto.randomUUID(),
-      })
-      // const t = Task.create(
-      //   {
-      //     title: title.trim(),
-      //     notes: notes,
-      //     subtasks: SubTaskList.create([], { owner: me }),
-      //     createdAt: new Date(),
-      //     updatedAt: new Date(),
-      //     public: false,
-      //     completed: false,
-      //   },
-      //   { owner: me },
-      // )
-      // me.root.tasks.push(t)
-      onClose()
-    }
-  }
-
-  const addTodo = () => {
-    const payload = {
-      title,
-      notes,
-      estimatedTime,
-      bounty
-    }
-
-    console.log(payload)
-  }
+  // const handleAddTodo = async (e: React.KeyboardEvent<HTMLElement>) => {
+  //   if (e.key === "Enter" && !e.shiftKey && title.trim()) {
+  //     if (e.target instanceof HTMLTextAreaElement) {
+  //       return
+  //     }
+  //     if (!address) return
+  //     e.preventDefault()
+  //     const taskCreated = await createTask({
+  //       task: {
+  //         title: title.trim(),
+  //         notes: notes,
+  //         public: false,
+  //         bountyEstimatedTimeInHours: estimatedTime.amount,
+  //         bountyPriceInUSDT: Number(bounty),
+  //       },
+  //       userWalletAddress: address,
+  //     })
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["tasks"],
+  //       refetchType: "all",
+  //     })
+  //     console.log(taskCreated, "task created")
+  //     onClose()
+  //   }
+  // }
 
   return (
     <motion.div
       ref={componentRef}
-      onKeyDown={handleAddTodo}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -167,6 +145,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
           <Picker value={estimatedTime} onChange={handlePickerChange}>
             {Object.keys(estimatedTimeOptions).map((name) => (
               <Picker.Column key={name} name={name}>
+                {/* @ts-ignore */}
                 {estimatedTimeOptions[name].map((option) => (
                   <Picker.Item key={option} value={option}>
                     {option}
@@ -200,9 +179,25 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
           <button
             type="button"
             className="py-1 h-9 bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
-            onClick={addTodo}
+            onClick={async () => {
+              await createTask({
+                task: {
+                  title: title.trim(),
+                  notes: notes,
+                  public: false,
+                  bountyEstimatedTimeInHours: estimatedTime.amount,
+                  bountyPriceInUsdt: Number(bounty),
+                },
+                userWalletAddress: address,
+              })
+              queryClient.invalidateQueries({
+                queryKey: ["tasks"],
+                refetchType: "all",
+              })
+              onClose()
+            }}
           >
-            Create todo
+            Create task
           </button>
         </div>
       </div>

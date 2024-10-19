@@ -1,20 +1,17 @@
+import { Task } from "@ronin/todo-escrow"
 import { AnimatePresence, motion } from "framer-motion"
 import { Circle } from "lucide-react"
 import "react-datepicker/dist/react-datepicker.css"
-import { useProxy } from "valtio/utils"
-import { globalState, TaskType } from "~/routes/__root"
 
 export function TaskComponent({
   task,
   isExpanded,
   onClick,
 }: {
-  task: TaskType
+  task: Task
   isExpanded: boolean
   onClick: (taskId: number) => void
 }) {
-  const global = useProxy(globalState)
-
   const truncateNotes = (notes: string) => {
     const lines = notes.split("\n")
     if (lines.length > 10) {
@@ -27,7 +24,7 @@ export function TaskComponent({
     <motion.div
       layout
       onClick={() => {
-        onClick(task.id)
+        onClick(Number(task.id))
       }}
       className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer ${
         isExpanded ? "bg-white/10 backdrop-blur-md" : "bg-white/5"

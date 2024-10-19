@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router"
-import Layout from "~/components/Layout"
+import { createFileRoute } from '@tanstack/react-router'
+import Layout from '~/components/Layout'
 
 function RouteComponent() {
   return (
@@ -9,6 +9,6 @@ function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute("/explore")({
+export const Route = createFileRoute('/_layout/explore')({
   component: () => <RouteComponent />,
 })

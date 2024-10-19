@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { TonConnectButton } from "@tonconnect/ui-react"
-import { ChevronRight, StarIcon } from "lucide-react"
-import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa"
-import Layout from "~/components/Layout"
-import { TodoItem } from "~/components/profile/TodoItem"
-import { UserData } from "~/components/profile/userData"
+import { createFileRoute } from '@tanstack/react-router'
+import { TonConnectButton } from '@tonconnect/ui-react'
+import { ChevronRight, StarIcon } from 'lucide-react'
+import { FaGithub, FaTelegram, FaTwitter } from 'react-icons/fa'
+import Layout from '~/components/Layout'
+import { TodoItem } from '~/components/profile/TodoItem'
+import { UserData } from '~/components/profile/userData'
 
 export default function ProfileComponent() {
   return (
@@ -77,6 +77,6 @@ export default function ProfileComponent() {
   )
 }
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute('/_layout/profile')({
   component: ProfileComponent,
 })

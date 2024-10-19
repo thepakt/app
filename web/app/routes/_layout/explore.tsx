@@ -16,15 +16,16 @@ const FeedItem = ({
   handle,
   // rating,
   title,
+  notes,
   bountyPriceInUsdt,
-  estimatedTime,
+  bountyEstimatedTimeInHours,
 }: {
   username: string
   handle: string
-
+  notes: string
   title: string
   bountyPriceInUsdt: number
-  estimatedTime: number
+  bountyEstimatedTimeInHours: number
 }) => {
   const { createContract } = useActions()
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
@@ -47,11 +48,19 @@ const FeedItem = ({
       </div>
 
       <p className="text-white text-sm">{title}</p>
+      <p className="text-white/50 text-xs mb-3">{notes}</p>
 
       <div className="flex justify-between items-center">
         <div className="flex gap-1  flex-col">
           <h2 className="text-white text-sm">Bounty:</h2>
           <p className="text-white/50 text-xs">{bountyPriceInUsdt}$</p>
+        </div>
+        <div className="flex items-end gap-1  flex-col">
+          <h2 className="text-white text-sm">Estimated time:</h2>
+          <p className="text-white/50 text-xs">
+            {bountyEstimatedTimeInHours}{" "}
+            {bountyEstimatedTimeInHours === 1 ? "hour" : "hours"}
+          </p>
         </div>
       </div>
 
@@ -100,7 +109,7 @@ const FeedItem = ({
           className="flex bg-blue-500 justify-center gap-1 w-full items-center p-2 rounded-lg"
         >
           <Wallet className="w-3 h-3 " />
-          <span className="text-[9px] text-center">
+          <span className="text-[10px] text-center">
             I am ready to pay for that
           </span>
         </button>

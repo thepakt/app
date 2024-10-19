@@ -109,28 +109,58 @@ const Todo: React.FC<TodoProps> = ({
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Due Date:</span>
-                <DatePicker
-                  selected={editedDueDate}
-                  onChange={(date: Date | null) => {
-                    setEditedDueDate(date)
-                    handleSave()
-                  }}
-                  className="bg-white/5 rounded-lg p-2 w-32 text-right outline-none focus:ring-2 focus:ring-white/20 transition-shadow"
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="Select date"
-                />
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Bounty:</span>
-                <input
-                  type="number"
-                  value={editedBounty}
-                  onChange={(e) => setEditedBounty(Number(e.target.value))}
-                  className="bg-white/5 rounded-lg p-2 w-32 text-right outline-none focus:ring-2 focus:ring-white/20 transition-shadow [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  onClick={(e) => e.stopPropagation()}
-                />
+              <div className="flex items-center space-x-2">
+                {/* <div className="flex-1 bg-white/10 rounded-lg p-2 flex items-center">
+                  <span className="text-gray-400 mr-2">Due date</span>
+                  <DatePicker
+                    selected={editedDueDate}
+                    onChange={(date: Date | null) => {
+                      setEditedDueDate(date)
+                      handleSave()
+                    }}
+                    className="bg-transparent w-full outline-none"
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="Select date"
+
+                  />
+                  <span className="text-gray-400 ml-auto">📅</span>
+                </div> */}
+                <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1">
+                  <DatePicker
+                    selected={dueDate}
+                    // onChange={(date: Date | null) => setDueDate(date)}
+                    className="bg-transparent outline-none text-sm w-full"
+                    placeholderText="Due date"
+                    dateFormat="dd/MM/yyyy"
+                  />
+                  <button
+                    // onClick={() => setDueDate(null)}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  >
+                    🗓️
+                  </button>
+                </div>
+                <div className="flex-1 bg-white/10 rounded-lg p-2 flex items-center">
+                  <span className="text-gray-400 mr-2">$</span>
+                  <input
+                    type="number"
+                    inputMode="decimal"
+                    value={editedBounty || ""}
+                    onChange={(e) => {
+                      e.stopPropagation()
+                      setEditedBounty(Number(e.target.value))
+                      handleSave()
+                      const value = e.target.value
+                      if (value === "" || /^\d*\.?\d*$/.test(value)) {
+                        setEditedBounty(Number(e.target.value))
+                      }
+                    }}
+                    onFocus={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-transparent w-full outline-none"
+                    placeholder="Amount"
+                  />
+                </div>
               </div>
             </motion.div>
           )}

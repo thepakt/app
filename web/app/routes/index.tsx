@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import AddTodoButton from "~/components/AddTodoButton"
 import NewTodo from "~/components/NewTodo"
 import Todo from "~/components/Todo"
+import Bottombar from "~/components/BottomBar"
 import { useAccount } from "~/lib/providers/jazz-provider"
 import { SubTaskList, Task } from "~/lib/schema/task"
 
@@ -52,35 +53,12 @@ function RouteComponent() {
   }
 
   return (
-    <>
-      <TonConnectButton />
-      {/* <button
-        onClick={async () => {
-          if (!me) return
-          const newTodo = Task.create(
-            {
-              title: "do thing",
-              notes: "",
-              subtasks: SubTaskList.create([], { owner: me?._owner }),
-              public: false,
-              completed: false,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            },
-            { owner: me?._owner },
-          )
-          console.log(newTodo, "new todo")
-        }}
-      >
-        Create TODO..
-      </button> */}
+    <div className="relative w-full min-h-screen">
+      <div className="absolute top-4 right-4">
+        <TonConnectButton />
+      </div>
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
-          <AddTodoButton
-            setTodos={setTodos}
-            todos={todos}
-            setIsNewTodoOpen={setIsNewTodoOpen}
-          />
           <div className="flex flex-col gap-1 mt-16">
             <AnimatePresence>
               {isNewTodoOpen && (
@@ -112,7 +90,16 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-    </>
+      <div className="absolute bottom-20 left-0 right-2 flex justify-center">
+        <AddTodoButton
+          setTodos={setTodos}
+          todos={todos}
+          setIsNewTodoOpen={setIsNewTodoOpen}
+          isNewTodoOpen={isNewTodoOpen}
+        />
+      </div>
+      <Bottombar />
+    </div>
   )
 }
 

@@ -34,7 +34,6 @@ async function getData(address: Address) {
     return tonInvestor.getData();
 }
 async function createContract(sender: Sender, {
-    investor,
     performer,
     moderator,
     tokenMaster: master,

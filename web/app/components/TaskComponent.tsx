@@ -100,6 +100,28 @@ export function TaskComponent({
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
+              <div>
+                <span className="text-gray-400 mr-2">$</span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  value={task.bountyPriceInUSDT || ""}
+                  onChange={(e) => {
+                    e.stopPropagation()
+                    // @ts-ignore
+                    task.bountyPriceInUSDT = Number(e.target.value)
+                    const value = e.target.value
+                    if (value === "" || /^\d*\.?\d*$/.test(value)) {
+                      // @ts-ignore
+                      task.bountyPriceInUSDT = Number(e.target.value)
+                    }
+                  }}
+                  onFocus={(e) => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
+                  className="bg-transparent w-full outline-none"
+                  placeholder="Amount"
+                />
+              </div>
               <div className="flex flex-col">
                 <span
                   className="text-gray-400 font-light mb-1 cursor-pointer"
@@ -132,30 +154,7 @@ export function TaskComponent({
                   </div>
                 )}
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="flex-1 bg-white/10 rounded-lg p-2 flex items-center">
-                  <span className="text-gray-400 mr-2">$</span>
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    value={task.bountyPriceInUSDT || ""}
-                    onChange={(e) => {
-                      e.stopPropagation()
-                      // @ts-ignore
-                      task.bountyPriceInUSDT = Number(e.target.value)
-                      const value = e.target.value
-                      if (value === "" || /^\d*\.?\d*$/.test(value)) {
-                        // @ts-ignore
-                        task.bountyPriceInUSDT = Number(e.target.value)
-                      }
-                    }}
-                    onFocus={(e) => e.stopPropagation()}
-                    onClick={(e) => e.stopPropagation()}
-                    className="bg-transparent w-full outline-none"
-                    placeholder="Amount"
-                  />
-                </div>
-              </div>
+              <div className="flex items-center space-x-2"></div>
             </motion.div>
           )}
         </AnimatePresence>

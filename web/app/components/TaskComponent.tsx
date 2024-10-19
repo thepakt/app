@@ -10,7 +10,7 @@ export function TaskComponent({
 }: {
   task: Task
   isExpanded: boolean
-  onClick: (taskId: number) => void
+  onClick: (taskId: string) => void
 }) {
   const truncateNotes = (notes: string) => {
     const lines = notes.split("\n")
@@ -24,7 +24,7 @@ export function TaskComponent({
     <motion.div
       layout
       onClick={() => {
-        onClick(Number(task.id))
+        onClick(task.id)
       }}
       className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer ${
         isExpanded ? "bg-white/10 backdrop-blur-md" : "bg-white/5"

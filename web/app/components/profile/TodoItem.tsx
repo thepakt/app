@@ -37,8 +37,7 @@ export const TodoItem = ({ todo }: { todo: any }) => {
             className="ml-6 mt-2 text-xs text-gray-400"
           >
             <p className="text-[12px]">{todo.description}</p>
-            <div className="flex justify-between mt-4">
-              <p className="">Due Date: {todo.dueDate}</p>
+            <div className="flex justify-end mt-4">
               <p className="">{todo.date}</p>
             </div>
           </motion.div>

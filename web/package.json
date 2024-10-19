@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "ts": "bun --watch scripts/run.ts"
   },
   "dependencies": {
     "@tanstack/react-form": "^0.33.0",
@@ -42,7 +43,7 @@
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "devDependencies": {
-    "@ronin/todo-escrow": "^0.0.0-3457949265910",
+    "@ronin/todo-escrow": "^0.0.0-3457974792539",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",

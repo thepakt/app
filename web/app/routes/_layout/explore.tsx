@@ -1,8 +1,15 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Address } from "@ton/core"
+import { motion } from "framer-motion"
 import { Heart, Share, Wallet } from "lucide-react"
-import { getModerator, getPublicTasks, getTaskWithItsCreator } from "~/actions"
+import { useState } from "react"
+import {
+  createAcceptTaskNotification,
+  getModerator,
+  getPublicTasks,
+  getTaskWithItsCreator,
+} from "~/actions"
 import useActions from "~/lib/investor/useActions"
 
 const FeedItem = ({
@@ -10,22 +17,37 @@ const FeedItem = ({
   handle,
   // rating,
   title,
-  bounty,
-  estimatedTime,
+  notes,
+  index,
+  bountyPriceInUsdt,
+  bountyEstimatedTimeInHours,
 }: {
   username: string
   handle: string
-  // rating: number
+  notes: string
+  index: number
   title: string
-  bounty: number
-  estimatedTime: number
+  bountyPriceInUsdt: number
+  bountyEstimatedTimeInHours: number
 }) => {
   const { createContract } = useActions()
+  const [waitingForTransaction, setWaitingForTransaction] = useState(false)
+
   return (
-    <div className="bg-black/30 rounded-3xl p-6 mb-4 max-w-md mx-auto">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.08 }}
+      className="bg-black/30 rounded-3xl rounded-tl-[50px] p-5 mb-3 max-w-md mx-auto"
+    >
       <div className="flex items-center justify-between mb-4">
+        {waitingForTransaction && (
+          <div className="fixed top-0 left-0 flex items-center justify-center h-screen w-screen bg-black/30 z-50">
+            <div className="h-[60px] w-[60px] animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
+          </div>
+        )}
         <div className="flex items-center">
-          <div className="w-[40px] h-[40px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+          <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div>
             <h2 className="text-white font-semibold">{username}</h2>
             <p className="text-gray-400 text-sm">{handle}</p>
@@ -34,66 +56,71 @@ const FeedItem = ({
       </div>
 
       <p className="text-white text-sm">{title}</p>
+      <p className="text-white/50 text-xs mb-3">{notes}</p>
 
-      <div className="mb-6">
-        <h4 className="text-gray-400 text-sm mb-2">Requirements:</h4>
-        <div className="flex space-x-2">
-          <span className=" text-white px-4 py-0.5 rounded-md border border-whitetext-sm">
-            ${bounty}
-          </span>
-          <span className=" text-white px-4 py-0.5 rounded-md border border-white text-sm">
-            {estimatedTime}
-          </span>
+      <div className="flex justify-between items-center">
+        <div className="flex gap-1  flex-col">
+          <h2 className="text-white text-sm">Bounty:</h2>
+          <p className="text-white/50 text-xs">{bountyPriceInUsdt}$</p>
+        </div>
+        <div className="flex items-end gap-1  flex-col">
+          <h2 className="text-white text-sm">Estimated time:</h2>
+          <p className="text-white/50 text-xs">
+            {bountyEstimatedTimeInHours}{" "}
+            {bountyEstimatedTimeInHours === 1 ? "hour" : "hours"}
+          </p>
         </div>
       </div>
 
-      <div className="flex flex-row gap-5 text-white/90 mt-4">
-        <button className="flex flex-col items-center w-1/3">
-          <Heart className="w-3 h-3 mb-1" />
-          <span className="text-[9px] text-center">I want it</span>
-        </button>
-        <button className="flex flex-col items-center w-1/3">
-          <Share className="w-3 h-3 mb-1" />
-          <span className="text-[9px] text-center">
-            I know who
-            <br />
-            want it
-          </span>
-        </button>
+      <div className="flex flex-col gap-2 text-white/90 mt-4">
+        <div className="flex gap-2">
+          <button className="flex p-2 gap-1 bg-neutral-700/40 hover:bg-neutral-700 transition-all justify-center rounded-lg items-center w-full">
+            <Heart className="w-3 h-3" />
+            <span className="text-[10px] text-center">I want it</span>
+          </button>
+          <button className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40">
+            <Share className="w-3 h-3" />
+            <span className="text-[10px] text-center">I know who wants it</span>
+          </button>
+        </div>
         <button
           onClick={async () => {
             const taskWithCreator = await getTaskWithItsCreator({
               taskId: "rec_vlfzjz9y5tfj1qo5",
             })
-            console.log(taskWithCreator, "taskWithCreator")
             const moderator = await getModerator({})
             if (!moderator) return
             if (!taskWithCreator.creator?.walletAddress) return
-            // startLoader()
-            const createdContract = await createContract({
+            setWaitingForTransaction(true)
+            const createdContractAddress = await createContract({
               performer: Address.parse(taskWithCreator.creator.walletAddress),
               moderator: Address.parse(moderator.walletAddress),
               tokenMaster: Address.parse(
                 "kQC6cYfMFYFur2IgJroc3wBxg-q4hOxsqGQwEYSEARxtOmZf", // LOM
               ),
+              // TODO: support subtasks
               tasks: [{ amount: BigInt(0) }],
+              // TODO: make this value dynamic
               // TODO: make it smart so it adjusts based on the decimals of the jetton
               finishAmount: BigInt(200),
             })
-            // stopLoader()
-            console.log(createdContract, "createdContract")
+            const acceptTaskNotification = await createAcceptTaskNotification({
+              taskId: taskWithCreator.task.id,
+              contractAddress: createdContractAddress.toString(),
+              recieverWalletAddress: taskWithCreator.creator.walletAddress,
+            })
+            setWaitingForTransaction(false)
+            console.log(acceptTaskNotification, "acceptTaskNotification")
           }}
-          className="flex flex-col items-center w-1/3"
+          className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 rounded-lg"
         >
-          <Wallet className="w-3 h-3 mb-1" />
-          <span className="text-[9px] text-center">
-            I am ready to
-            <br />
-            pay for that
+          <Wallet className="w-3 h-3 " />
+          <span className="text-[10px] text-center">
+            I am ready to pay for that
           </span>
         </button>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -114,7 +141,9 @@ function RouteComponent() {
       {" "}
       <main className="container mx-auto px-4">
         {/* @ts-ignore */}
-        {data?.map((task, index) => <FeedItem key={index} {...task} />)}
+        {data?.map((task, index) => (
+          <FeedItem key={index} index={index} {...task} />
+        ))}
       </main>
     </div>
   )

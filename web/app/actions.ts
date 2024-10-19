@@ -63,6 +63,27 @@ export const getActiveTasks = createServerFn(
   },
 )
 
+export const getActiveTasksAndNotifications = createServerFn(
+  "POST",
+  async (data: { walletAddress: string }) => {
+    const user = await get.user.with({
+      walletAddress: data.walletAddress,
+    })
+    if (!user) throw new Error("User not found")
+    const tasks = await get.tasks.with({
+      creator: user,
+    })
+    // const taskNotifications = await get.acceptTaskNotifications.with({
+    //   reciever: user.id,
+    // })
+    const taskNotifications = await get.acceptTaskNotifications()
+    return {
+      tasks,
+      taskNotifications,
+    }
+  },
+)
+
 export const getTaskWithItsCreator = createServerFn(
   "POST",
   async (data: { taskId: string }) => {
@@ -74,7 +95,9 @@ export const getTaskWithItsCreator = createServerFn(
       id: task.creator,
     })
     return {
-      ...task,
+      task: {
+        ...task,
+      },
       creator: user,
     }
   },
@@ -92,3 +115,27 @@ export const getPublicTasks = createServerFn("POST", async (data: {}) => {
   const tasks = await get.tasks()
   return tasks
 })
+
+export const createAcceptTaskNotification = createServerFn(
+  "POST",
+  async (data: {
+    taskId: string
+    contractAddress: string
+    recieverWalletAddress: string
+  }) => {
+    const reciever = await get.user.with({
+      walletAddress: data.recieverWalletAddress,
+    })
+    if (!reciever) throw new Error("Reciever not found")
+    const task = await get.task.with({
+      id: data.taskId,
+    })
+    if (!task) throw new Error("Task not found")
+    const acceptTaskNotification = await create.acceptTaskNotification.with({
+      task: task.id,
+      contractAddress: data.contractAddress,
+      reciever: reciever.id,
+    })
+    return acceptTaskNotification
+  },
+)

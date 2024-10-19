@@ -26,13 +26,13 @@ import { Route as ExploreImport } from './routes/explore'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as ClaimAirdropImport } from './routes/claim-airdrop'
 import { Route as ChatImport } from './routes/chat'
-import { Route as ActiveTasksImport } from './routes/active-tasks'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
+import { Route as LayoutActiveTasksImport } from './routes/_layout/active-tasks'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
 
 // Create/Update Routes
@@ -112,11 +112,6 @@ const ChatRoute = ChatImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ActiveTasksRoute = ActiveTasksImport.update({
-  path: '/active-tasks',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
   getParentRoute: () => rootRoute,
@@ -147,6 +142,11 @@ const PostsPostIdRoute = PostsPostIdImport.update({
   getParentRoute: () => PostsRoute,
 } as any)
 
+const LayoutActiveTasksRoute = LayoutActiveTasksImport.update({
+  path: '/active-tasks',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const PostsPostIdDeepRoute = PostsPostIdDeepImport.update({
   path: '/posts/$postId/deep',
   getParentRoute: () => rootRoute,
@@ -168,13 +168,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof LayoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/active-tasks': {
-      id: '/active-tasks'
-      path: '/active-tasks'
-      fullPath: '/active-tasks'
-      preLoaderRoute: typeof ActiveTasksImport
       parentRoute: typeof rootRoute
     }
     '/chat': {
@@ -282,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
     }
+    '/_layout/active-tasks': {
+      id: '/_layout/active-tasks'
+      path: '/active-tasks'
+      fullPath: '/active-tasks'
+      preLoaderRoute: typeof LayoutActiveTasksImport
+      parentRoute: typeof LayoutImport
+    }
     '/posts/$postId': {
       id: '/posts/$postId'
       path: '/$postId'
@@ -322,6 +322,17 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface LayoutRouteChildren {
+  LayoutActiveTasksRoute: typeof LayoutActiveTasksRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutActiveTasksRoute: LayoutActiveTasksRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
 interface PostsRouteChildren {
   PostsPostIdRoute: typeof PostsPostIdRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -348,8 +359,7 @@ const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof LayoutRoute
-  '/active-tasks': typeof ActiveTasksRoute
+  '': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -365,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
+  '/active-tasks': typeof LayoutActiveTasksRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
@@ -374,8 +385,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof LayoutRoute
-  '/active-tasks': typeof ActiveTasksRoute
+  '': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -389,6 +399,7 @@ export interface FileRoutesByTo {
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
+  '/active-tasks': typeof LayoutActiveTasksRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts': typeof PostsIndexRoute
@@ -399,8 +410,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_layout': typeof LayoutRoute
-  '/active-tasks': typeof ActiveTasksRoute
+  '/_layout': typeof LayoutRouteWithChildren
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -416,6 +426,7 @@ export interface FileRoutesById {
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
+  '/_layout/active-tasks': typeof LayoutActiveTasksRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
@@ -428,7 +439,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/active-tasks'
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
@@ -444,6 +454,7 @@ export interface FileRouteTypes {
     | '/todos'
     | '/try'
     | '/users'
+    | '/active-tasks'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts/'
@@ -453,7 +464,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
-    | '/active-tasks'
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
@@ -467,6 +477,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/todos'
     | '/try'
+    | '/active-tasks'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts'
@@ -476,7 +487,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_layout'
-    | '/active-tasks'
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
@@ -492,6 +502,7 @@ export interface FileRouteTypes {
     | '/todos'
     | '/try'
     | '/users'
+    | '/_layout/active-tasks'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts/'
@@ -502,8 +513,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LayoutRoute: typeof LayoutRoute
-  ActiveTasksRoute: typeof ActiveTasksRoute
+  LayoutRoute: typeof LayoutRouteWithChildren
   ChatRoute: typeof ChatRoute
   ClaimAirdropRoute: typeof ClaimAirdropRoute
   DeferredRoute: typeof DeferredRoute
@@ -524,8 +534,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LayoutRoute: LayoutRoute,
-  ActiveTasksRoute: ActiveTasksRoute,
+  LayoutRoute: LayoutRouteWithChildren,
   ChatRoute: ChatRoute,
   ClaimAirdropRoute: ClaimAirdropRoute,
   DeferredRoute: DeferredRoute,
@@ -558,7 +567,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_layout",
-        "/active-tasks",
         "/chat",
         "/claim-airdrop",
         "/deferred",
@@ -581,10 +589,10 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/_layout": {
-      "filePath": "_layout.tsx"
-    },
-    "/active-tasks": {
-      "filePath": "active-tasks.tsx"
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/active-tasks"
+      ]
     },
     "/chat": {
       "filePath": "chat.tsx"
@@ -638,6 +646,10 @@ export const routeTree = rootRoute
         "/users/$userId",
         "/users/"
       ]
+    },
+    "/_layout/active-tasks": {
+      "filePath": "_layout/active-tasks.tsx",
+      "parent": "/_layout"
     },
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",

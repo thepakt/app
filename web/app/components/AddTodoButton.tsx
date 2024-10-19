@@ -3,23 +3,14 @@ import { PlusIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { modalSpring } from "theme/transitions"
 import { AddTodoVariants } from "theme/variants"
-
-interface Todo {
-  title: string
-  bounty: number
-  id: number
-}
+import { useAccount } from "~/lib/providers/jazz-provider"
 
 interface AddTodoProps {
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
-  todos: Todo[]
   setIsNewTodoOpen: React.Dispatch<React.SetStateAction<boolean>>
   isNewTodoOpen: boolean
 }
 
 export default function AddTodoButton({
-  setTodos,
-  todos,
   setIsNewTodoOpen,
   isNewTodoOpen,
 }: AddTodoProps) {

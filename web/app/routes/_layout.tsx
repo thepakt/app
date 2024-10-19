@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router"
+import { Outlet, createFileRoute, useRouter } from "@tanstack/react-router"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser } from "~/actions"
@@ -11,12 +11,15 @@ function LayoutComponent() {
       createUser({ walletAddress: address })
     }
   }, [address])
+  const pathname = useRouter().state.location.pathname
 
   return (
     <>
-      <div className="absolute top-4 right-4">
-        <TonConnectButton />
-      </div>
+      {pathname !== "/profile" && (
+        <div className="absolute top-4 right-4">
+          <TonConnectButton />
+        </div>
+      )}
       <Outlet />
       <Bottombar />
     </>

@@ -1,32 +1,34 @@
 export const UserData = {
   id: 1,
   username: "@Peter_0555",
-  fullName: "Peter Johnson",
-  bio: "Full-stack developer | Web3 enthusiast | Coffee addict",
-  avatarUrl: "https://example.com/avatars/peter.jpg",
+  prettyName: "Peter Johnson",
+  bio: "Full-stack developer | Web3 enthusiast | Coffe addict",
+  avatarUrl: "",
   tasksCompleted: 47,
-  totalEarned: 3250,
+
   reputation: 98,
-  skills: ["React", "Node.js", "Solidity", "TypeScript"],
-  recentActivity: [
+
+  todos: [
     {
       type: "task_completed",
+      title: "Implemented smart contract for decentralized voting system",
       description: "Implemented smart contract for decentralized voting system",
       date: "2023-06-15",
       bounty: 500,
     },
     {
       type: "task_started",
+      title: "Building responsive UI for DeFi dashboard",
       description: "Building responsive UI for DeFi dashboard",
       date: "2023-06-10",
-      estimatedBounty: 300,
+      bounty: 300,
     },
   ],
   socialLinks: {
     github: "https://github.com/peter-johnson",
     twitter: "https://twitter.com/peter_dev",
-    linkedin: "https://linkedin.com/in/peter-johnson-dev",
+    telegram: "wtf",
   },
-  preferredTags: ["front-end", "smart-contracts", "defi"],
-  joinDate: "2022-03-01",
 }
+
+export type UserDataType = typeof UserData

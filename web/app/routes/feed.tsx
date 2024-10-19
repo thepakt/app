@@ -1,21 +1,9 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
-import { feedItems } from "~/components/feed/feedData"
+import { feedItems } from "~/components/feed/feedItems"
+
 import { Filter } from "~/components/feed/Filter"
 
-export interface FeedItem {
-  id: number
-  username: string
-  prettyName: string
-  description: string
-  bounty: number
-  subtasks: {
-    id: number
-    title: string
-
-    bounty: number
-  }[]
-}
 function RouteComponent() {
   const router = useRouter()
 

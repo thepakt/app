@@ -24,7 +24,7 @@ export const TodoItem = ({ todo }: { todo: any }) => {
           </p>
         </div>
         <div className="px-3 p-1 text-[12px] bg-neutral-700 rounded-md">
-          {todo.bounty}
+          {todo.bounty}$
         </div>
       </motion.div>
       <AnimatePresence>

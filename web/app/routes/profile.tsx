@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { ThumbsDownIcon, ThumbsUp, ThumbsUpIcon } from "lucide-react"
-import { FeedItem } from "./feed"
+
 import { useState } from "react"
 import { UserData } from "~/components/profile/userData"
 import { FaDiscord, FaGithub, FaTelegram, FaTwitter } from "react-icons/fa"
@@ -20,24 +20,24 @@ function ProfileComponent() {
               <div className="flex flex-col">
                 <h1 className="text-2xl font-bold">{UserData.prettyName}</h1>
                 <p className="text-sm text-gray-500">{UserData.username}</p>
-                <p className="text-sm mt-3 px-3 text-gray-400 bg-neutral-700 p-1 rounded-md">
+                <p className="text-sm mt-3 px-3 text-center text-gray-400 bg-neutral-700 p-1 rounded-md">
                   {UserData.tasksCompleted} tasks completed
                 </p>
               </div>
             </div>
             <div className="flex flex-col justify-evenly">
               {UserData.socialLinks.twitter && (
-                <span className="text-sm hover:text-gray-300 transition-all text-gray-500">
+                <span className="text-sm hover:scale-[1.05] hover:text-gray-300 transition-all text-gray-500">
                   <FaTwitter />
                 </span>
               )}
               {UserData.socialLinks.github && (
-                <span className="text-sm hover:text-gray-300 transition-all text-gray-500">
+                <span className="text-sm hover:scale-[1.05] hover:text-gray-300 transition-all text-gray-500">
                   <FaGithub />
                 </span>
               )}
               {UserData.socialLinks.telegram && (
-                <span className="text-sm hover:text-gray-300 transition-all text-gray-500">
+                <span className="text-sm hover:scale-[1.05] hover:text-gray-300 transition-all text-gray-500">
                   <FaTelegram />
                 </span>
               )}

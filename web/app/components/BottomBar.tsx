@@ -5,10 +5,9 @@ export default function Bottombar() {
     <div className="fixed bottom-0 left-0 right-0 bg-[#F2F2F7] shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4 py-2">
         <div className="flex justify-around items-center">
-          <BottomBarItem icon={<ExploreIcon />} href="/explore/app" />
-          {/* <BottomBarItem icon={<TasksIcon />} href="/active-tasks/app" /> */}
-          <BottomBarItem icon={<TasksIcon />} href="/" />
-          <BottomBarItem icon={<ProfileIcon />} href="/profile/app" />
+          <BottomBarItem icon={<ExploreIcon />} href="/explore" />
+          <BottomBarItem icon={<TasksIcon />} href="/active-tasks" />
+          <BottomBarItem icon={<ProfileIcon />} href="/profile" />
         </div>
       </div>
     </div>

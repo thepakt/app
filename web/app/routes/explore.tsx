@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router"
 import Layout from "~/components/Layout"
 
-function ProfileComponent() {
+function RouteComponent() {
   return (
     <Layout>
       <div className="w-full flex items-center justify-center">
-        profile route
+        explore route
       </div>
     </Layout>
   )
 }
 
-export const Route = createFileRoute("/profile/app")({
-  component: ProfileComponent,
+export const Route = createFileRoute("/explore")({
+  component: () => <RouteComponent />,
 })

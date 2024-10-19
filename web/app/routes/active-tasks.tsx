@@ -9,6 +9,6 @@ function TasksComponent() {
   )
 }
 
-export const Route = createFileRoute("/active-tasks/app")({
+export const Route = createFileRoute("/active-tasks")({
   component: TasksComponent,
 })

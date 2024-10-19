@@ -57,7 +57,6 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
   }, [estimatedTimeOptions.unit])
 
   const handlePickerChange = (newValue: Partial<typeof estimatedTime>) => {
-    console.log(newValue)
     // Update the state with the new value for amount or unit
     setEstimatedTime((prev) => ({
       ...prev,
@@ -110,10 +109,11 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
   return (
     <motion.div
       ref={componentRef}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="mb-4 p-4 bg-white/10 backdrop-blur-md rounded-xl shadow-lg"
+      initial={{ opacity: 0, y: -20, height: 0, margin: "0" }}
+      animate={{ opacity: 1, y: 0, height: "auto", margin: "0 0 16px 0", padding: "16px" }}
+      exit={{ opacity: 0, y: -20, height: 0, margin: 0, padding: 0 }}
+      transition={{ type: "ease-in-out", duration: 0.3 }}
+      className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg"
     >
       <input
         type="text"

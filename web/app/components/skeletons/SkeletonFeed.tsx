@@ -1,5 +1,4 @@
 export const SkeletonFeed = () => {
-  // Create an array of 3 items for the skeleton
   const skeletonItems = Array(3).fill(null)
 
   return (

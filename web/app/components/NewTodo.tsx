@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
-import DatePicker from "react-datepicker"
+// import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
 interface NewTodoProps {
@@ -87,8 +87,14 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
         placeholder="Notes"
       />
       <div className="flex flex-row items-center justify-between mb-2">
-        <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1">
-          <DatePicker
+        <div className="flex flex-col gap-1">
+          <span className="font-thin text-xs">Estimated time: </span>
+          <input className="outline-none rounded-sm bg-white/10 p-2 py-5 text-sm w-full" />
+        </div>
+
+        {/* <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1"> */}
+
+        {/* <DatePicker
             selected={dueDate}
             onChange={(date: Date | null) => setDueDate(date)}
             className="bg-transparent outline-none text-sm w-full"
@@ -100,8 +106,8 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
             className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"
           >
             🗓️
-          </button>
-        </div>
+          </button> */}
+        {/* </div> */}
         <div className="relative w-[30%] bg-white/10 rounded-xl px-3 py-1">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $

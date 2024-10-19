@@ -8,7 +8,7 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full h-screen">
       <div className="absolute top-4 right-4">
         <TonConnectButton />
       </div>

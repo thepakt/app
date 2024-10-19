@@ -1,13 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import AddTodoButton from "~/components/AddTodoButton"
 import NewTodo from "~/components/NewTodo"
 import Todo from "~/components/Todo"
-import Bottombar from "~/components/BottomBar"
-import { useAccount } from "~/lib/providers/jazz-provider"
-import { SubTaskList, Task } from "~/lib/schema/task"
+import Layout from "~/components/Layout"
 
 interface TodoItem {
   id: number
@@ -53,10 +50,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="relative w-full min-h-screen">
-      <div className="absolute top-4 right-4">
-        <TonConnectButton />
-      </div>
+    <Layout>
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <div className="flex flex-col gap-1 mt-16">
@@ -81,7 +75,6 @@ function RouteComponent() {
                 onClick={() => handleTodoClick(todo.id)}
                 onUpdate={(id, updates) => {
                   setTodos(
-                    // @ts-ignore
                     todos.map((t) => (t.id === id ? { ...t, ...updates } : t)),
                   )
                 }}
@@ -98,8 +91,7 @@ function RouteComponent() {
           isNewTodoOpen={isNewTodoOpen}
         />
       </div>
-      <Bottombar />
-    </div>
+    </Layout>
   )
 }
 

@@ -198,10 +198,10 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
                   public: false,
                   bountyEstimatedTimeInHours: estimatedTime.amount,
                   bountyPriceInUsdt: Number(bounty),
-                  subtasks: subtasks.map((subtask) => ({
-                    title: subtask,
-                    completed: false,
-                  })),
+                  // subtasks: subtasks.map((subtask) => ({
+                  //   title: subtask,
+                  //   completed: false,
+                  // })),
                 },
                 userWalletAddress: address,
               })

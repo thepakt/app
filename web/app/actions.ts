@@ -25,7 +25,7 @@ export const createTask = createServerFn(
       public: boolean
       bountyEstimatedTimeInHours: number
       bountyPriceInUsdt: number
-      subtasks: { title: string; completed: boolean }[]
+      // subtasks: { title: string; completed: boolean }[]
     }
     userWalletAddress: string
   }) => {

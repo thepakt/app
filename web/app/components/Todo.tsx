@@ -58,41 +58,38 @@ const Todo: React.FC<TodoProps> = ({
     }
   }
 
+  const truncateNotes = (notes: string) => {
+    const lines = notes.split("\n")
+    if (lines.length > 10) {
+      return lines.slice(0, 10).join("\n") + "\n..."
+    }
+    return notes
+  }
+
   return (
     <motion.div
       layout
       onClick={isEditing ? undefined : onClick}
-      className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer overflow-hidden ${
+      className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer ${
         isExpanded ? "bg-white/10 backdrop-blur-md" : "bg-white/5"
       } transition-colors duration-300 ease-in-out hover:bg-white/15`}
       initial={false}
-      animate={{
-        height: isExpanded ? "auto" : "60px",
-        transition: {
-          type: "spring",
-          stiffness: 300,
-          damping: 30,
-        },
-      }}
+      animate={{ height: "auto" }}
     >
-      <div className="flex flex-col h-full">
-        <motion.div
-          className="flex items-center gap-4 h-[36px]"
-          layout="position"
-        >
-          <Circle className="w-6 h-6 flex-shrink-0" />
+      <div className="flex flex-col">
+        <motion.div className="flex items-start gap-4" layout="position">
+          <Circle className="w-4 h-4 flex-shrink-0 mt-1" />
           {isExpanded ? (
-            <input
-              type="text"
+            <textarea
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
-              className="flex-grow bg-transparent text-md font-light outline-none focus:border-white/50 transition-colors overflow-hidden text-ellipsis"
+              className="flex-grow bg-transparent text-md scrollbar-hide h-full font-light outline-none focus:border-white/50 transition-colors resize-none w-full"
               onClick={(e) => e.stopPropagation()}
+              rows={editedTitle.split("\n").length}
+              style={{ minHeight: "1.5em" }}
             />
           ) : (
-            <span className="flex-grow text-md font-light overflow-hidden text-ellipsis whitespace-nowrap">
-              {title}
-            </span>
+            <div className="flex-grow text-md font-light truncate">{title}</div>
           )}
         </motion.div>
         <AnimatePresence>
@@ -107,11 +104,11 @@ const Todo: React.FC<TodoProps> = ({
               <div className="flex flex-col">
                 <span className="text-gray-400 font-light mb-1">Notes</span>
                 <textarea
-                  value={editedNotes}
+                  value={truncateNotes(editedNotes)}
                   autoFocus
                   onChange={(e) => setEditedNotes(e.target.value)}
-                  className="bg-inherit font-normal p-2 outline-none focus:ring-none"
-                  rows={2}
+                  className="bg-inherit font-normal p-2 outline-none focus:ring-none scrollbar-hide"
+                  rows={Math.min(10, editedNotes.split("\n").length)}
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>

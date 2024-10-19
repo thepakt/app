@@ -110,7 +110,13 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
     <motion.div
       ref={componentRef}
       initial={{ opacity: 0, y: -20, height: 0, margin: "0" }}
-      animate={{ opacity: 1, y: 0, height: "auto", margin: "0 0 16px 0", padding: "16px" }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        height: "auto",
+        margin: "0 0 16px 0",
+        padding: "16px",
+      }}
       exit={{ opacity: 0, y: -20, height: 0, margin: 0, padding: 0 }}
       transition={{ type: "ease-in-out", duration: 0.3 }}
       className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg"
@@ -121,7 +127,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
         autoFocus
         onChange={(e) => setTitle(e.target.value)}
         className="w-full bg-transparent outline-none text-md font-light mb-2"
-        placeholder="New Todo Title"
+        placeholder="New Task"
       />
       <textarea
         value={notes}

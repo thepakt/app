@@ -35,7 +35,6 @@ function RouteComponent() {
     },
     enabled: !!address,
   })
-  if (isLoading) return <div>Loading...</div>
   if (error) {
     return <></>
   }
@@ -60,6 +59,7 @@ function RouteComponent() {
                 // @ts-ignore
                 isExpanded={expandedTodoId === task.id}
                 onClick={(id) => {
+                  // @ts-ignore
                   setExpandedTodoId((prevId) => (prevId === id ? null : id))
                 }}
               />

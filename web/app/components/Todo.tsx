@@ -100,31 +100,17 @@ const Todo: React.FC<TodoProps> = ({
               className="flex flex-col mt-6 text-sm space-y-4"
             >
               <div className="flex flex-col">
-                <span className="text-gray-400 mb-1">Notes</span>
+                <span className="text-gray-400 font-light mb-1">Notes</span>
                 <textarea
                   value={editedNotes}
+                  autoFocus
                   onChange={(e) => setEditedNotes(e.target.value)}
-                  className="bg-inherit p-2 outline-none focus:ring-none"
+                  className="bg-inherit font-normal p-2 outline-none focus:ring-none"
                   rows={2}
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
               <div className="flex items-center space-x-2">
-                {/* <div className="flex-1 bg-white/10 rounded-lg p-2 flex items-center">
-                  <span className="text-gray-400 mr-2">Due date</span>
-                  <DatePicker
-                    selected={editedDueDate}
-                    onChange={(date: Date | null) => {
-                      setEditedDueDate(date)
-                      handleSave()
-                    }}
-                    className="bg-transparent w-full outline-none"
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="Select date"
-
-                  />
-                  <span className="text-gray-400 ml-auto">📅</span>
-                </div> */}
                 <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1">
                   <DatePicker
                     selected={dueDate}

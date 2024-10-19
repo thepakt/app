@@ -16,7 +16,7 @@ export const TodoItem = ({ todo }: { todo: any }) => {
             className={`text-sm overflow-hidden ${
               isExpanded
                 ? /* Adding witespace-normal lets you see title but gives a weird animation */
-                  "whitespace-nowrap"
+                  "whitespace-nowrap overflow-ellipsis"
                 : "whitespace-nowrap overflow-ellipsis"
             }`}
           >

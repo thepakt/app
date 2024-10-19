@@ -1,6 +1,5 @@
-import { Task } from "@ronin/todo-escrow"
 import { createServerFn } from "@tanstack/start"
-import { get, create } from "ronin"
+import { create, get } from "ronin"
 
 export const createUser = createServerFn(
   "POST",
@@ -35,6 +34,7 @@ export const createTask = createServerFn(
     if (!user) throw new Error("User not found")
     const task = await create.task.with({
       ...data.task,
+      public: true,
       creator: user.id,
     })
     return task

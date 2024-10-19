@@ -23,15 +23,13 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
     amount: Array.from(Array(10).keys()).filter((el) => el),
     unit: ["Hours", "Days"],
   })
-  const [estimatedTime, setEstimatedTime] = useState({
+  const [estimatedTimeInHours, setEstimatedTimeInHours] = useState({
     amount: 1,
     unit: "Hours",
   })
 
-  // Update amount array based on the chosen unit
   useEffect(() => {
     let newAmount: number[] = []
-
     switch (estimatedTimeOptions.unit[0]) {
       case "Hours":
         newAmount = Array.from({ length: 23 }, (_, i) => i + 1)
@@ -39,25 +37,18 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
       case "Days":
         newAmount = Array.from({ length: 20 }, (_, i) => i + 1)
         break
-      case "Weeks":
-        newAmount = Array.from({ length: 10 }, (_, i) => i + 1)
-        break
-      case "Months":
-        newAmount = Array.from({ length: 12 }, (_, i) => i + 1)
-        break
-      default:
-        newAmount = Array.from({ length: 10 }, (_, i) => i + 1)
-        break
     }
-
     setEstimatedTimeOptions((prev) => ({
       ...prev,
       amount: newAmount,
     }))
   }, [estimatedTimeOptions.unit])
 
-  const handlePickerChange = (newValue: Partial<typeof estimatedTime>) => {
-    setEstimatedTime((prev) => ({
+  const handlePickerChange = (
+    newValue: Partial<typeof estimatedTimeInHours>,
+  ) => {
+    // Update the state with the new value for amount or unit
+    setEstimatedTimeInHours((prev) => ({
       ...prev,
       ...newValue,
     }))
@@ -153,7 +144,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
       <div className="flex flex-col mb-2">
         <div className="flex flex-col gap-1">
           <span className="font-thin text-xs">Estimated time: </span>
-          <Picker value={estimatedTime} onChange={handlePickerChange}>
+          <Picker value={estimatedTimeInHours} onChange={handlePickerChange}>
             {Object.keys(estimatedTimeOptions).map((name) => (
               <Picker.Column key={name} name={name}>
                 {/* @ts-ignore */}
@@ -196,7 +187,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
                   title: title.trim(),
                   notes: notes,
                   public: false,
-                  bountyEstimatedTimeInHours: estimatedTime.amount,
+                  bountyEstimatedTimeInHours: estimatedTimeInHours.amount,
                   bountyPriceInUsdt: Number(bounty),
                   // subtasks: subtasks.map((subtask) => ({
                   //   title: subtask,

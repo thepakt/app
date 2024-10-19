@@ -24,9 +24,9 @@ import { Route as DeferredImport } from './routes/deferred'
 import { Route as ClaimAirdropImport } from './routes/claim-airdrop'
 import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
-import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
@@ -98,6 +98,11 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IndexRoute = IndexImport.update({
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const UsersIndexRoute = UsersIndexImport.update({
   path: '/',
   getParentRoute: () => UsersRoute,
@@ -106,11 +111,6 @@ const UsersIndexRoute = UsersIndexImport.update({
 const PostsIndexRoute = PostsIndexImport.update({
   path: '/',
   getParentRoute: () => PostsRoute,
-} as any)
-
-const LayoutIndexRoute = LayoutIndexImport.update({
-  path: '/',
-  getParentRoute: () => LayoutRoute,
 } as any)
 
 const UsersUserIdRoute = UsersUserIdImport.update({
@@ -132,6 +132,13 @@ const PostsPostIdDeepRoute = PostsPostIdDeepImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -237,13 +244,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdImport
       parentRoute: typeof UsersImport
     }
-    '/_layout/': {
-      id: '/_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof LayoutIndexImport
-      parentRoute: typeof LayoutImport
-    }
     '/posts/': {
       id: '/posts/'
       path: '/'
@@ -270,17 +270,6 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface LayoutRouteChildren {
-  LayoutIndexRoute: typeof LayoutIndexRoute
-}
-
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutIndexRoute: LayoutIndexRoute,
-}
-
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
-
 interface PostsRouteChildren {
   PostsPostIdRoute: typeof PostsPostIdRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -306,7 +295,8 @@ const UsersRouteChildren: UsersRouteChildren = {
 const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '': typeof LayoutRouteWithChildren
+  '/': typeof IndexRoute
+  '': typeof LayoutRoute
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -321,13 +311,14 @@ export interface FileRoutesByFullPath {
   '/users': typeof UsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
-  '/': typeof LayoutIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '': typeof LayoutRoute
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -340,7 +331,6 @@ export interface FileRoutesByTo {
   '/try': typeof TryRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
-  '/': typeof LayoutIndexRoute
   '/posts': typeof PostsIndexRoute
   '/users': typeof UsersIndexRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
@@ -348,7 +338,8 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/_layout': typeof LayoutRouteWithChildren
+  '/': typeof IndexRoute
+  '/_layout': typeof LayoutRoute
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -363,7 +354,6 @@ export interface FileRoutesById {
   '/users': typeof UsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
-  '/_layout/': typeof LayoutIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
@@ -372,6 +362,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | ''
     | '/chat'
     | '/claim-airdrop'
@@ -387,12 +378,13 @@ export interface FileRouteTypes {
     | '/users'
     | '/posts/$postId'
     | '/users/$userId'
-    | '/'
     | '/posts/'
     | '/users/'
     | '/posts/$postId/deep'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
+    | ''
     | '/chat'
     | '/claim-airdrop'
     | '/deferred'
@@ -405,12 +397,12 @@ export interface FileRouteTypes {
     | '/try'
     | '/posts/$postId'
     | '/users/$userId'
-    | '/'
     | '/posts'
     | '/users'
     | '/posts/$postId/deep'
   id:
     | '__root__'
+    | '/'
     | '/_layout'
     | '/chat'
     | '/claim-airdrop'
@@ -426,7 +418,6 @@ export interface FileRouteTypes {
     | '/users'
     | '/posts/$postId'
     | '/users/$userId'
-    | '/_layout/'
     | '/posts/'
     | '/users/'
     | '/posts/$postId/deep'
@@ -434,7 +425,8 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  LayoutRoute: typeof LayoutRouteWithChildren
+  IndexRoute: typeof IndexRoute
+  LayoutRoute: typeof LayoutRoute
   ChatRoute: typeof ChatRoute
   ClaimAirdropRoute: typeof ClaimAirdropRoute
   DeferredRoute: typeof DeferredRoute
@@ -451,7 +443,8 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  LayoutRoute: LayoutRouteWithChildren,
+  IndexRoute: IndexRoute,
+  LayoutRoute: LayoutRoute,
   ChatRoute: ChatRoute,
   ClaimAirdropRoute: ClaimAirdropRoute,
   DeferredRoute: DeferredRoute,
@@ -479,6 +472,7 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/_layout",
         "/chat",
         "/claim-airdrop",
@@ -495,11 +489,11 @@ export const routeTree = rootRoute
         "/posts/$postId/deep"
       ]
     },
+    "/": {
+      "filePath": "index.tsx"
+    },
     "/_layout": {
-      "filePath": "_layout.tsx",
-      "children": [
-        "/_layout/"
-      ]
+      "filePath": "_layout.tsx"
     },
     "/chat": {
       "filePath": "chat.tsx"
@@ -552,10 +546,6 @@ export const routeTree = rootRoute
     "/users/$userId": {
       "filePath": "users.$userId.tsx",
       "parent": "/users"
-    },
-    "/_layout/": {
-      "filePath": "_layout/index.tsx",
-      "parent": "/_layout"
     },
     "/posts/": {
       "filePath": "posts.index.tsx",

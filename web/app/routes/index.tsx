@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import AddTodoButton from "~/components/AddTodoButton"
 import NewTodo from "~/components/NewTodo"
+import Todo from "~/components/Todo"
 import { useAccount } from "~/lib/providers/jazz-provider"
 import { SubTaskList, Task } from "~/lib/schema/task"
 
@@ -17,13 +18,13 @@ interface TodoItem {
 }
 
 function RouteComponent() {
-  const { me } = useAccount({ root: {} })
-  const address = useTonAddress()
-  useEffect(() => {
-    if (address) {
-      console.log(address, "address")
-    }
-  }, [address])
+  // const { me } = useAccount({ root: {} })
+  // const address = useTonAddress()
+  // useEffect(() => {
+  //   if (address) {
+  //     console.log(address, 'address')
+  //   }
+  // }, [address])
 
   const [todos, setTodos] = useState<TodoItem[]>([
     { id: 1, title: "make backend work", bounty: 100 },
@@ -53,7 +54,7 @@ function RouteComponent() {
   return (
     <>
       <TonConnectButton />
-      <button
+      {/* <button
         onClick={async () => {
           if (!me) return
           const newTodo = Task.create(
@@ -72,7 +73,7 @@ function RouteComponent() {
         }}
       >
         Create TODO..
-      </button>
+      </button> */}
       <div className="w-full flex items-center justify-center">
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <AddTodoButton
@@ -89,7 +90,7 @@ function RouteComponent() {
                 />
               )}
             </AnimatePresence>
-            {/* {todos.map((todo) => (
+            {todos.map((todo) => (
               <Todo
                 key={todo.id}
                 id={todo.id}
@@ -106,7 +107,7 @@ function RouteComponent() {
                   )
                 }}
               />
-            ))} */}
+            ))}
           </div>
         </div>
       </div>
@@ -114,6 +115,6 @@ function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute("/_layout/")({
+export const Route = createFileRoute("/")({
   component: RouteComponent,
 })

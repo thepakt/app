@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router"
+import { AnimatePresence } from "framer-motion"
+import { useState } from "react"
+import { DatePicker } from "~/components/DatePicker"
 import { feedItems } from "~/components/feed/feedItems"
 import { Filter } from "~/components/feed/Filter"
 
 function RouteComponent() {
+  const [showPicker, setShowPicker] = useState(false)
+  const [date, setDate] = useState({ month: "January", day: 1 })
   return (
     <main className="w-full flex items-center justify-center">
       <section className="w-full p-4 py-[70px] max-w-[500px] h-full relative min-h-screen">

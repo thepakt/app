@@ -170,7 +170,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
                 setBounty(value)
               }
             }}
-            className="w-100 bg-transparent outline-none text-sm pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-[100%] bg-transparent outline-none text-sm pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="Amount"
           />
         </div>

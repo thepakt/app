@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { getActiveTasks } from "~/actions"
 import AddTodoButton from "~/components/AddTodoButton"
-import NewTodo from "~/components/NewTodo"
+import NewTask from "~/components/NewTask"
 import { TaskComponent } from "~/components/TaskComponent"
 
 function RouteComponent() {
@@ -48,7 +48,7 @@ function RouteComponent() {
           <div className="flex flex-col gap-1 mt-16">
             <AnimatePresence>
               {isNewTodoOpen && (
-                <NewTodo onClose={() => setIsNewTodoOpen(false)} />
+                <NewTask onClose={() => setIsNewTodoOpen(false)} />
               )}
             </AnimatePresence>
             {/* {data?.map((task) => (

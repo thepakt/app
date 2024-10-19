@@ -7,7 +7,7 @@ import { globalState } from "~/routes/__root"
 
 type TimeUnit = "Hours" | "Days" | "Weeks" | "Months"
 
-export default function NewTodo({ onClose }: { onClose: () => void }) {
+export default function NewTask({ onClose }: { onClose: () => void }) {
   const global = useProxy(globalState)
 
   const componentRef = useRef<HTMLDivElement>(null)
@@ -16,7 +16,7 @@ export default function NewTodo({ onClose }: { onClose: () => void }) {
   const [bounty, setBounty] = useState("")
   const [dueDate, setDueDate] = useState<Date | null>(null)
   const [estimatedTimeOptions, setEstimatedTimeOptions] = useState<{
-    amount: number
+    amount: number[]
     unit: TimeUnit[]
   }>({
     amount: Array.from(Array(10).keys()).filter((el) => el),
@@ -29,10 +29,9 @@ export default function NewTodo({ onClose }: { onClose: () => void }) {
 
   // Update amount array based on the chosen unit
   useEffect(() => {
-    console.log(estimatedTimeOptions)
     let newAmount: number[] = []
 
-    switch (estimatedTimeOptions.unit) {
+    switch (estimatedTimeOptions.unit[0]) {
       case "Hours":
         newAmount = Array.from({ length: 23 }, (_, i) => i + 1)
         break

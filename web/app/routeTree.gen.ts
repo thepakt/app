@@ -28,9 +28,10 @@ import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
-import { Route as TasksAppImport } from './routes/tasks/app'
+import { Route as ProfileAppImport } from './routes/profile/app'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as ExploreAppImport } from './routes/explore/app'
+import { Route as ActiveTasksAppImport } from './routes/active-tasks/app'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
 
 // Create/Update Routes
@@ -120,8 +121,8 @@ const UsersUserIdRoute = UsersUserIdImport.update({
   getParentRoute: () => UsersRoute,
 } as any)
 
-const TasksAppRoute = TasksAppImport.update({
-  path: '/tasks/app',
+const ProfileAppRoute = ProfileAppImport.update({
+  path: '/profile/app',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -132,6 +133,11 @@ const PostsPostIdRoute = PostsPostIdImport.update({
 
 const ExploreAppRoute = ExploreAppImport.update({
   path: '/explore/app',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ActiveTasksAppRoute = ActiveTasksAppImport.update({
+  path: '/active-tasks/app',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -242,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
     }
+    '/active-tasks/app': {
+      id: '/active-tasks/app'
+      path: '/active-tasks/app'
+      fullPath: '/active-tasks/app'
+      preLoaderRoute: typeof ActiveTasksAppImport
+      parentRoute: typeof rootRoute
+    }
     '/explore/app': {
       id: '/explore/app'
       path: '/explore/app'
@@ -256,11 +269,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdImport
       parentRoute: typeof PostsImport
     }
-    '/tasks/app': {
-      id: '/tasks/app'
-      path: '/tasks/app'
-      fullPath: '/tasks/app'
-      preLoaderRoute: typeof TasksAppImport
+    '/profile/app': {
+      id: '/profile/app'
+      path: '/profile/app'
+      fullPath: '/profile/app'
+      preLoaderRoute: typeof ProfileAppImport
       parentRoute: typeof rootRoute
     }
     '/users/$userId': {
@@ -335,9 +348,10 @@ export interface FileRoutesByFullPath {
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
+  '/active-tasks/app': typeof ActiveTasksAppRoute
   '/explore/app': typeof ExploreAppRoute
   '/posts/$postId': typeof PostsPostIdRoute
-  '/tasks/app': typeof TasksAppRoute
+  '/profile/app': typeof ProfileAppRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
@@ -357,9 +371,10 @@ export interface FileRoutesByTo {
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
+  '/active-tasks/app': typeof ActiveTasksAppRoute
   '/explore/app': typeof ExploreAppRoute
   '/posts/$postId': typeof PostsPostIdRoute
-  '/tasks/app': typeof TasksAppRoute
+  '/profile/app': typeof ProfileAppRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts': typeof PostsIndexRoute
   '/users': typeof UsersIndexRoute
@@ -382,9 +397,10 @@ export interface FileRoutesById {
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
+  '/active-tasks/app': typeof ActiveTasksAppRoute
   '/explore/app': typeof ExploreAppRoute
   '/posts/$postId': typeof PostsPostIdRoute
-  '/tasks/app': typeof TasksAppRoute
+  '/profile/app': typeof ProfileAppRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
   '/users/': typeof UsersIndexRoute
@@ -408,9 +424,10 @@ export interface FileRouteTypes {
     | '/todos'
     | '/try'
     | '/users'
+    | '/active-tasks/app'
     | '/explore/app'
     | '/posts/$postId'
-    | '/tasks/app'
+    | '/profile/app'
     | '/users/$userId'
     | '/posts/'
     | '/users/'
@@ -429,9 +446,10 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/todos'
     | '/try'
+    | '/active-tasks/app'
     | '/explore/app'
     | '/posts/$postId'
-    | '/tasks/app'
+    | '/profile/app'
     | '/users/$userId'
     | '/posts'
     | '/users'
@@ -452,9 +470,10 @@ export interface FileRouteTypes {
     | '/todos'
     | '/try'
     | '/users'
+    | '/active-tasks/app'
     | '/explore/app'
     | '/posts/$postId'
-    | '/tasks/app'
+    | '/profile/app'
     | '/users/$userId'
     | '/posts/'
     | '/users/'
@@ -477,8 +496,9 @@ export interface RootRouteChildren {
   TodosRoute: typeof TodosRoute
   TryRoute: typeof TryRoute
   UsersRoute: typeof UsersRouteWithChildren
+  ActiveTasksAppRoute: typeof ActiveTasksAppRoute
   ExploreAppRoute: typeof ExploreAppRoute
-  TasksAppRoute: typeof TasksAppRoute
+  ProfileAppRoute: typeof ProfileAppRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
 
@@ -497,8 +517,9 @@ const rootRouteChildren: RootRouteChildren = {
   TodosRoute: TodosRoute,
   TryRoute: TryRoute,
   UsersRoute: UsersRouteWithChildren,
+  ActiveTasksAppRoute: ActiveTasksAppRoute,
   ExploreAppRoute: ExploreAppRoute,
-  TasksAppRoute: TasksAppRoute,
+  ProfileAppRoute: ProfileAppRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
 
@@ -528,8 +549,9 @@ export const routeTree = rootRoute
         "/todos",
         "/try",
         "/users",
+        "/active-tasks/app",
         "/explore/app",
-        "/tasks/app",
+        "/profile/app",
         "/posts/$postId/deep"
       ]
     },
@@ -583,6 +605,9 @@ export const routeTree = rootRoute
         "/users/"
       ]
     },
+    "/active-tasks/app": {
+      "filePath": "active-tasks/app.tsx"
+    },
     "/explore/app": {
       "filePath": "explore/app.tsx"
     },
@@ -590,8 +615,8 @@ export const routeTree = rootRoute
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
     },
-    "/tasks/app": {
-      "filePath": "tasks/app.tsx"
+    "/profile/app": {
+      "filePath": "profile/app.tsx"
     },
     "/users/$userId": {
       "filePath": "users.$userId.tsx",

@@ -76,18 +76,23 @@ const Todo: React.FC<TodoProps> = ({
       }}
     >
       <div className="flex flex-col h-full">
-        <motion.div className="flex items-center gap-4" layout="position">
-          <Circle className="w-6 h-6" />
+        <motion.div
+          className="flex items-center gap-4 h-[36px]"
+          layout="position"
+        >
+          <Circle className="w-6 h-6 flex-shrink-0" />
           {isExpanded ? (
             <input
               type="text"
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
-              className="flex-grow bg-transparent text-md font-light outline-none focus:border-white/50 transition-colors"
+              className="flex-grow bg-transparent text-md font-light outline-none focus:border-white/50 transition-colors overflow-hidden text-ellipsis"
               onClick={(e) => e.stopPropagation()}
             />
           ) : (
-            <span className="flex-grow text-md font-light">{title}</span>
+            <span className="flex-grow text-md font-light overflow-hidden text-ellipsis whitespace-nowrap">
+              {title}
+            </span>
           )}
         </motion.div>
         <AnimatePresence>

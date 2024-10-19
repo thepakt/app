@@ -1,63 +1,18 @@
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
+import { ID } from "jazz-tools"
 import { Circle } from "lucide-react"
-import { useEffect, useState } from "react"
-import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import { Task } from "~/lib/schema/task"
 
-interface TodoProps {
-  id: number
-  title: string
-  notes?: string
-  estimatedTime?: string
-  bounty: number
-  dueDate?: Date | null
-  isExpanded: boolean
-  onClick: () => void
-  onUpdate: (id: number, updates: Partial<TodoProps>) => void
-}
-
-const Todo: React.FC<TodoProps> = ({
-  id,
-  title,
-  notes,
-  estimatedTime,
-  bounty,
-  dueDate,
+export function TaskComponent({
+  task,
   isExpanded,
   onClick,
-  onUpdate,
-}) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const [isBountyExpanded, setIsBountyExpanded] = useState(false)
-  const [editedTitle, setEditedTitle] = useState(title)
-  const [editedNotes, setEditedNotes] = useState(notes || "")
-  const [editedEstimatedTime, setEditedEstimatedTime] = useState(
-    estimatedTime || "",
-  )
-  const [editedBounty, setEditedBounty] = useState(bounty)
-  const [editedDueDate, setEditedDueDate] = useState<Date | null>(
-    dueDate || null,
-  )
-
-  useEffect(() => {
-    if (!isExpanded) {
-      setIsBountyExpanded(false)
-      handleSave()
-    }
-  }, [isExpanded])
-
-  const handleSave = () => {
-    if (isExpanded) {
-      onUpdate(id, {
-        title: editedTitle,
-        notes: editedNotes,
-        estimatedTime: editedEstimatedTime,
-        bounty: editedBounty,
-        dueDate: editedDueDate,
-      })
-    }
-  }
-
+}: {
+  task: Task
+  isExpanded: boolean
+  onClick: (taskId: ID<Task>) => void
+}) {
   const truncateNotes = (notes: string) => {
     const lines = notes.split("\n")
     if (lines.length > 10) {
@@ -69,7 +24,9 @@ const Todo: React.FC<TodoProps> = ({
   return (
     <motion.div
       layout
-      onClick={isEditing ? undefined : onClick}
+      onClick={() => {
+        onClick(task.id)
+      }}
       className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer ${
         isExpanded ? "bg-white/10 backdrop-blur-md" : "bg-white/5"
       } transition-colors duration-300 ease-in-out hover:bg-white/15`}
@@ -81,15 +38,19 @@ const Todo: React.FC<TodoProps> = ({
           <Circle className="w-4 h-4 flex-shrink-0 mt-1" />
           {isExpanded ? (
             <textarea
-              value={editedTitle}
-              onChange={(e) => setEditedTitle(e.target.value)}
+              value={task.title}
+              onChange={(e) => {
+                task.title = e.target.value
+              }}
               className="flex-grow bg-transparent text-md scrollbar-hide h-full font-light outline-none focus:border-white/50 transition-colors resize-none w-full"
               onClick={(e) => e.stopPropagation()}
-              rows={editedTitle.split("\n").length}
+              rows={task.title.split("\n").length}
               style={{ minHeight: "1.5em" }}
             />
           ) : (
-            <div className="flex-grow text-md font-light truncate">{title}</div>
+            <div className="flex-grow text-md font-light truncate">
+              {task.title}
+            </div>
           )}
         </motion.div>
         <AnimatePresence>
@@ -104,23 +65,26 @@ const Todo: React.FC<TodoProps> = ({
               <div className="flex flex-col">
                 <span className="text-gray-400 font-light mb-1">Notes</span>
                 <textarea
-                  value={truncateNotes(editedNotes)}
+                  value={truncateNotes(task.notes || "")}
                   autoFocus
-                  onChange={(e) => setEditedNotes(e.target.value)}
+                  onChange={(e) => {
+                    task.notes = e.target.value
+                  }}
                   className="bg-inherit font-normal p-2 outline-none focus:ring-none scrollbar-hide"
-                  rows={Math.min(10, editedNotes.split("\n").length)}
+                  rows={Math.min(10, task.notes?.split("\n").length || 0)}
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
               <div className="flex items-center space-x-2">
                 <div className="relative w-[50%] bg-white/10 rounded-xl px-3 py-1">
-                  <DatePicker
-                    selected={dueDate}
+                  {/* TODO: should be hour / day picker */}
+                  {/* <DatePicker
+                    selected={task.dueDate}
                     // onChange={(date: Date | null) => setDueDate(date)}
                     className="bg-transparent outline-none text-sm w-full"
                     placeholderText="Due date"
                     dateFormat="dd/MM/yyyy"
-                  />
+                  /> */}
                   <button
                     // onClick={() => setDueDate(null)}
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -133,14 +97,13 @@ const Todo: React.FC<TodoProps> = ({
                   <input
                     type="number"
                     inputMode="decimal"
-                    value={editedBounty || ""}
+                    value={task.bountyPriceInUSDT || ""}
                     onChange={(e) => {
                       e.stopPropagation()
-                      setEditedBounty(Number(e.target.value))
-                      handleSave()
+                      task.bountyPriceInUSDT = Number(e.target.value)
                       const value = e.target.value
                       if (value === "" || /^\d*\.?\d*$/.test(value)) {
-                        setEditedBounty(Number(e.target.value))
+                        task.bountyPriceInUSDT = Number(e.target.value)
                       }
                     }}
                     onFocus={(e) => e.stopPropagation()}
@@ -157,5 +120,3 @@ const Todo: React.FC<TodoProps> = ({
     </motion.div>
   )
 }
-
-export default Todo

@@ -11,7 +11,7 @@ export default function useActions() {
 
 
     return useMemo(() => ({
-        createAirdrop: (data: InitalizeContractData) => createContract(sender, data),
+        createContract: (data: InitalizeContractData) => createContract(sender, data),
         argue: (contractAddress: Address, isArguing: boolean) => argue(sender, contractAddress, isArguing),
         releaseSubtask: (contractAddress: Address, taskId: number) => releaseSubtask(sender, contractAddress, BigInt(taskId)),
         moderatorReleaseSubtask: (contractAddress: Address, taskId: number) => moderatorReleaseSubtask(sender, contractAddress, BigInt(taskId)),

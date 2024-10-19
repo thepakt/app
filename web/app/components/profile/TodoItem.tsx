@@ -7,7 +7,7 @@ export const TodoItem = ({ todo }: { todo: any }) => {
   return (
     <motion.li
       onClick={() => setIsExpanded(!isExpanded)}
-      className="flex flex-col cursor-pointer bg-neutral-700/40 p-3 rounded-md overflow-hidden"
+      className="flex flex-col cursor-pointer bg-neutral-700/40 p-3 rounded-xl overflow-hidden"
     >
       <motion.div className="flex items-center gap-4 justify-between">
         <div className="flex gap-2 overflow-hidden items-center">
@@ -15,8 +15,7 @@ export const TodoItem = ({ todo }: { todo: any }) => {
           <p
             className={`text-sm overflow-hidden ${
               isExpanded
-                ? /* Adding witespace-normal lets you see title but gives a weird animation */
-                  "whitespace-nowrap overflow-ellipsis"
+                ? "whitespace-nowrap overflow-ellipsis"
                 : "whitespace-nowrap overflow-ellipsis"
             }`}
           >

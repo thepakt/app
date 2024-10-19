@@ -1,15 +1,16 @@
 import { motion } from "framer-motion"
-import { useState, useRef, useEffect } from "react"
 import Picker from "react-mobile-picker"
-
-interface NewTodoProps {
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
-  onClose: () => void
-}
+import { useEffect, useRef, useState } from "react"
+import "react-datepicker/dist/react-datepicker.css"
+import { useAccount } from "~/lib/providers/jazz-provider"
+import { SubTaskList, Task } from "~/lib/schema/task"
 
 type TimeUnit = "Hours" | "Days" | "Weeks" | "Months"
 
-export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
+export default function NewTodo({ onClose }: { onClose: () => void }) {
+  const { me } = useAccount({ root: { tasks: [] } })
+  console.log(me, "me")
+
   const componentRef = useRef<HTMLDivElement>(null)
   const [title, setTitle] = useState("")
   const [notes, setNotes] = useState("")
@@ -63,9 +64,8 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
     setEstimatedTime((prev) => ({
       ...prev,
       ...newValue,
-    }));
-  };
-  
+    }))
+  }
 
   useEffect(() => {
     const clickOutside = (event: MouseEvent) => {
@@ -88,18 +88,21 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
       if (e.target instanceof HTMLTextAreaElement) {
         return
       }
+      if (!me?.root) return
       e.preventDefault()
-      setTodos((prevTodos) => [
+      const t = Task.create(
         {
-          id: Date.now(),
           title: title.trim(),
           notes: notes,
-          estimatedTime: estimatedTime,
-          bounty: bounty ? parseFloat(bounty) : 0,
-          dueDate: dueDate,
+          subtasks: SubTaskList.create([], { owner: me }),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          public: false,
+          completed: false,
         },
-        ...prevTodos,
-      ])
+        { owner: me },
+      )
+      me.root.tasks.push(t)
       onClose()
     }
   }

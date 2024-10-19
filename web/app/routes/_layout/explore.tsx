@@ -1,7 +1,75 @@
+import React from "react"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { getPublicTasks } from "~/actions"
 import { Filter } from "~/components/feed/Filter"
+import { User, DollarSign, Home, Search, User as UserIcon } from "lucide-react"
+import { Heart, Share, Wallet } from "lucide-react"
+
+const FeedItem = ({
+  username,
+  handle,
+  // rating,
+  title,
+  bounty,
+  estimatedTime,
+}: {
+  username: string
+  handle: string
+  // rating: number
+  title: string
+  bounty: number
+  estimatedTime: number
+}) => (
+  <div className="bg-black/30 rounded-3xl p-6 mb-4 max-w-md mx-auto">
+    <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center">
+        <div className="w-[40px] h-[40px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+        <div>
+          <h2 className="text-white font-semibold">{username}</h2>
+          <p className="text-gray-400 text-sm">{handle}</p>
+        </div>
+      </div>
+    </div>
+
+    <p className="text-white text-sm">{title}</p>
+
+    <div className="mb-6">
+      <h4 className="text-gray-400 text-sm mb-2">Requirements:</h4>
+      <div className="flex space-x-2">
+        <span className=" text-white px-4 py-0.5 rounded-md border border-whitetext-sm">
+          ${bounty}
+        </span>
+        <span className=" text-white px-4 py-0.5 rounded-md border border-white text-sm">
+          {estimatedTime}
+        </span>
+      </div>
+    </div>
+
+    <div className="flex justify-between text-gray-400 mt-4">
+      <button className="flex flex-col items-center">
+        <Heart className="w-3 h-3 mb-1" />
+        <span className="text-xs">I want it</span>
+      </button>
+      <button className="flex flex-col items-center">
+        <Share className="w-3 h-3 mb-1" />
+        <span className="text-xs">
+          I know who
+          <br />
+          want it
+        </span>
+      </button>
+      <button className="flex flex-col items-center">
+        <Wallet className="w-3 h-3 mb-1" />
+        <span className="text-xs">
+          I am ready to
+          <br />
+          pay for that
+        </span>
+      </button>
+    </div>
+  </div>
+)
 
 function RouteComponent() {
   const { data, isLoading, error } = useQuery({
@@ -16,72 +84,18 @@ function RouteComponent() {
   if (isLoading) return <></>
 
   return (
-    <main className="w-full flex items-center justify-center">
-      <section className="w-full p-4 py-[70px] max-w-[500px] h-full relative min-h-screen">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">Feed</h1>
-          <Filter />
-        </div>
-        <ul className="flex flex-col gap-4">
-          {/* @ts-ignore */}
-          {data.map((task) => {
-            return (
-              <li
-                key={task.id}
-                className="flex flex-col bg-neutral-800 p-4 rounded-lg drop-shadow-md gap-2"
-              >
-                <article>
-                  <header className="flex items-center justify-between gap-2">
-                    <div
-                      className="flex items-center cursor-pointer gap-2"
-                      onClick={() => {}}
-                    >
-                      <div className="min-w-[42px] w-[42px] hover:bg-neutral-600 transition-all h-[42px] bg-neutral-700 rounded-full" />
-                      <div className="flex flex-col">
-                        <h2 className="text-sm font-bold hover:text-primary-400 transition-all">
-                          {task.title}
-                        </h2>
-                        <p className="text-xs text-gray-500 cursor-pointer hover:text-gray-400 transition-all">
-                          {task.username}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="w-fit text-end text-[14px] font-medium bg-neutral-700 px-3 rounded-md p-1">
-                      {task.bounty}$
-                    </span>
-                  </header>
-                  <p className="mt-2 p-2 px-3 text-[14px] max-h-[160px] overflow-auto no-scrollbar bg-neutral-700/60 rounded-lg">
-                    {task.description}
-                  </p>
-                  <ul className="flex flex-col gap-2 mt-2">
-                    {/* {item.subtasks.map((subtask) => (
-                      <li
-                        key={subtask.id}
-                        className="flex items-center gap-3 w-full"
-                      >
-                        <span className="w-2 h-2 bg-gray-600 rounded-full"></span>
-                        <p className="text-[14px] flex items-center justify-between p-2 bg-neutral-700/60 rounded-lg w-full">
-                          {subtask.title}
-                          <span className="text-[12px] text-gray-400 pr-1 font-medium">
-                            {subtask.bounty}$
-                          </span>
-                        </p>
-                      </li>
-                    ))} */}
-                  </ul>
-                  <button className="w-full bg-blue-600 p-2 font-semibold rounded-md mt-2">
-                    Invest
-                  </button>
-                </article>
-              </li>
-            )
-          })}
-        </ul>
-      </section>
-    </main>
+    <div className="min-h-screen pt-16">
+      {" "}
+      {/* Add pt-16 for top padding */}
+      <main className="container mx-auto px-4">
+        {data?.map((task, index) => <FeedItem key={index} {...task} />)}
+      </main>
+    </div>
   )
 }
 
 export const Route = createFileRoute("/_layout/explore")({
-  component: () => <RouteComponent />,
+  component: RouteComponent,
 })
+
+export default RouteComponent

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "ts": "bun --watch scripts/run.ts"
   },
   "dependencies": {
     "@tanstack/react-form": "^0.33.0",

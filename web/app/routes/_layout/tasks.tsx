@@ -1,16 +1,19 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { Address } from "@ton/core"
 import { useTonAddress } from "@tonconnect/ui-react"
 import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
-import { getActiveTasks } from "~/actions"
+import { getActiveTasksAndNotifications } from "~/actions"
 import AddTodoButton from "~/components/AddTodoButton"
 import { DatePicker } from "~/components/DatePicker"
 import NewTask from "~/components/NewTask"
 import { TaskComponent } from "~/components/TaskComponent"
+import useActions from "~/lib/investor/useActions"
 
 function RouteComponent() {
   const address = useTonAddress()
+  const { startContract } = useActions()
   const [isNewTodoOpen, setIsNewTodoOpen] = useState(false)
   const [expandedTodoId, setExpandedTodoId] = useState<number | null>(null)
   useEffect(() => {
@@ -29,7 +32,9 @@ function RouteComponent() {
   const { data, error } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
-      const res = await getActiveTasks({ walletAddress: address })
+      const res = await getActiveTasksAndNotifications({
+        walletAddress: address,
+      })
       console.log(res)
       return res
     },
@@ -47,6 +52,24 @@ function RouteComponent() {
   return (
     <>
       <div className="w-full flex items-center justify-center">
+        <div>
+          {/* @ts-ignore */}
+          {data?.taskNotifications?.map((taskNotification) => {
+            return (
+              <div
+                key={taskNotification.id}
+                onClick={async () => {
+                  const contractStarted = await startContract(
+                    Address.parse(taskNotification.contractAddress),
+                  )
+                  console.log(contractStarted, "contractStarted")
+                }}
+              >
+                Can you do this? {taskNotification.contractAddress}
+              </div>
+            )
+          })}
+        </div>
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <DatePicker
             isOpen={isDatePickerOpen}
@@ -67,7 +90,7 @@ function RouteComponent() {
               )}
             </AnimatePresence>
             {/* @ts-ignore */}
-            {data?.map((task) => (
+            {data?.tasks?.map((task) => (
               <TaskComponent
                 key={task.id}
                 task={task}

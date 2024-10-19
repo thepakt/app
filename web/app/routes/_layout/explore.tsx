@@ -95,24 +95,12 @@ const FeedItem = ({
             setWaitingForTransaction(true)
             await new Promise((resolve) => setTimeout(resolve, 5000))
             setWaitingForTransaction(false)
-            // const createdContractAddress = await createContract({
-            //   performer: Address.parse(taskWithCreator.creator.walletAddress),
-            //   moderator: Address.parse(moderator.walletAddress),
-            //   tokenMaster: Address.parse(
-            //     "kQC6cYfMFYFur2IgJroc3wBxg-q4hOxsqGQwEYSEARxtOmZf", // LOM
-            //   ),
-            //   // TODO: support subtasks
-            //   tasks: [{ amount: BigInt(0) }],
-            //   // TODO: make this value dynamic
-            //   // TODO: make it smart so it adjusts based on the decimals of the jetton
-            //   finishAmount: BigInt(200),
-            // })
-            // setWaitingForTransaction(false)
-            // const acceptTaskNotification = await createAcceptTaskNotification({
-            //   taskId: taskWithCreator.id,
-            //   contractId: createdContractAddress.toString(),
-            // })
-            // console.log(acceptTaskNotification, "acceptTaskNotification")
+            const acceptTaskNotification = await createAcceptTaskNotification({
+              taskId: taskWithCreator.task.id,
+              contractAddress: createdContractAddress.toString(),
+              recieverWalletAddress: taskWithCreator.creator.walletAddress,
+            })
+            console.log(acceptTaskNotification, "acceptTaskNotification")
           }}
           className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 rounded-lg"
         >

@@ -26,7 +26,7 @@ function RouteComponent() {
   }, [])
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["/active-tasks"],
+    queryKey: ["/tasks"],
     queryFn: async () => {
       const res = await getActiveTasks({ walletAddress: address })
       console.log(res)
@@ -75,6 +75,6 @@ function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute("/_layout/active-tasks")({
+export const Route = createFileRoute("/tasks")({
   component: RouteComponent,
 })

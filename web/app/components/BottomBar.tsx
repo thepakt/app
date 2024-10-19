@@ -6,7 +6,7 @@ export default function Bottombar() {
       <div className="max-w-screen-xl mx-auto px-4 py-2">
         <div className="flex justify-around items-center">
           <BottomBarItem icon={<ExploreIcon />} href="/explore" />
-          <BottomBarItem icon={<TasksIcon />} href="/active-tasks" />
+          <BottomBarItem icon={<TasksIcon />} href="/tasks" />
           <BottomBarItem icon={<ProfileIcon />} href="/profile" />
         </div>
       </div>

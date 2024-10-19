@@ -63,6 +63,31 @@ export const getActiveTasks = createServerFn(
   },
 )
 
+export const getTaskWithItsCreator = createServerFn(
+  "POST",
+  async (data: { taskId: string }) => {
+    const task = await get.task.with({
+      id: data.taskId,
+    })
+    if (!task) throw new Error("Task not found")
+    const user = await get.user.with({
+      id: task.creator,
+    })
+    return {
+      ...task,
+      creator: user,
+    }
+  },
+)
+
+export const getModerator = createServerFn("POST", async (data: {}) => {
+  const moderator = await get.user.with({
+    // TODO: for now hard coding olya's wallet address
+    walletAddress: "UQBKIwvbUPZ5fTCUFvCiD9bUSIljJ3cafNaxQ46YPapJcAaq",
+  })
+  return moderator
+})
+
 export const getPublicTasks = createServerFn("POST", async (data: {}) => {
   const tasks = await get.tasks()
   return tasks

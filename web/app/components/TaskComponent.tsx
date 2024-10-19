@@ -100,6 +100,38 @@ export function TaskComponent({
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
+              <div className="flex flex-col">
+                <span className="text-gray-400 font-light mb-1">Subtasks</span>
+                {task.subtasks.map((subtask, index) => (
+                  <div key={index} className="flex items-center mb-1">
+                    <input
+                      type="checkbox"
+                      checked={subtask.completed}
+                      onChange={() => {
+                        subtask.completed = !subtask.completed
+                      }}
+                      className="mr-2"
+                    />
+                    <input
+                      type="text"
+                      value={subtask.title}
+                      onChange={(e) => {
+                        subtask.title = e.target.value
+                      }}
+                      className="bg-inherit font-normal p-2 outline-none focus:ring-none scrollbar-hide flex-grow"
+                    />
+                  </div>
+                ))}
+                <button
+                  onClick={() => {
+                    task.subtasks.push({ title: "", completed: false })
+                    // You might want to add a function to update the task on the server here
+                  }}
+                  className="text-blue-500 text-sm mt-1"
+                >
+                  Add Subtask
+                </button>
+              </div>
               <div>
                 <span className="text-gray-400 mr-2">$</span>
                 <input

@@ -5,10 +5,10 @@ import { BaseModel } from "./base"
 
 export class Task extends BaseModel {
   title = co.string
-  notes = co.optional.string
-  subtasks = co.ref(SubTaskList)
-  public = co.boolean
   completed = co.boolean
+  notes = co.optional.string
+  subtasks = co.ref(CoList.Of(SubTask))
+  public = co.boolean
   bountyEstimatedTimeInHours = co.optional.number // 24 (means 1 day)
   bountyPriceInUSDT = co.optional.number
 }

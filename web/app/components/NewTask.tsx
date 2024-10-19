@@ -15,6 +15,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState("")
   const [notes, setNotes] = useState("")
   const [bounty, setBounty] = useState("")
+  const [subtasks, setSubtasks] = useState<string[]>([])
   const [estimatedTimeOptions, setEstimatedTimeOptions] = useState<{
     amount: number[]
     unit: TimeUnit[]
@@ -49,7 +50,6 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
         break
     }
 
-    // Update the state with the new amount array
     setEstimatedTimeOptions((prev) => ({
       ...prev,
       amount: newAmount,
@@ -57,7 +57,6 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
   }, [estimatedTimeOptions.unit])
 
   const handlePickerChange = (newValue: Partial<typeof estimatedTime>) => {
-    // Update the state with the new value for amount or unit
     setEstimatedTime((prev) => ({
       ...prev,
       ...newValue,
@@ -80,37 +79,17 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
     }
   }, [onClose])
 
-  // const handleAddTodo = async (e: React.KeyboardEvent<HTMLElement>) => {
-  //   if (e.key === "Enter" && !e.shiftKey && title.trim()) {
-  //     if (e.target instanceof HTMLTextAreaElement) {
-  //       return
-  //     }
-  //     if (!address) return
-  //     e.preventDefault()
-  //     const taskCreated = await createTask({
-  //       task: {
-  //         title: title.trim(),
-  //         notes: notes,
-  //         public: false,
-  //         bountyEstimatedTimeInHours: estimatedTime.amount,
-  //         bountyPriceInUSDT: Number(bounty),
-  //       },
-  //       userWalletAddress: address,
-  //     })
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["tasks"],
-  //       refetchType: "all",
-  //     })
-  //     console.log(taskCreated, "task created")
-  //     onClose()
-  //   }
-  // }
-
   return (
     <motion.div
       ref={componentRef}
       initial={{ opacity: 0, y: -20, height: 0, margin: "0" }}
-      animate={{ opacity: 1, y: 0, height: "auto", margin: "0 0 16px 0", padding: "16px" }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        height: "auto",
+        margin: "0 0 16px 0",
+        padding: "16px",
+      }}
       exit={{ opacity: 0, y: -20, height: 0, margin: 0, padding: 0 }}
       transition={{ type: "ease-in-out", duration: 0.3 }}
       className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg"
@@ -139,6 +118,38 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
         className="w-full bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"
         placeholder="Notes"
       />
+
+      <div className="flex flex-col mb-2">
+        <span className="font-thin text-xs mb-1">Subtasks:</span>
+        {subtasks.map((subtask, index) => (
+          <div key={index} className="flex items-center mb-1">
+            <input
+              type="text"
+              value={subtask}
+              onChange={(e) => {
+                const newSubtasks = [...subtasks]
+                newSubtasks[index] = e.target.value
+                setSubtasks(newSubtasks)
+              }}
+              className="flex-grow bg-white/10 rounded-xl px-3 py-1 text-sm outline-none"
+            />
+            <button
+              onClick={() =>
+                setSubtasks(subtasks.filter((_, i) => i !== index))
+              }
+            >
+              remove
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={() => setSubtasks([...subtasks, ""])}
+          className="items-start mt-1"
+        >
+          Add
+        </button>
+      </div>
+
       <div className="flex flex-col mb-2">
         <div className="flex flex-col gap-1">
           <span className="font-thin text-xs">Estimated time: </span>
@@ -187,6 +198,10 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
                   public: false,
                   bountyEstimatedTimeInHours: estimatedTime.amount,
                   bountyPriceInUsdt: Number(bounty),
+                  subtasks: subtasks.map((subtask) => ({
+                    title: subtask,
+                    completed: false,
+                  })),
                 },
                 userWalletAddress: address,
               })

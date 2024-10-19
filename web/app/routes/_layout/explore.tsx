@@ -46,22 +46,22 @@ const FeedItem = ({
       </div>
     </div>
 
-    <div className="flex justify-between text-gray-400 mt-4">
-      <button className="flex flex-col items-center">
+    <div className="flex flex-row gap-5 text-white/90 mt-4">
+      <button className="flex flex-col items-center w-1/3">
         <Heart className="w-3 h-3 mb-1" />
-        <span className="text-xs">I want it</span>
+        <span className="text-[9px] text-center">I want it</span>
       </button>
-      <button className="flex flex-col items-center">
+      <button className="flex flex-col items-center w-1/3">
         <Share className="w-3 h-3 mb-1" />
-        <span className="text-xs">
+        <span className="text-[9px] text-center">
           I know who
           <br />
           want it
         </span>
       </button>
-      <button className="flex flex-col items-center">
+      <button className="flex flex-col items-center w-1/3">
         <Wallet className="w-3 h-3 mb-1" />
-        <span className="text-xs">
+        <span className="text-[9px] text-center">
           I am ready to
           <br />
           pay for that

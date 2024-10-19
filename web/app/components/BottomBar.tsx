@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router"
+import { Link, useRouter } from "@tanstack/react-router"
 
 export default function Bottombar() {
   return (
@@ -21,12 +21,15 @@ function BottomBarItem({
   icon: React.ReactNode
   href: string
 }) {
+  const router = useRouter()
+  const isActive = router.state.location.pathname === href
+
   return (
     <Link
-      href={href}
+      to={href}
       className="flex flex-col items-center py-2 px-4 transition-colors"
     >
-      <div className="text-[#8E8E93] hover:text-[#007AFF] active:text-[#007AFF]">
+      <div className={`${isActive ? "text-[#007AFF]" : "text-[#8E8E93]"} `}>
         {icon}
       </div>
     </Link>

@@ -16,7 +16,8 @@ export default function useActions() {
         releaseSubtask: (contractAddress: Address, taskId: number) => releaseSubtask(sender, contractAddress, BigInt(taskId)),
         moderatorReleaseSubtask: (contractAddress: Address, taskId: number) => moderatorReleaseSubtask(sender, contractAddress, BigInt(taskId)),
         moderatorCancelContract: (contractAddress: Address) => moderatorCancel(sender, contractAddress),
-        cancelByPerformer: (contractAddress: Address) => cancelByPerformer(sender, contractAddress)
+        cancelByPerformer: (contractAddress: Address) => cancelByPerformer(sender, contractAddress),
+        getData
     }), [sender])
 }
 type InitalizeContractData = {
@@ -28,7 +29,10 @@ type InitalizeContractData = {
 
     finishAmount: bigint;
 }
-
+async function getData(address: Address) {
+    const tonInvestor = tonClient.open(TonInvestor.fromAddress(address));
+    return tonInvestor.getData();
+}
 async function createContract(sender: Sender, {
     investor,
     performer,

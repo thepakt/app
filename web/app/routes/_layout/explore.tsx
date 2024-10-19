@@ -75,7 +75,7 @@ const FeedItem = ({
               tokenMaster: Address.parse(
                 "kQC6cYfMFYFur2IgJroc3wBxg-q4hOxsqGQwEYSEARxtOmZf", // LOM
               ),
-              tasks: [{ amount: BigInt(200) }],
+              tasks: [{ amount: BigInt(0) }],
               // TODO: make it smart so it adjusts based on the decimals of the jetton
               finishAmount: BigInt(200),
             })

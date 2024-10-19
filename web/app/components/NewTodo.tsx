@@ -32,31 +32,31 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
     }
   }, [onClose])
 
-  const handleAddTodo = (
-    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleAddTodo = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter" && !e.shiftKey && title.trim()) {
-      if (e.currentTarget.tagName.toLowerCase() === "input") {
-        e.preventDefault()
-        setTodos((prevTodos) => [
-          {
-            id: Date.now(),
-            title: title.trim(),
-            notes: notes,
-            estimatedTime: estimatedTime,
-            bounty: bounty ? parseFloat(bounty) : 0,
-            dueDate: dueDate,
-          },
-          ...prevTodos,
-        ])
-        onClose()
+      if (e.target instanceof HTMLTextAreaElement) {
+        return
       }
+      e.preventDefault()
+      setTodos((prevTodos) => [
+        {
+          id: Date.now(),
+          title: title.trim(),
+          notes: notes,
+          estimatedTime: estimatedTime,
+          bounty: bounty ? parseFloat(bounty) : 0,
+          dueDate: dueDate,
+        },
+        ...prevTodos,
+      ])
+      onClose()
     }
   }
 
   return (
     <motion.div
       ref={componentRef}
+      onKeyDown={handleAddTodo}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -65,8 +65,8 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
       <input
         type="text"
         value={title}
+        autoFocus
         onChange={(e) => setTitle(e.target.value)}
-        onKeyDown={handleAddTodo}
         className="w-full bg-transparent outline-none text-md font-light mb-2"
         placeholder="New Todo Title"
       />
@@ -81,8 +81,6 @@ export default function NewTodo({ setTodos, onClose }: NewTodoProps) {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault()
             setNotes(notes + "\n")
-          } else {
-            handleAddTodo(e)
           }
         }}
         className="w-full bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"

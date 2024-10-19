@@ -21,7 +21,6 @@ export default function useActions() {
     }), [sender])
 }
 type InitalizeContractData = {
-    investor: Address;
     performer: Address;
     moderator: Address;
     tokenMaster: Address;

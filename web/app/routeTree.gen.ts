@@ -15,6 +15,7 @@ import { Route as UsersImport } from './routes/users'
 import { Route as TryImport } from './routes/try'
 import { Route as TodosImport } from './routes/todos'
 import { Route as RedirectImport } from './routes/redirect'
+import { Route as ProfileImport } from './routes/profile'
 import { Route as PostsImport } from './routes/posts'
 import { Route as NewRouteImport } from './routes/new-route'
 import { Route as NewAirdropForClaimImport } from './routes/new-airdrop-for-claim'
@@ -53,6 +54,11 @@ const TodosRoute = TodosImport.update({
 
 const RedirectRoute = RedirectImport.update({
   path: '/redirect',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProfileRoute = ProfileImport.update({
+  path: '/profile',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -122,8 +128,8 @@ const UsersUserIdRoute = UsersUserIdImport.update({
 } as any)
 
 const ProfileAppRoute = ProfileAppImport.update({
-  path: '/profile/app',
-  getParentRoute: () => rootRoute,
+  path: '/app',
+  getParentRoute: () => ProfileRoute,
 } as any)
 
 const PostsPostIdRoute = PostsPostIdImport.update({
@@ -220,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsImport
       parentRoute: typeof rootRoute
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
+      parentRoute: typeof rootRoute
+    }
     '/redirect': {
       id: '/redirect'
       path: '/redirect'
@@ -271,10 +284,10 @@ declare module '@tanstack/react-router' {
     }
     '/profile/app': {
       id: '/profile/app'
-      path: '/profile/app'
+      path: '/app'
       fullPath: '/profile/app'
       preLoaderRoute: typeof ProfileAppImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof ProfileImport
     }
     '/users/$userId': {
       id: '/users/$userId'
@@ -321,6 +334,17 @@ const PostsRouteChildren: PostsRouteChildren = {
 
 const PostsRouteWithChildren = PostsRoute._addFileChildren(PostsRouteChildren)
 
+interface ProfileRouteChildren {
+  ProfileAppRoute: typeof ProfileAppRoute
+}
+
+const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfileAppRoute: ProfileAppRoute,
+}
+
+const ProfileRouteWithChildren =
+  ProfileRoute._addFileChildren(ProfileRouteChildren)
+
 interface UsersRouteChildren {
   UsersUserIdRoute: typeof UsersUserIdRoute
   UsersIndexRoute: typeof UsersIndexRoute
@@ -344,6 +368,7 @@ export interface FileRoutesByFullPath {
   '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
   '/new-route': typeof NewRouteRoute
   '/posts': typeof PostsRouteWithChildren
+  '/profile': typeof ProfileRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
@@ -368,6 +393,7 @@ export interface FileRoutesByTo {
   '/multi-wallet-transaction': typeof MultiWalletTransactionRoute
   '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
   '/new-route': typeof NewRouteRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
@@ -393,6 +419,7 @@ export interface FileRoutesById {
   '/new-airdrop-for-claim': typeof NewAirdropForClaimRoute
   '/new-route': typeof NewRouteRoute
   '/posts': typeof PostsRouteWithChildren
+  '/profile': typeof ProfileRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
@@ -420,6 +447,7 @@ export interface FileRouteTypes {
     | '/new-airdrop-for-claim'
     | '/new-route'
     | '/posts'
+    | '/profile'
     | '/redirect'
     | '/todos'
     | '/try'
@@ -443,6 +471,7 @@ export interface FileRouteTypes {
     | '/multi-wallet-transaction'
     | '/new-airdrop-for-claim'
     | '/new-route'
+    | '/profile'
     | '/redirect'
     | '/todos'
     | '/try'
@@ -466,6 +495,7 @@ export interface FileRouteTypes {
     | '/new-airdrop-for-claim'
     | '/new-route'
     | '/posts'
+    | '/profile'
     | '/redirect'
     | '/todos'
     | '/try'
@@ -492,13 +522,13 @@ export interface RootRouteChildren {
   NewAirdropForClaimRoute: typeof NewAirdropForClaimRoute
   NewRouteRoute: typeof NewRouteRoute
   PostsRoute: typeof PostsRouteWithChildren
+  ProfileRoute: typeof ProfileRouteWithChildren
   RedirectRoute: typeof RedirectRoute
   TodosRoute: typeof TodosRoute
   TryRoute: typeof TryRoute
   UsersRoute: typeof UsersRouteWithChildren
   ActiveTasksAppRoute: typeof ActiveTasksAppRoute
   ExploreAppRoute: typeof ExploreAppRoute
-  ProfileAppRoute: typeof ProfileAppRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
 
@@ -513,13 +543,13 @@ const rootRouteChildren: RootRouteChildren = {
   NewAirdropForClaimRoute: NewAirdropForClaimRoute,
   NewRouteRoute: NewRouteRoute,
   PostsRoute: PostsRouteWithChildren,
+  ProfileRoute: ProfileRouteWithChildren,
   RedirectRoute: RedirectRoute,
   TodosRoute: TodosRoute,
   TryRoute: TryRoute,
   UsersRoute: UsersRouteWithChildren,
   ActiveTasksAppRoute: ActiveTasksAppRoute,
   ExploreAppRoute: ExploreAppRoute,
-  ProfileAppRoute: ProfileAppRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
 
@@ -545,13 +575,13 @@ export const routeTree = rootRoute
         "/new-airdrop-for-claim",
         "/new-route",
         "/posts",
+        "/profile",
         "/redirect",
         "/todos",
         "/try",
         "/users",
         "/active-tasks/app",
         "/explore/app",
-        "/profile/app",
         "/posts/$postId/deep"
       ]
     },
@@ -589,6 +619,12 @@ export const routeTree = rootRoute
         "/posts/"
       ]
     },
+    "/profile": {
+      "filePath": "profile.tsx",
+      "children": [
+        "/profile/app"
+      ]
+    },
     "/redirect": {
       "filePath": "redirect.tsx"
     },
@@ -616,7 +652,8 @@ export const routeTree = rootRoute
       "parent": "/posts"
     },
     "/profile/app": {
-      "filePath": "profile/app.tsx"
+      "filePath": "profile/app.tsx",
+      "parent": "/profile"
     },
     "/users/$userId": {
       "filePath": "users.$userId.tsx",

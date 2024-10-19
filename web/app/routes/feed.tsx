@@ -1,5 +1,6 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
+import { feedItems } from "~/components/feed/feedData"
 import { Filter } from "~/components/feed/Filter"
 
 export interface FeedItem {
@@ -17,48 +18,7 @@ export interface FeedItem {
 }
 function RouteComponent() {
   const router = useRouter()
-  const [feedItems, setFeedItems] = useState<FeedItem[]>([
-    {
-      id: 1,
-      username: "@Peter_0555",
-      prettyName: "Peter",
-      description:
-        "Made a Todo app using tanstack and tailwind as the front and Ronin as the back",
-      bounty: 200,
-      subtasks: [
-        {
-          id: 1,
-          title: "Make the backend work",
-          bounty: 100,
-        },
-        {
-          id: 2,
-          title: "Add nice UI using tailwind",
-          bounty: 100,
-        },
-      ],
-    },
-    {
-      id: 2,
-      username: "@Peter_0555",
-      prettyName: "Peter",
-      description:
-        "Made a Todo app using tanstack and tailwind as the front and Ronin as the back",
-      bounty: 200,
-      subtasks: [
-        {
-          id: 1,
-          title: "Make the backend work",
-          bounty: 100,
-        },
-        {
-          id: 2,
-          title: "Add nice UI using tailwind",
-          bounty: 100,
-        },
-      ],
-    },
-  ])
+
   return (
     <main className="w-full flex items-center justify-center">
       <section className="w-full p-4 py-[70px] max-w-[500px] h-full relative min-h-screen">

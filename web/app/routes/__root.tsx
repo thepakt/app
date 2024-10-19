@@ -66,8 +66,7 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <RootDocument>
-      {/* TODO: add our own manifestUrl */}
-      <TonConnectUIProvider manifestUrl="https://gist.githubusercontent.com/nikitavoloboev/3a20b9deaa0c12e84f662776177aad52/raw/da68c1ae363a5b940f2f92bf997011332460e835/manifest.json">
+      <TonConnectUIProvider manifestUrl="https://gist.githubusercontent.com/nikitavoloboev/e95b5d8890134a00d8c533ebcca8780b/raw/da5b438ed3cd0d9d58c317b393a4914450e94de9/gistfile1.txt">
         <Outlet />
       </TonConnectUIProvider>
       <Toaster />

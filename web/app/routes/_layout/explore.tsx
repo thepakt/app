@@ -56,6 +56,9 @@ function RouteComponent() {
                     </li>
                   ))}
                 </ul>
+                <button className="w-full bg-blue-600 p-2 font-semibold rounded-md mt-2">
+                  Invest
+                </button>
               </article>
             </li>
           ))}

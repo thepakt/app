@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { useProxy } from "valtio/utils"
 import { globalState } from "~/routes/__root"
 
-type TimeUnit = "Hours" | "Days" | "Weeks" | "Months"
+type TimeUnit = "Hours" | "Days"
 
 export default function NewTask({ onClose }: { onClose: () => void }) {
   const global = useProxy(globalState)
@@ -14,13 +14,12 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState("")
   const [notes, setNotes] = useState("")
   const [bounty, setBounty] = useState("")
-  const [dueDate, setDueDate] = useState<Date | null>(null)
   const [estimatedTimeOptions, setEstimatedTimeOptions] = useState<{
     amount: number[]
     unit: TimeUnit[]
   }>({
     amount: Array.from(Array(10).keys()).filter((el) => el),
-    unit: ["Hours", "Days", "Weeks", "Months"],
+    unit: ["Hours", "Days"],
   })
   const [estimatedTime, setEstimatedTime] = useState({
     amount: 1,
@@ -118,6 +117,17 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
     }
   }
 
+  const addTodo = () => {
+    const payload = {
+      title,
+      notes,
+      estimatedTime,
+      bounty
+    }
+
+    console.log(payload)
+  }
+
   return (
     <motion.div
       ref={componentRef}
@@ -167,7 +177,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
           </Picker>
         </div>
 
-        <div className="relative w-[30%] bg-white/10 rounded-xl px-3 py-1">
+        <div className="relative bg-white/10 rounded-xl px-3 py-1">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $
           </span>
@@ -181,9 +191,19 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
                 setBounty(value)
               }
             }}
-            className="w-20 bg-transparent outline-none text-sm pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-100 bg-transparent outline-none text-sm pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="Amount"
           />
+        </div>
+
+        <div className="pt-6">
+          <button
+            type="button"
+            className="py-1 h-9 bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
+            onClick={addTodo}
+          >
+            Create todo
+          </button>
         </div>
       </div>
     </motion.div>

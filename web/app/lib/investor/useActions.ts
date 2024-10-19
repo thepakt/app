@@ -17,7 +17,8 @@ export default function useActions() {
         moderatorReleaseSubtask: (contractAddress: Address, taskId: number) => moderatorReleaseSubtask(sender, contractAddress, BigInt(taskId)),
         moderatorCancelContract: (contractAddress: Address) => moderatorCancel(sender, contractAddress),
         cancelByPerformer: (contractAddress: Address) => cancelByPerformer(sender, contractAddress),
-        getData
+        getData,
+        startContract: (contractAddress: Address) => startContract(sender, contractAddress),
     }), [sender])
 }
 type InitalizeContractData = {
@@ -39,58 +40,6 @@ async function createContract(sender: Sender, {
     tasks: tasksMap,
     finishAmount
 }: InitalizeContractData) {
-    // const tonInvestor = tonClient.open(await TonGuarantee.fromInit(investor, performer, moderator));
-    // const master = tonClient.open(JettonMaster.fromAddress(tokenMaster));
-    // const childAddress = await master.getGetWalletAddress(tonInvestor.address);
-    // const tasks = Dictionary.empty<number, OneTask>();
-    // for (const [key, value] of tasksMap.map((task, index) => [index, task] as [number, { amount: bigint }])) {
-    //     tasks.set(key, {
-    //         $$type: 'OneTask',
-    //         amount: value.amount,
-    //         finished: false
-    //     });
-    // }
-    //
-    // const senderJetton = tonClient.open(JettonChild.fromAddress(await master.getGetWalletAddress(sender.address!)));
-    // const senderBalance = await senderJetton.getGetWalletData().then((e) => e.balance);
-    // const amountToSend = tasks.values().map(e => e.amount).reduce((a, b) => a + b) + finishAmount;
-    // if (senderBalance < amountToSend) {
-    //     throw new Error('Not enough balance');
-    // }
-    // await Promise.all([
-    //     tonInvestor.send(sender, {value: toNano('0.03')}, {
-    //         $$type: 'InitializeContract',
-    //         subtasksIT: {
-    //             $$type: 'Subtasks',
-    //             token: childAddress,
-    //             finishAmount: finishAmount,
-    //             tasks
-    //         }
-    //     }),
-    //     senderJetton.send(sender, {value: toNano('0.14')}, {
-    //         $$type: 'TokenTransfer',
-    //         queryId: 0n,
-    //         amount: amountToSend,
-    //         destination: tonInvestor.address,
-    //         response_destination: sender.address!,
-    //         custom_payload: null,
-    //         forward_ton_amount: 1n,
-    //         forward_payload: beginCell().storeUint(32, 0).storeStringTail('Comment').endCell()
-    //     })
-    // ]);
-    // await new Promise(resolve => setTimeout(resolve, 10_000));
-    // for (let i = 0; i < 10; i++) {
-    //     try {
-    //         const balance = await tonClient.getBalance(tonInvestor.address);
-    //         if (balance > 0) {
-    //             return tonInvestor.address;
-    //         }
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    //     await new Promise(resolve => setTimeout(resolve, 10_000));
-    // }
-    // throw new Error('Contract not created');
     const collection = tonClient.open(await Collection.fromInit());
     let tasks: Dictionary<number, OneTask> = Dictionary.empty();
     for(let i = 0; i < tasksMap.length; i++) {
@@ -102,6 +51,7 @@ async function createContract(sender: Sender, {
     }
 
     const tokenMaster = tonClient.open(JettonMaster.fromAddress(master));
+    //TODO: add secure random
     const randomId = BigInt(Math.floor(Math.random() * 1000000));
     const collectionJetton = tonClient.open(
         JettonChild.fromAddress(await tokenMaster.getGetWalletAddress(collection.address)),
@@ -211,3 +161,7 @@ async function cancelByPerformer(sender: Sender, contractAddress: Address) {
     await tonInvestor.send(sender, {value: toNano('0.18')}, 'cancel_performer');
 }
 
+async function startContract(sender: Sender, contractAddress: Address) {
+    const tonInvestor = tonClient.open(TonGuarantee.fromAddress(contractAddress));
+    await tonInvestor.send(sender, {value: toNano('0.02'), bounce: false}, 'start');
+}

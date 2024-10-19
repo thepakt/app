@@ -1,18 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { ID } from "jazz-tools"
 import { Circle } from "lucide-react"
 import "react-datepicker/dist/react-datepicker.css"
-import { Task } from "~/lib/schema/task"
+import { useProxy } from "valtio/utils"
+import { globalState, TaskType } from "~/routes/__root"
 
 export function TaskComponent({
   task,
   isExpanded,
   onClick,
 }: {
-  task: Task
+  task: TaskType
   isExpanded: boolean
-  onClick: (taskId: ID<Task>) => void
+  onClick: (taskId: number) => void
 }) {
+  const global = useProxy(globalState)
+
   const truncateNotes = (notes: string) => {
     const lines = notes.split("\n")
     if (lines.length > 10) {
@@ -40,6 +42,7 @@ export function TaskComponent({
             <textarea
               value={task.title}
               onChange={(e) => {
+                // @ts-ignore
                 task.title = e.target.value
               }}
               className="flex-grow bg-transparent text-md scrollbar-hide h-full font-light outline-none focus:border-white/50 transition-colors resize-none w-full"
@@ -68,9 +71,11 @@ export function TaskComponent({
                   value={truncateNotes(task.notes || "")}
                   autoFocus
                   onChange={(e) => {
+                    // @ts-ignore
                     task.notes = e.target.value
                   }}
                   className="bg-inherit font-normal p-2 outline-none focus:ring-none scrollbar-hide"
+                  // @ts-ignore
                   rows={Math.min(10, task.notes?.split("\n").length || 0)}
                   onClick={(e) => e.stopPropagation()}
                 />
@@ -100,9 +105,11 @@ export function TaskComponent({
                     value={task.bountyPriceInUSDT || ""}
                     onChange={(e) => {
                       e.stopPropagation()
+                      // @ts-ignore
                       task.bountyPriceInUSDT = Number(e.target.value)
                       const value = e.target.value
                       if (value === "" || /^\d*\.?\d*$/.test(value)) {
+                        // @ts-ignore
                         task.bountyPriceInUSDT = Number(e.target.value)
                       }
                     }}

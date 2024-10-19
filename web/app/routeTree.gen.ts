@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as UsersImport } from './routes/users'
 import { Route as TryImport } from './routes/try'
 import { Route as TodosImport } from './routes/todos'
+import { Route as TasksImport } from './routes/tasks'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as PublicProfileImport } from './routes/public-profile'
 import { Route as ProfileImport } from './routes/profile'
@@ -32,7 +33,6 @@ import { Route as UsersIndexImport } from './routes/users.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as UsersUserIdImport } from './routes/users.$userId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
-import { Route as LayoutActiveTasksImport } from './routes/_layout/active-tasks'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
 
 // Create/Update Routes
@@ -49,6 +49,11 @@ const TryRoute = TryImport.update({
 
 const TodosRoute = TodosImport.update({
   path: '/todos',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TasksRoute = TasksImport.update({
+  path: '/tasks',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -140,11 +145,6 @@ const UsersUserIdRoute = UsersUserIdImport.update({
 const PostsPostIdRoute = PostsPostIdImport.update({
   path: '/$postId',
   getParentRoute: () => PostsRoute,
-} as any)
-
-const LayoutActiveTasksRoute = LayoutActiveTasksImport.update({
-  path: '/active-tasks',
-  getParentRoute: () => LayoutRoute,
 } as any)
 
 const PostsPostIdDeepRoute = PostsPostIdDeepImport.update({
@@ -254,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RedirectImport
       parentRoute: typeof rootRoute
     }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksImport
+      parentRoute: typeof rootRoute
+    }
     '/todos': {
       id: '/todos'
       path: '/todos'
@@ -274,13 +281,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/users'
       preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
-    }
-    '/_layout/active-tasks': {
-      id: '/_layout/active-tasks'
-      path: '/active-tasks'
-      fullPath: '/active-tasks'
-      preLoaderRoute: typeof LayoutActiveTasksImport
-      parentRoute: typeof LayoutImport
     }
     '/posts/$postId': {
       id: '/posts/$postId'
@@ -322,17 +322,6 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface LayoutRouteChildren {
-  LayoutActiveTasksRoute: typeof LayoutActiveTasksRoute
-}
-
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutActiveTasksRoute: LayoutActiveTasksRoute,
-}
-
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
-
 interface PostsRouteChildren {
   PostsPostIdRoute: typeof PostsPostIdRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -359,7 +348,7 @@ const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof LayoutRouteWithChildren
+  '': typeof LayoutRoute
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -372,10 +361,10 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/public-profile': typeof PublicProfileRoute
   '/redirect': typeof RedirectRoute
+  '/tasks': typeof TasksRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
-  '/active-tasks': typeof LayoutActiveTasksRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
@@ -385,7 +374,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof LayoutRouteWithChildren
+  '': typeof LayoutRoute
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -397,9 +386,9 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/public-profile': typeof PublicProfileRoute
   '/redirect': typeof RedirectRoute
+  '/tasks': typeof TasksRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
-  '/active-tasks': typeof LayoutActiveTasksRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts': typeof PostsIndexRoute
@@ -410,7 +399,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout': typeof LayoutRoute
   '/chat': typeof ChatRoute
   '/claim-airdrop': typeof ClaimAirdropRoute
   '/deferred': typeof DeferredRoute
@@ -423,10 +412,10 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/public-profile': typeof PublicProfileRoute
   '/redirect': typeof RedirectRoute
+  '/tasks': typeof TasksRoute
   '/todos': typeof TodosRoute
   '/try': typeof TryRoute
   '/users': typeof UsersRouteWithChildren
-  '/_layout/active-tasks': typeof LayoutActiveTasksRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts/': typeof PostsIndexRoute
@@ -451,10 +440,10 @@ export interface FileRouteTypes {
     | '/profile'
     | '/public-profile'
     | '/redirect'
+    | '/tasks'
     | '/todos'
     | '/try'
     | '/users'
-    | '/active-tasks'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts/'
@@ -475,9 +464,9 @@ export interface FileRouteTypes {
     | '/profile'
     | '/public-profile'
     | '/redirect'
+    | '/tasks'
     | '/todos'
     | '/try'
-    | '/active-tasks'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts'
@@ -499,10 +488,10 @@ export interface FileRouteTypes {
     | '/profile'
     | '/public-profile'
     | '/redirect'
+    | '/tasks'
     | '/todos'
     | '/try'
     | '/users'
-    | '/_layout/active-tasks'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts/'
@@ -513,7 +502,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LayoutRoute: typeof LayoutRouteWithChildren
+  LayoutRoute: typeof LayoutRoute
   ChatRoute: typeof ChatRoute
   ClaimAirdropRoute: typeof ClaimAirdropRoute
   DeferredRoute: typeof DeferredRoute
@@ -526,6 +515,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   PublicProfileRoute: typeof PublicProfileRoute
   RedirectRoute: typeof RedirectRoute
+  TasksRoute: typeof TasksRoute
   TodosRoute: typeof TodosRoute
   TryRoute: typeof TryRoute
   UsersRoute: typeof UsersRouteWithChildren
@@ -534,7 +524,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LayoutRoute: LayoutRouteWithChildren,
+  LayoutRoute: LayoutRoute,
   ChatRoute: ChatRoute,
   ClaimAirdropRoute: ClaimAirdropRoute,
   DeferredRoute: DeferredRoute,
@@ -547,6 +537,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   PublicProfileRoute: PublicProfileRoute,
   RedirectRoute: RedirectRoute,
+  TasksRoute: TasksRoute,
   TodosRoute: TodosRoute,
   TryRoute: TryRoute,
   UsersRoute: UsersRouteWithChildren,
@@ -579,6 +570,7 @@ export const routeTree = rootRoute
         "/profile",
         "/public-profile",
         "/redirect",
+        "/tasks",
         "/todos",
         "/try",
         "/users",
@@ -589,10 +581,7 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/_layout": {
-      "filePath": "_layout.tsx",
-      "children": [
-        "/_layout/active-tasks"
-      ]
+      "filePath": "_layout.tsx"
     },
     "/chat": {
       "filePath": "chat.tsx"
@@ -634,6 +623,9 @@ export const routeTree = rootRoute
     "/redirect": {
       "filePath": "redirect.tsx"
     },
+    "/tasks": {
+      "filePath": "tasks.tsx"
+    },
     "/todos": {
       "filePath": "todos.tsx"
     },
@@ -646,10 +638,6 @@ export const routeTree = rootRoute
         "/users/$userId",
         "/users/"
       ]
-    },
-    "/_layout/active-tasks": {
-      "filePath": "_layout/active-tasks.tsx",
-      "parent": "/_layout"
     },
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx",

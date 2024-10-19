@@ -2,14 +2,14 @@ import { motion } from "framer-motion"
 import Picker from "react-mobile-picker"
 import { useEffect, useRef, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
-import { useAccount } from "~/lib/providers/jazz-provider"
-import { SubTaskList, Task } from "~/lib/schema/task"
+import { useProxy } from "valtio/utils"
+import { SubTaskList } from "~/lib/schema/task"
+import { globalState } from "~/routes/__root"
 
 type TimeUnit = "Hours" | "Days" | "Weeks" | "Months"
 
 export default function NewTodo({ onClose }: { onClose: () => void }) {
-  const { me } = useAccount({ root: { tasks: [] } })
-  console.log(me, "me")
+  const global = useProxy(globalState)
 
   const componentRef = useRef<HTMLDivElement>(null)
   const [title, setTitle] = useState("")
@@ -88,21 +88,34 @@ export default function NewTodo({ onClose }: { onClose: () => void }) {
       if (e.target instanceof HTMLTextAreaElement) {
         return
       }
-      if (!me?.root) return
+      // if (!me?.root) return
       e.preventDefault()
-      const t = Task.create(
-        {
-          title: title.trim(),
-          notes: notes,
-          subtasks: SubTaskList.create([], { owner: me }),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          public: false,
-          completed: false,
-        },
-        { owner: me },
-      )
-      me.root.tasks.push(t)
+      global.user.tasks.push({
+        // @ts-ignore
+        title: title.trim(),
+        // @ts-ignore
+        notes: notes,
+        // @ts-ignore
+        subtasks: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        public: false,
+        completed: false,
+        id: crypto.randomUUID(),
+      })
+      // const t = Task.create(
+      //   {
+      //     title: title.trim(),
+      //     notes: notes,
+      //     subtasks: SubTaskList.create([], { owner: me }),
+      //     createdAt: new Date(),
+      //     updatedAt: new Date(),
+      //     public: false,
+      //     completed: false,
+      //   },
+      //   { owner: me },
+      // )
+      // me.root.tasks.push(t)
       onClose()
     }
   }

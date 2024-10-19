@@ -112,7 +112,7 @@ async function releaseSubtask(sender: Sender, contractAddress: Address, taskId: 
         throw new Error('Only investor can release subtask');
     }
     const isLastTask = subtasks.tasks.values().filter(e => !e.finished).length === 1;
-    await tonInvestor.send(sender, {value: toNano('0.18')}, {
+    await tonInvestor.send(sender, {value: toNano('0.25')}, {
         $$type: 'ReleaseSubtask',
         taskId,
         isLastTask
@@ -127,7 +127,7 @@ async function moderatorReleaseSubtask(sender: Sender, contractAddress: Address,
         throw new Error('Only moderator can release subtask');
     }
     const isLastTask = subtasks.tasks.values().filter(e => !e.finished).length === 1;
-    await tonInvestor.send(sender, {value: toNano('0.18')}, {
+    await tonInvestor.send(sender, {value: toNano('0.25')}, {
         $$type: 'ModeratorCloseTask',
         taskId,
         isLastTask

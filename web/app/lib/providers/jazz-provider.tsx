@@ -16,6 +16,7 @@ export function JazzAndAuth({ children }: { children: React.ReactNode }) {
       <Jazz.Provider
         auth={auth}
         peer={"wss://cloud.jazz.tools/?key=todo-escrow@learn-anything.xyz"}
+        // peer={"wss://cloud.jazz.tools/?key=todo@learn-anything.xyz"}
       >
         {children}
       </Jazz.Provider>

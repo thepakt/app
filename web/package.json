@@ -36,10 +36,12 @@
     "redaxios": "^0.5.1",
     "ronin": "^4.3.1",
     "tailwind-merge": "^2.5.3",
+    "valtio": "^2.1.0",
     "vinxi": "0.4.3",
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "devDependencies": {
+    "@ronin/todo-escrow": "^0.0.0-3457949265910",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",

@@ -32,6 +32,7 @@ export class LaAccount extends Account {
         },
         { owner: this },
       )
+      throw new Error("err")
     }
   }
 }

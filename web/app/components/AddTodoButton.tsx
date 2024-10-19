@@ -3,7 +3,6 @@ import { PlusIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { modalSpring } from "theme/transitions"
 import { AddTodoVariants } from "theme/variants"
-import { useAccount } from "~/lib/providers/jazz-provider"
 
 interface AddTodoProps {
   setIsNewTodoOpen: React.Dispatch<React.SetStateAction<boolean>>

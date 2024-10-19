@@ -25,8 +25,7 @@ function RouteComponent() {
     }
   }, [])
 
-  // TODO: avoid using refetch, seems super bad
-  const { data, isLoading, error } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
       const res = await getActiveTasks({ walletAddress: address })
@@ -38,8 +37,6 @@ function RouteComponent() {
   if (error) {
     return <></>
   }
-
-  console.log(data, "data")
 
   return (
     <>

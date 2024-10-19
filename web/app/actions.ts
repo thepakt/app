@@ -62,3 +62,8 @@ export const getActiveTasks = createServerFn(
     return tasks
   },
 )
+
+export const getPublicTasks = createServerFn("POST", async (data: {}) => {
+  const tasks = await get.tasks()
+  return tasks
+})

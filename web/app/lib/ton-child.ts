@@ -2974,7 +2974,7 @@ const JettonDefaultWallet_receivers: ABIReceiver[] = [
   { receiver: "internal", message: { kind: "typed", type: "TokenBurn" } },
 ]
 
-export class JettonDefaultWallet implements Contract {
+export class JettonChild implements Contract {
   static async init(master: Address, owner: Address) {
     return await JettonDefaultWallet_init(master, owner)
   }
@@ -2982,11 +2982,11 @@ export class JettonDefaultWallet implements Contract {
   static async fromInit(master: Address, owner: Address) {
     const init = await JettonDefaultWallet_init(master, owner)
     const address = contractAddress(0, init)
-    return new JettonDefaultWallet(address, init)
+    return new JettonChild(address, init)
   }
 
   static fromAddress(address: Address) {
-    return new JettonDefaultWallet(address)
+    return new JettonChild(address)
   }
 
   readonly address: Address

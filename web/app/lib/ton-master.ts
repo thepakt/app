@@ -2991,7 +2991,7 @@ const SampleJetton_receivers: ABIReceiver[] = [
   },
 ]
 
-export class SampleJetton implements Contract {
+export class JettonMaster implements Contract {
   static async init(owner: Address, content: Cell, max_supply: bigint) {
     return await SampleJetton_init(owner, content, max_supply)
   }
@@ -2999,11 +2999,11 @@ export class SampleJetton implements Contract {
   static async fromInit(owner: Address, content: Cell, max_supply: bigint) {
     const init = await SampleJetton_init(owner, content, max_supply)
     const address = contractAddress(0, init)
-    return new SampleJetton(address, init)
+    return new JettonMaster(address, init)
   }
 
   static fromAddress(address: Address) {
-    return new SampleJetton(address)
+    return new JettonMaster(address)
   }
 
   readonly address: Address

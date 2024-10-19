@@ -1,11 +1,13 @@
 from telethon.sync import TelegramClient
 from telethon import functions
 
-with TelegramClient(name, api_id, api_hash) as client:
+# TODO: ask durov or somebody, how to make sure this is not rate limited..
+with TelegramClient('user').start() as client:
     result = client(functions.messages.CreateChatRequest(
-        users=["nikivi"],
-        title="",
-        ttl_period=42
+        # TODO: add our escrow bot to the chat too
+        # TODO: make the escrow bot, log all messages to the chat
+        users=["nikivi", "imartemy", "todo_escrow_bot"],
+        title="Do Thing.",
     ))
     print(result.stringify())
 

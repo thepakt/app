@@ -32,3 +32,4 @@ test.json
 past.*
 private.*
 .next
+*.session

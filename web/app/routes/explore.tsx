@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router"
+import Layout from "~/components/Layout"
 
 function RouteComponent() {
   return (
-    <div className="w-full flex items-center justify-center">explore route</div>
+    <Layout>
+      <div className="py-[4em] p-[1em]">wtf</div>
+    </Layout>
   )
 }
 

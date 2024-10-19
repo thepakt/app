@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { getPublicTasks } from "~/actions"
-import { feedItems } from "~/components/feed/feedItems"
 import { Filter } from "~/components/feed/Filter"
 
 function RouteComponent() {

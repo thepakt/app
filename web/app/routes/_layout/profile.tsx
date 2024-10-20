@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Address } from "@ton/core"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { profile } from "console"
-import { ChevronRight, StarIcon } from "lucide-react"
+import { ChevronRight, PencilIcon, StarIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa"
 import { getProfile } from "~/actions"
@@ -28,6 +28,13 @@ export default function RouteComponent() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [profileData, setProfileData] = useState<any>(null)
+  const [editing, setEditing] = useState(false)
+
+  const handleUsernameSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setEditing(false)
+    }
+  }
 
   useEffect(() => {
     if (!address) return
@@ -76,10 +83,32 @@ export default function RouteComponent() {
 
   return (
     <main className="w-full flex items-center justify-center">
-      <section className="w-full p-[1em] pt-[2em] min-h-screen">
+      <section className="w-full p-[1em] pt-[4em] min-h-screen">
         <div className="max-w-2xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex  gap-1 items-center mb-6">
             <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+            <div className="flex flex-col">
+              {!editing && (
+                <h1 className="text-[20px] flex items-center gap-2 font-semibold">
+                  {UserData.username}{" "}
+                  <PencilIcon onClick={() => setEditing(true)} size={16} />
+                </h1>
+              )}
+              {editing && (
+                <input
+                  type="text"
+                  autoFocus
+                  className="bg-transparent outline-none text-[20px] font-semibold"
+                  value={UserData.username}
+                  onKeyDown={handleUsernameSubmit}
+                  onBlur={() => setEditing(false)}
+                  onChange={(e) => {}}
+                />
+              )}
+              <p className="text-[12px] text-gray-400 rounded-full">
+                {address.slice(0, 10)}...
+              </p>
+            </div>
           </div>
           <div className="flex items-center justify-between mb-6">
             <div className="flex flex-col gap-2">

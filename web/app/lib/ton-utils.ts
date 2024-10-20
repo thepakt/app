@@ -32,7 +32,7 @@ export function toNanoDigits(src: string, digits: number): bigint {
   }
 
   // Convert
-  let r = BigInt(whole) * 10n ** BigInt(digits) + BigInt(frac)
+  let r = BigInt(whole) * BigInt(10) ** BigInt(digits) + BigInt(frac)
   if (neg) {
     r = -r
   }

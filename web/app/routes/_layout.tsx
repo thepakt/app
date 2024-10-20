@@ -15,11 +15,9 @@ function LayoutComponent() {
 
   return (
     <>
-      {pathname !== "/profile" && (
-        <div className="absolute top-4 right-4">
-          <TonConnectButton />
-        </div>
-      )}
+      <div className="absolute top-4 right-4">
+        <TonConnectButton />
+      </div>
       <Outlet />
       <Bottombar />
     </>

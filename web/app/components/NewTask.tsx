@@ -100,17 +100,24 @@ export default function NewTask({
     <motion.div
       ref={componentRef}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-      transition={{ type: "spring", damping: 20, stiffness: 300 }}
-      className="bg-white/90 dark:bg-neutral-800/90 p-6 backdrop-blur-xl rounded-3xl mb-3 shadow-lg max-w-md mx-auto"
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      exit={{ opacity: 0.5, scale: 0.9 }}
+      transition={{
+        type: "spring",
+        damping: 20,
+        stiffness: 300,
+      }}
+      className="bg-black/30 p-4 backdrop-blur-md rounded-3xl mb-[0.5em] shadow-lg"
     >
       <input
         type="text"
         value={title}
         autoFocus
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full bg-transparent outline-none text-lg font-light mb-4 text-white"
+        className="w-full bg-transparent outline-none text-[18px] font-normal mb-2"
         placeholder="New Task"
       />
       <textarea
@@ -126,7 +133,7 @@ export default function NewTask({
             setNotes(notes + "\n")
           }
         }}
-        className="w-full max-h-[200px] bg-transparent outline-none text-base font-light pb-4 resize-none overflow-hidden mb-6 "
+        className="w-full max-h-[400px]  bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"
         placeholder="Notes"
       />
 
@@ -160,23 +167,19 @@ export default function NewTask({
         >
           Add
         </button> */}
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2 dark:text-white">
-            Estimated time:
-          </h2>
-          <div className="flex items-center gap-3">
-            {date && (
-              <div className="flex-1 bg-black/20 items-center justify-center rounded-xl py-3 px-4 text-center font-light">
-                {date.amount} {date.type}
-              </div>
-            )}
-            <button
-              onClick={() => setShowDatePicker(true)}
-              className="flex-1 rounded-xl py-3 px-4 bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors"
-            >
-              Pick time
-            </button>
-          </div>
+        <h2 className="text-[16px] font-semibold pb-1">Estimated time:</h2>
+        <div className="flex items-center gap-2 h-[44px]">
+          {date && (
+            <div className="w-full bg-neutral-800 items-center justify-center rounded-md h-full px-3 flex">
+              {date.amount} {date.type}
+            </div>
+          )}
+          <button
+            onClick={() => setShowDatePicker(true)}
+            className="w-full min-w-[120px] rounded-md h-full p-2 bg-blue-500"
+          >
+            Pick time
+          </button>
         </div>
       </div>
 
@@ -197,7 +200,7 @@ export default function NewTask({
           </Picker>
         </div> */}
 
-        <div className="relative flex items-center bg-white/10 h-[44px] rounded-xl px-3 py-2">
+        <div className="relative flex items-center bg-neutral-800 h-[44px] rounded-md px-3 py-2">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $
           </span>
@@ -219,7 +222,7 @@ export default function NewTask({
         <div className="pt-2">
           <button
             type="button"
-            className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-xl"
+            className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
             onClick={async () => {
               await createTask({
                 task: {

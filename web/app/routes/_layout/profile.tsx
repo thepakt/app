@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
+import { profile } from "console"
 import { ChevronRight, StarIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa"
+import { getProfile } from "~/actions"
 import { TodoItem } from "~/components/profile/TodoItem"
 import { UserData } from "~/components/profile/userData"
 
@@ -24,7 +26,28 @@ export default function RouteComponent() {
   const [nfts, setNfts] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [profileData, setProfileData] = useState<any>(null)
 
+  useEffect(() => {
+    if (!address) return
+    async function fetchProfile() {
+      try {
+        setIsLoading(true)
+        const profileData = await getProfile({ walletAddress: address })
+        if (!profileData) {
+          throw new Error("Failed to fetch profile data")
+        }
+        setProfileData(profileData)
+        console.log(profileData, "Profile data")
+      } catch (err) {
+        setError("Failed to load profile")
+        console.error(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchProfile()
+  }, [address])
   useEffect(() => {
     if (!address) return
     async function load() {

@@ -50,6 +50,17 @@ export const createTask = createServerFn(
   },
 )
 
+export const getProfile = createServerFn(
+  "POST",
+  async (data: { walletAddress: string }) => {
+    const user = await get.user.with({
+      walletAddress: data.walletAddress,
+    })
+    if (!user) throw new Error("User not found")
+    return user
+  },
+)
+
 export const getActiveTasks = createServerFn(
   "POST",
   async (data: { walletAddress: string }) => {

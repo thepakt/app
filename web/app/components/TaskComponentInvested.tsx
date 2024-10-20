@@ -84,12 +84,22 @@ export function TaskComponentInvested({
 
         <div className="flex gap-2">
           {conflictClicked ? (
-            <button className="flex items-center p-2 gap-1 bg-gradient-to-r from-red-500/20 to-red-700 hover:bg-red-600 transition-all justify-center rounded-lg w-full">
-              <FlagOff className="text-white" size={16} />
-              <span className="text-[14px] text-center">
-                Conflict started. Please wait for a moderator.
-              </span>
-            </button>
+            <div className="flex flex-row gap-3 items-center">
+              <button className="flex items-center p-2 gap-1 bg-gradient-to-r from-red-500/20 to-red-700 hover:bg-red-600 transition-all justify-center rounded-lg w-full">
+                <FlagOff className="text-white" size={16} />
+                <span className="text-[14px] text-center">
+                  Conflict started. Please wait for a moderator.
+                </span>
+              </button>
+              <button
+                onClick={() => {
+                  setConflictClicked(false)
+                }}
+                className="text-xs p-2 py-3 rounded-lg bg-black/30"
+              >
+                Cancel Conflict
+              </button>
+            </div>
           ) : (
             <>
               {!taskCompleted && (

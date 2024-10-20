@@ -104,7 +104,8 @@ export default function RouteComponent() {
                 />
               )}
               <p className="text-[12px] text-gray-400 rounded-full">
-                {address.slice(0, 10)}...
+                {address.slice(0, 4)}...
+                {address.slice(-4)}
               </p>
             </div>
           </div>

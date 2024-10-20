@@ -30,6 +30,20 @@ export const updateTgUsername = createServerFn(
   },
 )
 
+export const updateTgPhoto = createServerFn(
+  "POST",
+  async (data: { tgPhotoUrl: string; walletAddress: string }) => {
+    await set.user({
+      with: {
+        walletAddress: data.walletAddress,
+      },
+      to: {
+        photoUrl: data.tgPhotoUrl,
+      },
+    })
+  },
+)
+
 export const createTask = createServerFn(
   "POST",
   async (data: {

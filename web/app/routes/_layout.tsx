@@ -2,14 +2,43 @@ import { Outlet, createFileRoute } from "@tanstack/react-router"
 import { initInitData, postEvent } from "@telegram-apps/sdk"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
-import { createUser } from "~/actions"
+import { createUser, updateTgUsername, updateTgPhoto } from "~/actions"
 import Bottombar from "~/components/BottomBar"
+
+// Update just 1 time per session: on startup or after creating the account
+let hasUpdatedUserInfo = false
+
+function updateUserInfo(address: string) {
+  if (hasUpdatedUserInfo) return
+
+  try {
+    const initData = initInitData()
+    if (initData) {
+      // when i have tg username
+      const usernameUpdated = await updateTgUsername({
+        tgUsername: initData.user.username ?? initData.user.id,
+        walletAddress: address,
+      })
+
+      // update photo as well
+      const photoUrlUpdated = await updateTgPhoto({
+        tgUsername: initData.user.photo_url ?? "",
+        walletAddress: address,
+      })
+
+      hasUpdatedUserInfo = true
+    }
+  } catch (e) {
+    console.log("The app runs outside of the telegram")
+  }
+}
 
 function LayoutComponent() {
   const address = useTonAddress()
   useEffect(() => {
     if (address) {
-      createUser({ walletAddress: address })
+      await createUser({ walletAddress: address })
+      updateUserInfo(address)
     }
   }, [address])
 
@@ -22,18 +51,12 @@ function LayoutComponent() {
         postEvent("web_app_setup_swipe_behavior", {
           allow_vertical_swipe: false,
         })
+
+        updateUserInfo(address)
       }
     } catch (e) {
       console.log("The app runs outside of the telegram")
     }
-  }, [])
-
-  useEffect(() => {
-    // when i have tg username
-    // const usernameUpdated = await updateTgUsername({
-    //   tgUsername: initData.user.username ?? initData.user.id,
-    //   walletAddress: address,
-    // })
   }, [])
 
   return (

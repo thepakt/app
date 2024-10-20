@@ -63,7 +63,7 @@ export default function ProfileComponent() {
             </div>
           </div>
           <button className=" hover:bg-neutral-700 w-full text-center bg-neutral-700/40 text-white py-3 rounded-full mb-6 flex items-center justify-center gap-2 transition-all">
-            Invested Into 7 projects <ChevronRight className="" />
+            Invested in 7 projects <ChevronRight className="" />
           </button>
           <ul className="flex flex-col gap-3">
             <div className="text-[20px] font-semibold">Ready to-do:</div>

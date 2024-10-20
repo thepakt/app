@@ -21,6 +21,7 @@ const FeedItem = ({
   index,
   bountyPriceInUsdt,
   bountyEstimatedTimeInHours,
+  taskId,
 }: {
   username: string
   handle: string
@@ -29,6 +30,7 @@ const FeedItem = ({
   title: string
   bountyPriceInUsdt: number
   bountyEstimatedTimeInHours: number
+  taskId: string
 }) => {
   const { createContract } = useActions()
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
@@ -64,6 +66,7 @@ const FeedItem = ({
           <p className="text-white/50 text-xs">{bountyPriceInUsdt}$</p>
         </div>
         <div className="flex items-end gap-1  flex-col">
+          {/* TODO: does not work with days */}
           <h2 className="text-white text-sm">Estimated time:</h2>
           <p className="text-white/50 text-xs">
             {bountyEstimatedTimeInHours}{" "}
@@ -86,7 +89,7 @@ const FeedItem = ({
         <button
           onClick={async () => {
             const taskWithCreator = await getTaskWithItsCreator({
-              taskId: "rec_vlfzjz9y5tfj1qo5",
+              taskId,
             })
             const moderator = await getModerator({})
             if (!moderator) return
@@ -142,7 +145,7 @@ function RouteComponent() {
       <main className="container mx-auto px-4">
         {/* @ts-ignore */}
         {data?.map((task, index) => (
-          <FeedItem key={index} index={index} {...task} />
+          <FeedItem key={index} index={index} {...task} taskId={task.id} />
         ))}
       </main>
     </div>

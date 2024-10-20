@@ -1,18 +1,20 @@
 import { Task } from "@ronin/todo-escrow"
 import { AnimatePresence, motion } from "framer-motion"
-import { Circle } from "lucide-react"
 import "react-datepicker/dist/react-datepicker.css"
 import { useState } from "react"
 import Picker from "react-mobile-picker"
+import { Circle, Bell, X } from "lucide-react"
 
 export function TaskComponent({
   task,
   isExpanded,
   onClick,
+  notifications = 1,
 }: {
   task: Task
   isExpanded: boolean
   onClick: (taskId: string) => void
+  notifications?: number
 }) {
   const [isEditingTime, setIsEditingTime] = useState(false)
   const [estimatedTime, setEstimatedTime] = useState({
@@ -23,6 +25,7 @@ export function TaskComponent({
     amount: Array.from({ length: 23 }, (_, i) => i + 1),
     unit: ["Hours", "Days"],
   })
+  const [showModal, setShowModal] = useState(false)
 
   const handlePickerChange = (newValue: Partial<typeof estimatedTime>) => {
     setEstimatedTime((prev) => ({
@@ -50,10 +53,21 @@ export function TaskComponent({
       }}
       className={`todo-item p-4 rounded-2xl text-white font-medium cursor-pointer ${
         isExpanded ? "bg-white/10 backdrop-blur-md" : "bg-white/5"
-      } transition-colors duration-300 ease-in-out hover:bg-white/15`}
+      } transition-colors duration-300 ease-in-out hover:bg-white/15 relative`}
       initial={false}
       animate={{ height: "auto" }}
     >
+      {notifications > 0 && (
+        <div
+          className="absolute top-0 right-0 bg-blue-500 rounded-full w-5 h-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2 cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation()
+            setShowModal(true)
+          }}
+        >
+          <Bell size={12} />
+        </div>
+      )}
       <div className="flex flex-col">
         <motion.div className="flex items-start gap-4" layout="position">
           <Circle className="w-4 h-4 flex-shrink-0 mt-1" />
@@ -100,9 +114,9 @@ export function TaskComponent({
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <span className="text-gray-400 font-light mb-1">Subtasks</span>
-                {/* {task.subtasks.map((subtask, index) => (
+                {task.subtasks.map((subtask, index) => (
                   <div key={index} className="flex items-center mb-1">
                     <input
                       type="checkbox"
@@ -121,17 +135,17 @@ export function TaskComponent({
                       className="bg-inherit font-normal p-2 outline-none focus:ring-none scrollbar-hide flex-grow"
                     />
                   </div>
-                ))} */}
+                ))}
                 <button
                   onClick={() => {
-                    // task.subtasks.push({ title: "", completed: false })
-                    // You might want to add a function to update the task on the server here
+                    task.subtasks.push({ title: "", completed: false })
+                    You might want to add a function to update the task on the server here
                   }}
                   className="text-blue-500 text-sm mt-1"
                 >
                   Add Subtask
                 </button>
-              </div>
+              </div> */}
               <div>
                 <span className="text-gray-400 mr-2">$</span>
                 <input
@@ -191,6 +205,51 @@ export function TaskComponent({
           )}
         </AnimatePresence>
       </div>
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white/80 dark:bg-neutral-600/80 backdrop-blur-md p-6 rounded-2xl shadow-lg relative max-w-sm w-full mx-4"
+            >
+              <button
+                className="absolute top-4 right-4  transition-colors"
+                onClick={() => setShowModal(false)}
+              >
+                <X size={24} />
+              </button>
+              <h3 className="text-md font-normal mb-4">New Investor Request</h3>
+              <p className="font-light mb-6">
+                @Someone wants to become an investor for this task.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="px-4 py-2 bg-neutral-200 text-gray-800 rounded-full "
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
+                  onClick={() => {
+                    setShowModal(false)
+                  }}
+                >
+                  Accept
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }

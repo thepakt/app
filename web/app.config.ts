@@ -17,6 +17,10 @@ export default defineConfig({
     },
   },
   vite: {
+    // @ts-ignore
+    build: {
+      target: "es2022",
+    },
     plugins: () => [
       tsConfigPaths({
         projects: ["./tsconfig.json"],

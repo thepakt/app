@@ -123,13 +123,21 @@ const FeedItem = ({
       <div className="flex flex-col gap-2 text-white/90 mt-4">
         <div className="flex gap-2">
           <button
-            className={`flex p-2 gap-1 ${isLiked ? "bg-red-500/30" : "bg-neutral-700/40"} hover:opacity-60 transition-all justify-center rounded-lg items-center w-full`}
+            className={`flex p-2 gap-1 ${isLiked ? "bg-pink-700/80" : "bg-neutral-700/40"}  transition-all justify-center rounded-lg items-center w-full`}
             onClick={() => setIsLiked(!isLiked)}
           >
             <Heart className="w-3 h-3" />
             <span className="text-[13px] text-center">I want it</span>
           </button>
-          <button className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40">
+          <button
+            className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `https://t.me/todo-escrow_bot/task/{taskId}`,
+              )
+              alert("Copied!")
+            }}
+          >
             <Share className="w-3 h-3" />
             <span className="text-[13px] text-center">I know who wants it</span>
           </button>

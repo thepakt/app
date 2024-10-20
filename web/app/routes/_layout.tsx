@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, useRouterState } from "@tanstack/react-router"
-// import { initInitData, postEvent } from "@telegram-apps/sdk"
+import { initInitData, postEvent } from "@telegram-apps/sdk"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser } from "~/actions"
@@ -14,21 +14,18 @@ function LayoutComponent() {
   }, [address])
   const router = useRouterState()
 
-  // useEffect(() => {
-  //   try {
-  //     const initData = initInitData()
-  //     if (initData) {
-  //       postEvent("web_app_open_popup", {
-  //         title: "user id",
-  //         message: initData.user.id,
-  //         buttons: [{ id: "1", type: "ok", text: "ok" }],
-  //       })
-  //       postEvent("web_app_expand")
-  //     }
-  //   } catch (e) {
-  //     console.log("The app runs outside of the telegram")
-  //   }
-  // }, [])
+  useEffect(() => {
+    try {
+      const initData = initInitData()
+      if (initData) {
+        console.log(initData.user.username ?? initData.user.id)
+        postEvent("web_app_expand")
+        postEvent("web_app_setup_swipe_behavior", { allow_vertical_swipe: false });
+      }
+    } catch (e) {
+      console.log("The app runs outside of the telegram")
+    }
+  }, [])
 
   return (
     <>

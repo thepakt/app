@@ -2,29 +2,30 @@ import { Outlet, createFileRoute } from "@tanstack/react-router"
 import { initInitData, postEvent } from "@telegram-apps/sdk"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
-import { createUser, updateTgUsername, updateTgPhoto } from "~/actions"
+import { createUser, updateTgUsername } from "~/actions"
 import Bottombar from "~/components/BottomBar"
 
 // Update just 1 time per session: on startup or after creating the account
 let hasUpdatedUserInfo = false
 
-function updateUserInfo(address: string) {
+async function updateUserInfo(address: string) {
   if (hasUpdatedUserInfo) return
 
   try {
     const initData = initInitData()
     if (initData) {
       // when i have tg username
-      const usernameUpdated = await updateTgUsername({
-        tgUsername: initData.user.username ?? initData.user.id,
+      await updateTgUsername({
+        tgUsername:
+          initData.user?.username || initData.user?.id?.toString() || "unknown",
         walletAddress: address,
       })
 
       // update photo as well
-      const photoUrlUpdated = await updateTgPhoto({
-        tgUsername: initData.user.photo_url ?? "",
-        walletAddress: address,
-      })
+      // const photoUrlUpdated = await updateTgPhoto({
+      //   tgUsername: initData.user.photo_url ?? "",
+      //   walletAddress: address,
+      // })
 
       hasUpdatedUserInfo = true
     }
@@ -37,7 +38,7 @@ function LayoutComponent() {
   const address = useTonAddress()
   useEffect(() => {
     if (address) {
-      await createUser({ walletAddress: address })
+      createUser({ walletAddress: address })
       updateUserInfo(address)
     }
   }, [address])

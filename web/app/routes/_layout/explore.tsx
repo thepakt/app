@@ -161,6 +161,7 @@ const FeedItem = ({
               setWaitingForTransaction(false)
               console.log(acceptTaskNotification, "acceptTaskNotification")
             } catch (err) {
+              console.error(err)
               setWaitingForTransaction(false)
               alert(JSON.stringify(err))
             }

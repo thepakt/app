@@ -1,10 +1,9 @@
 import { Task } from "@ronin/todo-escrow"
 import { useQueryClient } from "@tanstack/react-query"
-import { Address } from "@ton/core"
-import { AnimatePresence, motion } from "framer-motion"
+import { motion } from "framer-motion"
+import { FlagOff, Sticker } from "lucide-react"
 import { useState } from "react"
 import useActions from "~/lib/investor/useActions"
-import { FlagOff, Sticker } from "lucide-react"
 
 export function TaskComponentInvested({
   task,
@@ -60,7 +59,7 @@ export function TaskComponentInvested({
           <div className="flex items-center">
             <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
             <div className="ml-3">
-              <h2 className="text-white font-semibold">title</h2>
+              <h2 className="text-white font-semibold">{task.title}</h2>
               <p className="text-gray-400 text-sm"></p>
             </div>
           </div>

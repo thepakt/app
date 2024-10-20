@@ -262,36 +262,37 @@ export const startWorkOnTask = createServerFn(
     investorTgUsername: string
     taskName: string
   }) => {
-    const investor = await get.user.with({
-      walletAddress: Address.parse(data.investorWalletAddress).toString(),
-    })
-    if (!investor) throw new Error("Investor not found")
+    // const investor = await get.user.with({
+    //   walletAddress: Address.parse(data.investorWalletAddress).toString(),
+    // })
+    // if (!investor) throw new Error("Investor not found")
     const updatedTask = await set.task({
       with: {
         id: data.taskId,
       },
       to: {
-        investorLockedIn: investor.id,
+        // @ts-ignore
+        workOnTaskHasStarted: true,
       },
     })
-    try {
-      const response = await fetch("http://94.241.141.207:13452/create-chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          hash: "aboba",
-          users: [data.workerTgUsername, data.investorTgUsername],
-          title: data.taskName,
-        }),
-      })
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-    } catch (error) {
-      console.error("Error creating chat:", error)
-    }
+    // try {
+    //   const response = await fetch("http://94.241.141.207:13452/create-chat", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       hash: "aboba",
+    //       users: [data.workerTgUsername, data.investorTgUsername],
+    //       title: data.taskName,
+    //     }),
+    //   })
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`)
+    //   }
+    // } catch (error) {
+    //   console.error("Error creating chat:", error)
+    // }
     return updatedTask
   },
 )

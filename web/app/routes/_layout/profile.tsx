@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { Address } from "@ton/core"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { profile } from "console"
 import { ChevronRight, StarIcon } from "lucide-react"
@@ -141,17 +142,26 @@ export default function RouteComponent() {
               <div className="grid grid-cols-3 gap-4">
                 {nfts.map((nft, index) => (
                   <div key={index} className="relative aspect-square group">
-                    <img
-                      src={
-                        nft.previews.find(
-                          (p: { resolution: string }) =>
-                            p.resolution === "100x100",
-                        )?.url
-                      }
-                      alt={`SBT ${index + 1}`}
-                      className="w-full h-full object-cover rounded-lg transition-all duration-300 group-hover:opacity-75"
-                    />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-lg p-2">
+                    <a
+                      href={`https://getgems.io/collection/1/${Address.parse(nft.address).toString()}`}
+                      target="_blank"
+                    >
+                      <img
+                        src={
+                          nft.previews.find(
+                            (p: { resolution: string }) =>
+                              p.resolution === "100x100",
+                          )?.url
+                        }
+                        alt={`SBT ${index + 1}`}
+                        className="w-full h-full object-cover rounded-lg transition-all duration-300 group-hover:opacity-75"
+                      />
+                    </a>
+                    <a
+                      target="_blank"
+                      href={`https://getgems.io/collection/1/${Address.parse(nft.address).toString()}`}
+                      className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-lg p-2"
+                    >
                       <p className="text-white text-xs truncate w-full text-center">
                         {nft.address.slice(0, 10)}...
                       </p>
@@ -161,7 +171,7 @@ export default function RouteComponent() {
                       {nft.is_wallet && (
                         <p className="text-green-500 text-xs">Wallet</p>
                       )}
-                    </div>
+                    </a>
                   </div>
                 ))}
               </div>

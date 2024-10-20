@@ -62,14 +62,17 @@ export function TaskComponent({
         </div>
       </div>
 
-      <p className="text-sm">Notes</p>
-      <p className="text-white/50 text-xs mb-4">{task.notes}</p>
+      {task.notes && (
+        <>
+          <p className="text-sm">Notes</p>
+          <p className="text-white/50 text-xs mb-4">{task.notes}</p>
+        </>
+      )}
 
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-1 flex-col">
           <h2 className="text-white text-sm">Bounty:</h2>
-          {/* @ts-ignore */}
-          <p className="text-white/50 text-xs">{task.bountyPriceInUSDT}$</p>
+          <p className="text-white/50 text-xs">{task.bountyPriceInUsdt}$</p>
         </div>
         <div className="flex items-end gap-1 flex-col">
           <h2 className="text-white text-sm">Estimated time:</h2>

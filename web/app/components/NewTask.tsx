@@ -3,9 +3,7 @@ import { useTonAddress } from "@tonconnect/ui-react"
 import { motion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
-import Picker from "react-mobile-picker"
 import { createTask } from "~/actions"
-import { DatePicker } from "./DatePicker"
 
 type TimeUnit = "Hours" | "Days"
 
@@ -228,7 +226,8 @@ export default function NewTask({
                   title: title.trim(),
                   notes: notes,
                   public: false,
-                  bountyEstimatedTimeInHours: estimatedTimeInHours.amount,
+                  bountyEstimatedTimeInHours:
+                    date.type === "Days" ? date.amount * 24 : date.amount,
                   bountyPriceInUsdt: Number(bounty),
                 },
                 userWalletAddress: address,

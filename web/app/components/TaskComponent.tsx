@@ -7,6 +7,7 @@ import { Bell, Share, Trash, X } from "lucide-react"
 import { useState } from "react"
 import { deleteTask, getUserByWalletAddress, startWorkOnTask } from "~/actions"
 import useActions from "~/lib/investor/useActions"
+import { TaskComponentInvested } from "./TaskComponentInvested"
 
 export function TaskComponent({
   task,

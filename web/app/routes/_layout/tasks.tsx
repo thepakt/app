@@ -8,6 +8,7 @@ import AddTodoButton from "~/components/AddTodoButton"
 import { DatePicker } from "~/components/DatePicker"
 import NewTask from "~/components/NewTask"
 import { TaskComponent } from "~/components/TaskComponent"
+import { TaskComponentInvested } from "~/components/TaskComponentInvested"
 
 function RouteComponent() {
   const address = useTonAddress()
@@ -44,43 +45,27 @@ function RouteComponent() {
   })
 
   return (
-    <div className="container  pb-[3em] mx-auto px-4 mb-10">
+    <div className="container pb-[3em] mx-auto px-4 mb-10">
       <h1 className="text-lg font-semibold text-start pl-8 pt-[1.2em]">
         Your Active Tasks
       </h1>
+      <div className="w-full flex flex-col items-start">
+        <h1 className="text-md font-semibold  pl-10 pt-[1.2em]">
+          Your Investments
+        </h1>
+        <div className="flex flex-col gap-2 mt-2 items-center w-full max-w-[500px]">
+          {" "}
+          <TaskComponentInvested />
+        </div>
+      </div>
       <div className="w-full flex items-center justify-center overflow-hidden">
-        {/* TODO: should show notification */}
-        {/* <div>
-          {data?.taskNotifications?.map((taskNotification) => {
-            return (
-              <div
-                key={taskNotification.id}
-                onClick={async () => {
-                  const contractStarted = await startContract(
-                    Address.parse(taskNotification.contractAddress),
-                  )
-                  console.log(contractStarted, "contractStarted")
-                }}
-              >
-                Can you do this? {taskNotification.contractAddress}
-              </div>
-            )
-          })}
-        </div> */}
-        <div className="w-full  py-[0.5em] min-w-[300px] max-w-[500px] h-full">
+        <div className="w-full py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <DatePicker
             isOpen={isDatePickerOpen}
             onClose={() => setIsDatePickerOpen(false)}
             setDate={setDate}
           />
 
-          {/* TODO: IGOR do the thing */}
-          {/* <button
-            onClick={() => setIsDatePickerOpen(true)}
-            className="absolute bottom-[200px] bg-red-500 right-0"
-          >
-            show picker
-          </button> */}
           <div className="flex flex-col gap-1 mt-2">
             <AnimatePresence>
               {isNewTodoOpen && (

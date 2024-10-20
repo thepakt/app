@@ -181,22 +181,6 @@ export default function NewTask({
       </div>
 
       <div className="flex flex-col mb-2">
-        {/* <div className="flex flex-col gap-1">
-          <span className="font-thin text-xs">Estimated time: </span>
-          <Picker value={estimatedTimeInHours} onChange={handlePickerChange}>
-            {Object.keys(estimatedTimeOptions).map((name) => (
-              <Picker.Column key={name} name={name}>
-
-                {estimatedTimeOptions[name].map((option) => (
-                  <Picker.Item key={option} value={option}>
-                    {option}
-                  </Picker.Item>
-                ))}
-              </Picker.Column>
-            ))}
-          </Picker>
-        </div> */}
-
         <div className="relative flex items-center bg-neutral-800 h-[44px] rounded-md px-3 py-2">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $

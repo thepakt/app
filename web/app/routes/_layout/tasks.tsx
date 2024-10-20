@@ -49,15 +49,6 @@ function RouteComponent() {
       <h1 className="text-lg font-semibold text-start pl-8 pt-[1.2em]">
         Your Active Tasks
       </h1>
-      <div className="w-full flex flex-col items-start">
-        <h1 className="text-md font-semibold  pl-10 pt-[1.2em]">
-          Your Investments
-        </h1>
-        <div className="flex flex-col gap-2 mt-2 items-center w-full max-w-[500px]">
-          {" "}
-          <TaskComponentInvested />
-        </div>
-      </div>
       <div className="w-full flex items-center justify-center overflow-hidden">
         <div className="w-full py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <DatePicker
@@ -124,6 +115,15 @@ function RouteComponent() {
           </div>
         )}
       </AnimatePresence>
+      <div className="w-full flex flex-col items-start">
+        <h1 className="text-md font-semibold  pl-10 pt-[1.2em]">
+          Your Investments
+        </h1>
+        <div className="flex flex-col gap-2 mt-2 items-center w-full max-w-[500px]">
+          {" "}
+          <TaskComponentInvested />
+        </div>
+      </div>
     </div>
   )
 }

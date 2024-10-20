@@ -62,7 +62,7 @@ export default function RouteComponent() {
       try {
         setIsLoading(true)
         const response = await fetch(
-          `https://testnet.tonapi.io/v2/accounts/${address}/nfts?collection=kQDwLgmW_t9nJJyAhc1qm1lBSa9zp-YZyyN7da60P8hMPsaT&limit=1000&offset=0&indirect_ownership=false`,
+          `${import.meta.env.VITE_TONAPI_URL}/v2/accounts/${address}/nfts?collection=kQDwLgmW_t9nJJyAhc1qm1lBSa9zp-YZyyN7da60P8hMPsaT&limit=1000&offset=0&indirect_ownership=false`,
         )
         if (!response.ok) {
           throw new Error("Network response was not ok")

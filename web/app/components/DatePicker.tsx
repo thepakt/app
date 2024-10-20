@@ -26,42 +26,87 @@ const Picker: React.FC<PickerProps> = ({
   const pickerRef = useRef<HTMLDivElement>(null)
   const startYRef = useRef<number | null>(null)
   const startIndexRef = useRef<number>(selectedIndex)
+  const isDraggingRef = useRef(false)
 
   useEffect(() => {
     const picker = pickerRef.current
     if (!picker) return
 
-    const handleTouchStart = (e: TouchEvent) => {
-      e.preventDefault()
-      startYRef.current = e.touches[0].clientY
+    const handleStart = (clientY: number) => {
+      startYRef.current = clientY
       startIndexRef.current = selectedIndex
+      isDraggingRef.current = true
     }
 
-    const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault()
-      if (startYRef.current === null) return
-      const currentY = e.touches[0].clientY
-      const deltaY = currentY - startYRef.current
+    const handleMove = (clientY: number) => {
+      if (startYRef.current === null || !isDraggingRef.current) return
+      const deltaY = clientY - startYRef.current
       const deltaIndex = deltaY / 40
       let newIndex = startIndexRef.current - deltaIndex
       newIndex = Math.max(0, Math.min(newIndex, items.length - 1))
       setSelectedIndex(Math.round(newIndex))
     }
 
+    const handleEnd = () => {
+      if (!isDraggingRef.current) return
+      startYRef.current = null
+      isDraggingRef.current = false
+      onChange(items[selectedIndex])
+    }
+
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault()
+      handleStart(e.touches[0].clientY)
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault()
+      handleMove(e.touches[0].clientY)
+    }
+
     const handleTouchEnd = (e: TouchEvent) => {
       e.preventDefault()
-      startYRef.current = null
-      onChange(items[selectedIndex])
+      handleEnd()
+    }
+
+    const handleMouseDown = (e: MouseEvent) => {
+      e.preventDefault()
+      handleStart(e.clientY)
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingRef.current) return
+      e.preventDefault()
+      handleMove(e.clientY)
+    }
+
+    const handleMouseUp = (e: MouseEvent) => {
+      e.preventDefault()
+      handleEnd()
+    }
+
+    const handleMouseLeave = () => {
+      if (isDraggingRef.current) {
+        handleEnd()
+      }
     }
 
     picker.addEventListener("touchstart", handleTouchStart, { passive: false })
     picker.addEventListener("touchmove", handleTouchMove, { passive: false })
     picker.addEventListener("touchend", handleTouchEnd, { passive: false })
+    picker.addEventListener("mousedown", handleMouseDown)
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseup", handleMouseUp)
+    picker.addEventListener("mouseleave", handleMouseLeave)
 
     return () => {
       picker.removeEventListener("touchstart", handleTouchStart)
       picker.removeEventListener("touchmove", handleTouchMove)
       picker.removeEventListener("touchend", handleTouchEnd)
+      picker.removeEventListener("mousedown", handleMouseDown)
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseup", handleMouseUp)
+      picker.removeEventListener("mouseleave", handleMouseLeave)
     }
   }, [selectedIndex, items, onChange])
 

@@ -168,7 +168,7 @@ export default function NewTask({
         <div className="flex items-center gap-2 h-[44px]">
           {date && (
             <div className="w-full bg-neutral-800 items-center justify-center rounded-md h-full px-3 flex">
-              {date.amount} {date.type}
+              {date.amount} {date.amount === 1 ? "Hour" : date.type}
             </div>
           )}
           <button

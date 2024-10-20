@@ -128,8 +128,12 @@ async function createContract(
 
   for (let i = 0; i < 30; i++) {
     await new Promise((resolve) => setTimeout(resolve, 10_000))
-    const deployed = await tonClient.getContractState(lockContract.address)
-    if (deployed.state === "active") return lockContract.address
+      try {
+          const deployed = await tonClient.getContractState(lockContract.address)
+          if (deployed.state === "active") return lockContract.address
+      }catch (e){
+        continue;
+      }
   }
   throw new Error("Contract not created")
 }

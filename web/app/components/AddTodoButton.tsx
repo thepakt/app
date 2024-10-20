@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "framer-motion"
 import { PlusIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { modalSpring } from "theme/transitions"
-import { AddTodoVariants } from "theme/variants"
 
 interface AddTodoProps {
   setIsNewTodoOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -20,24 +19,19 @@ export default function AddTodoButton({
   }, [isNewTodoOpen])
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className="absolute flex items-center drop-shadow-lg justify-center text-white overflow-hidden rounded-[30px] bg-white/40 hover:bg-white/40 transition-colors"
-        variants={AddTodoVariants}
-        initial="closed"
-        animate="closed"
-        transition={modalSpring}
-        onClick={() => setIsNewTodoOpen(true)}
-      >
-        <motion.div
-          className="relative z-10 w-full h-full flex items-center cursor-pointer justify-center"
-          initial={{ opacity: 1, rotate: 0 }}
-          animate={{ opacity: 1, rotate: isRotated ? 45 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <PlusIcon size={28} />
-        </motion.div>
+    <motion.div
+      className="absolute p-2 right-2 bottom-2 flex items-center drop-shadow-lg justify-center text-white overflow-hidden rounded-[30px] bg-white/40 hover:bg-white/40 transition-colors"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={modalSpring}
+      onClick={(e) => {
+        setIsNewTodoOpen(true)
+      }}
+    >
+      <motion.div className="relative z-10 w-full h-full flex items-center cursor-pointer justify-center">
+        <PlusIcon size={28} />
       </motion.div>
-    </AnimatePresence>
+    </motion.div>
   )
 }

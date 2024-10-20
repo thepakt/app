@@ -14,6 +14,11 @@ function RouteComponent() {
   const address = useTonAddress()
   const [isNewTodoOpen, setIsNewTodoOpen] = useState(false)
   const [expandedTodoId, setExpandedTodoId] = useState<number | null>(null)
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const [date, setDate] = useState<{ amount: number; type: string }>({
+    amount: 1,
+    type: "Hours",
+  })
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
@@ -37,14 +42,6 @@ function RouteComponent() {
       return res
     },
     enabled: !!address,
-  })
-  if (error) {
-    return <></>
-  }
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [date, setDate] = useState<{ amount: number; type: string }>({
-    amount: 1,
-    type: "Hours",
   })
 
   return (
@@ -85,7 +82,12 @@ function RouteComponent() {
           <div className="flex flex-col gap-1 mt-16">
             <AnimatePresence>
               {isNewTodoOpen && (
-                <NewTask onClose={() => setIsNewTodoOpen(false)} />
+                <NewTask
+                  onClose={() => setIsNewTodoOpen(false)}
+                  showDatePicker={isDatePickerOpen}
+                  date={date}
+                  setShowDatePicker={setIsDatePickerOpen}
+                />
               )}
             </AnimatePresence>
             {/* @ts-ignore */}
@@ -117,14 +119,16 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-      {address && (
-        <div className="fixed bottom-20 left-0 right-2 flex justify-center">
-          <AddTodoButton
-            setIsNewTodoOpen={setIsNewTodoOpen}
-            isNewTodoOpen={isNewTodoOpen}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {!isNewTodoOpen && (
+          <div className="fixed bottom-20 left-0 right-2 flex justify-center">
+            <AddTodoButton
+              setIsNewTodoOpen={setIsNewTodoOpen}
+              isNewTodoOpen={isNewTodoOpen}
+            />
+          </div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

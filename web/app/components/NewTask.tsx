@@ -9,10 +9,24 @@ import { DatePicker } from "./DatePicker"
 
 type TimeUnit = "Hours" | "Days"
 
-export default function NewTask({ onClose }: { onClose: () => void }) {
+export default function NewTask({
+  onClose,
+  showDatePicker,
+  setShowDatePicker,
+  date,
+}: {
+  onClose: () => void
+  showDatePicker: boolean
+  setShowDatePicker: (show: boolean) => void
+  date: {
+    amount: number
+    type: string
+  }
+}) {
   const address = useTonAddress()
   const queryClient = useQueryClient()
   const componentRef = useRef<HTMLDivElement>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [title, setTitle] = useState("")
   const [notes, setNotes] = useState("")
   const [bounty, setBounty] = useState("")
@@ -61,13 +75,23 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
         componentRef.current &&
         !componentRef.current.contains(event.target as Node)
       ) {
-        onClose()
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current)
+        }
+
+        timeoutRef.current = setTimeout(() => {
+          onClose()
+        }, 0)
       }
     }
 
     document.addEventListener("mousedown", clickOutside)
     return () => {
       document.removeEventListener("mousedown", clickOutside)
+      // Clear timeout on cleanup
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
     }
   }, [onClose])
 
@@ -113,7 +137,8 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
       />
 
       <div className="flex flex-col mb-2">
-        <span className="font-thin text-xs mb-1">Subtasks:</span>
+        {/* no subtasks for now */}
+        {/* <span className="font-thin text-xs mb-1">Subtasks:</span>
         {subtasks.map((subtask, index) => (
           <div key={index} className="flex items-center mb-1">
             <input
@@ -134,13 +159,27 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
               remove
             </button>
           </div>
-        ))}
-        <button
+        ))} */}
+        {/* <button
           onClick={() => setSubtasks([...subtasks, ""])}
           className="items-start mt-1"
         >
           Add
-        </button>
+        </button> */}
+        <h2>Estimated time:</h2>
+        <div className="flex items-center gap-2 h-[44px]">
+          {date && (
+            <div className="w-full bg-neutral-700 items-center justify-center rounded-md h-full px-3 flex">
+              {date.amount} {date.type}
+            </div>
+          )}
+          <button
+            onClick={() => setShowDatePicker(true)}
+            className="w-full min-w-[120px] rounded-md h-full p-2 bg-blue-500"
+          >
+            Pick time
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-col mb-2">
@@ -160,7 +199,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
           </Picker>
         </div> */}
 
-        <div className="relative bg-white/10 rounded-xl px-3 py-1">
+        <div className="relative bg-white/10 h-[44px] rounded-md px-3 py-2">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $
           </span>
@@ -179,10 +218,10 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
           />
         </div>
 
-        <div className="pt-6">
+        <div className="pt-2">
           <button
             type="button"
-            className="py-1 h-9 bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
+            className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
             onClick={async () => {
               await createTask({
                 task: {

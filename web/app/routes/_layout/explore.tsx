@@ -179,7 +179,7 @@ const FeedItem = ({
             } catch (err) {
               console.error(err)
               setWaitingForTransaction(false)
-              alert(JSON.stringify(err))
+              // alert(JSON.stringify(err))
             }
           }}
           className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 py-3 rounded-xl"

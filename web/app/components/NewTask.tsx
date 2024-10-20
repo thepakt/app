@@ -133,10 +133,9 @@ export default function NewTask({
             setNotes(notes + "\n")
           }
         }}
-        className="w-full max-h-[400px]  bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"
+        className="w-full max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-hidden mb-2"
         placeholder="Notes"
       />
-
       <div className="flex flex-col mb-2">
         {/* no subtasks for now */}
         {/* <span className="font-thin text-xs mb-1">Subtasks:</span>

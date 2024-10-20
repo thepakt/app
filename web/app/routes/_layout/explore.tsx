@@ -143,7 +143,7 @@ const FeedItem = ({
               const createdContractAddress = await createContract({
                 performer: Address.parse(taskWithCreator.creator.walletAddress),
                 moderator: Address.parse(moderator.walletAddress),
-                tokenMaster: Address.parse(import.meta.env.VITE_TOKEN_MASTER),
+                tokenMaster: Address.parse(import.meta.env.VITE_MASTER_ADDRESS),
                 // TODO: support subtasks
                 tasks: [{ amount: BigInt(0) }],
                 // TODO: make it smart so it adjusts based on the decimals of the jetton

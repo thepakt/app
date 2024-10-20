@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, useRouterState } from "@tanstack/react-router"
-import { initData, postEvent } from "@telegram-apps/sdk"
+import { init, parseInitData, postEvent } from "@telegram-apps/sdk"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser } from "~/actions"
@@ -16,18 +16,16 @@ function LayoutComponent() {
 
   useEffect(() => {
     try {
-      // const initDataRes = initData()
-      // if (initData) {
-      //   postEvent("web_app_open_popup", {
-      //     title: "user id",
-      //     message: initData.user.id,
-      //     buttons: [
-      //       { id: "0", type: "close", text: "close" },
-      //       { id: "1", type: "ok", text: "ok" },
-      //     ],
-      //   })
-      //   postEvent("web_app_expand")
-      // }
+      init()
+      const initData = parseInitData()
+      if (initData) {
+        postEvent("web_app_open_popup", {
+          title: "user id",
+          message: initData.user.id,
+          buttons: [{ id: "1", type: "ok", text: "ok" }],
+        })
+        postEvent("web_app_expand")
+      }
     } catch (e) {
       console.log("The app runs outside of the telegram")
     }

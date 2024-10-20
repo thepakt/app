@@ -101,7 +101,7 @@ const FeedItem = ({
         </div>
       </div>
 
-      <p className="text-white text-sm">{title}</p>
+      <p className="text-white my-3 pl-2 text-sm">{title}</p>
       <p className="text-white/50 text-xs mb-3">{notes}</p>
 
       <div className="flex justify-between items-center">

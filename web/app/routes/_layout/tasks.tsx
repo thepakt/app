@@ -46,7 +46,7 @@ function RouteComponent() {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-lg font-bold text-start pl-10 pt-20">
+      <h1 className="text-lg font-semibold text-start pl-8 pt-[1.2em]">
         Your Active Tasks
       </h1>
       <div className="w-full flex items-center justify-center overflow-hidden">

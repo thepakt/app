@@ -127,7 +127,7 @@ export function TaskComponent({
               </button>
               <h3 className="text-md font-normal mb-4">New Investor Request</h3>
               <p className="font-light mb-6">
-                @Someone wants to become an investor for this task.
+                Someone wants to become an investor for this task.
               </p>
               <div className="flex justify-end space-x-4">
                 <button

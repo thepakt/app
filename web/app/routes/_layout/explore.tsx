@@ -13,6 +13,7 @@ import {
 import useActions from "~/lib/investor/useActions"
 
 function RouteComponent() {
+  const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const { data, isLoading, error } = useQuery({
     queryKey: ["explore"],
     queryFn: async () => {
@@ -26,11 +27,21 @@ function RouteComponent() {
 
   return (
     <div className="min-h-screen pt-16">
-      {" "}
+      {waitingForTransaction && (
+        <div className="fixed top-0 left-0 flex items-center justify-center h-screen w-screen bg-black/30 z-50">
+          <div className="h-[60px] w-[60px] animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
+        </div>
+      )}
       <main className="container mx-auto px-4">
         {/* @ts-ignore */}
         {data?.map((task, index) => (
-          <FeedItem key={index} index={index} {...task} taskId={task.id} />
+          <FeedItem
+            key={index}
+            setWaitingForTransaction={setWaitingForTransaction}
+            index={index}
+            {...task}
+            taskId={task.id}
+          />
         ))}
       </main>
     </div>
@@ -46,19 +57,20 @@ const FeedItem = ({
   index,
   bountyPriceInUsdt,
   bountyEstimatedTimeInHours,
+  setWaitingForTransaction,
   taskId,
 }: {
   username: string
   handle: string
   notes: string
   index: number
+  setWaitingForTransaction: (waiting: boolean) => void
   title: string
   bountyPriceInUsdt: number
   bountyEstimatedTimeInHours: number
   taskId: string
 }) => {
   const { createContract } = useActions()
-  const [waitingForTransaction, setWaitingForTransaction] = useState(false)
 
   return (
     <motion.div
@@ -68,11 +80,6 @@ const FeedItem = ({
       className="bg-black/30 rounded-3xl rounded-tl-[50px] p-5 mb-3 max-w-md mx-auto"
     >
       <div className="flex items-center justify-between mb-4">
-        {waitingForTransaction && (
-          <div className="fixed top-0 left-0 flex items-center justify-center h-screen w-screen bg-black/30 z-50">
-            <div className="h-[60px] w-[60px] animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
-          </div>
-        )}
         <div className="flex items-center">
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div>

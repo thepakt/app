@@ -109,7 +109,7 @@ function RouteComponent() {
         </div>
       </div>
       <AnimatePresence>
-        {!isNewTodoOpen && (
+        {!isNewTodoOpen && address && (
           <div className="fixed bottom-20 left-0 right-2 flex justify-center">
             <AddTodoButton
               setIsNewTodoOpen={setIsNewTodoOpen}

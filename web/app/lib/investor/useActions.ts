@@ -94,7 +94,8 @@ async function createContract(
     },
     {
       $$type: "TokenTransfer",
-      queryId: 0n,
+      // queryId: 0n,
+      queryId: BigInt(0),
       amount:
         tasksMap.map((e) => e.amount).reduce((a, b) => a + b) + finishAmount,
       destination: collection.address,

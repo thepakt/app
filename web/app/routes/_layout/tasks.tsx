@@ -51,9 +51,9 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="w-full flex items-center justify-center">
-        <div>
-          {/* @ts-ignore */}
+      <div className="w-full flex items-center justify-center overflow-hidden">
+        {/* TODO: should show notification */}
+        {/* <div>
           {data?.taskNotifications?.map((taskNotification) => {
             return (
               <div
@@ -69,7 +69,7 @@ function RouteComponent() {
               </div>
             )
           })}
-        </div>
+        </div> */}
         <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <DatePicker
             isOpen={isDatePickerOpen}

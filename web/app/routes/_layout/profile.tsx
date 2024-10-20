@@ -14,10 +14,7 @@ export default function ProfileComponent() {
       <section className="w-full p-[1em] pt-[2em] min-h-screen">
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-between items-center mb-6">
-            <div className="flex gap-4 justify-between w-full items-center">
-              <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
-              <TonConnectButton />
-            </div>
+            <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           </div>
           <div className="flex items-center justify-between mb-6">
             <div className="flex flex-col gap-2">

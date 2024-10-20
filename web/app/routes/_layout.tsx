@@ -15,9 +15,10 @@ function LayoutComponent() {
 
   return (
     <>
-      <div className="absolute top-4 right-4">
+      <div className=" absolute top-4 right-4">
         <TonConnectButton />
       </div>
+
       <Outlet />
       <Bottombar />
     </>

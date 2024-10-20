@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { address, Address } from "@ton/core"
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
+import { Address } from "@ton/core"
 import { motion } from "framer-motion"
 import { Heart, Share, Wallet } from "lucide-react"
 import { useState } from "react"
@@ -81,8 +80,7 @@ const FeedItem = ({
   }
 }) => {
   const { createContract } = useActions()
-  const [tonConnectUI] = useTonConnectUI()
-  const address = useTonAddress()
+  const [isLiked, setIsLiked] = useState(false)
 
   return (
     <motion.div
@@ -124,7 +122,10 @@ const FeedItem = ({
 
       <div className="flex flex-col gap-2 text-white/90 mt-4">
         <div className="flex gap-2">
-          <button className="flex p-2 gap-1 bg-neutral-700/40 hover:bg-neutral-700 transition-all justify-center rounded-lg items-center w-full">
+          <button
+            className={`flex p-2 gap-1 ${isLiked ? "bg-red-500/30" : "bg-neutral-700/40"} hover:opacity-60 transition-all justify-center rounded-lg items-center w-full`}
+            onClick={() => setIsLiked(!isLiked)}
+          >
             <Heart className="w-3 h-3" />
             <span className="text-[13px] text-center">I want it</span>
           </button>
@@ -136,11 +137,6 @@ const FeedItem = ({
         <button
           onClick={async () => {
             try {
-              if (!address) {
-                console.log("runs..")
-                tonConnectUI.openModal()
-                return
-              }
               const taskWithCreator = await getTaskWithItsCreator({
                 taskId,
               })
@@ -172,7 +168,7 @@ const FeedItem = ({
             } catch (err) {
               console.error(err)
               setWaitingForTransaction(false)
-              // alert(JSON.stringify(err))
+              alert(JSON.stringify(err))
             }
           }}
           className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 py-3 rounded-xl"

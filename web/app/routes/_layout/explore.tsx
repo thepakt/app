@@ -12,6 +12,31 @@ import {
 } from "~/actions"
 import useActions from "~/lib/investor/useActions"
 
+function RouteComponent() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["explore"],
+    queryFn: async () => {
+      const res = await getPublicTasks({})
+      console.log(res)
+      return res
+    },
+  })
+  if (error) return <></>
+  if (isLoading) return <></>
+
+  return (
+    <div className="min-h-screen pt-16">
+      {" "}
+      <main className="container mx-auto px-4">
+        {/* @ts-ignore */}
+        {data?.map((task, index) => (
+          <FeedItem key={index} index={index} {...task} taskId={task.id} />
+        ))}
+      </main>
+    </div>
+  )
+}
+
 const FeedItem = ({
   username,
   handle,
@@ -123,31 +148,6 @@ const FeedItem = ({
         </button>
       </div>
     </motion.div>
-  )
-}
-
-function RouteComponent() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["explore"],
-    queryFn: async () => {
-      const res = await getPublicTasks({})
-      console.log(res)
-      return res
-    },
-  })
-  if (error) return <></>
-  if (isLoading) return <></>
-
-  return (
-    <div className="min-h-screen pt-16">
-      {" "}
-      <main className="container mx-auto px-4">
-        {/* @ts-ignore */}
-        {data?.map((task, index) => (
-          <FeedItem key={index} index={index} {...task} taskId={task.id} />
-        ))}
-      </main>
-    </div>
   )
 }
 

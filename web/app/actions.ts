@@ -114,7 +114,9 @@ export const getModerator = createServerFn("POST", async (data: {}) => {
 })
 
 export const getPublicTasks = createServerFn("POST", async (data: {}) => {
-  const tasks = await get.tasks()
+  const tasks = await get.tasks({
+    including: ["creator"],
+  })
   return tasks
 })
 

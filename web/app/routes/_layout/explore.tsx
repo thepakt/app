@@ -11,6 +11,7 @@ import {
   getTaskWithItsCreator,
 } from "~/actions"
 import useActions from "~/lib/investor/useActions"
+import { toNanoDigits } from "~/lib/ton-utils"
 
 function RouteComponent() {
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
@@ -146,7 +147,9 @@ const FeedItem = ({
                 // TODO: support subtasks
                 tasks: [{ amount: BigInt(0) }],
                 // TODO: make it smart so it adjusts based on the decimals of the jetton
-                finishAmount: BigInt(bountyPriceInUsdt),
+                finishAmount: BigInt(
+                  toNanoDigits(bountyPriceInUsdt.toString(), 6),
+                ),
               })
               const acceptTaskNotification = await createAcceptTaskNotification(
                 {

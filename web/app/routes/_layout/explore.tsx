@@ -148,6 +148,7 @@ const FeedItem = ({
                 tasks: [{ amount: BigInt(0) }],
                 // TODO: make it smart so it adjusts based on the decimals of the jetton
                 finishAmount: BigInt(
+                  // @ts-ignore
                   toNanoDigits(bountyPriceInUsdt.toString(), 6),
                 ),
               })

@@ -137,6 +137,7 @@ const FeedItem = ({
         <button
           onClick={async () => {
             try {
+              const digits = Number(import.meta.env.VITE_JETTON_DECIMALS)
               const taskWithCreator = await getTaskWithItsCreator({
                 taskId,
               })
@@ -153,7 +154,7 @@ const FeedItem = ({
                 // TODO: make it smart so it adjusts based on the decimals of the jetton
                 finishAmount: BigInt(
                   // @ts-ignore
-                  toNanoDigits(bountyPriceInUsdt.toString(), 6),
+                  toNanoDigits(bountyPriceInUsdt.toString(), digits),
                 ),
               })
               const acceptTaskNotification = await createAcceptTaskNotification(

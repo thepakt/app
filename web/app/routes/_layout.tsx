@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, useRouterState } from "@tanstack/react-router"
-import { init, parseInitData, postEvent } from "@telegram-apps/sdk"
+import { initInitData, postEvent } from "@telegram-apps/sdk"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser } from "~/actions"
@@ -16,8 +16,7 @@ function LayoutComponent() {
 
   useEffect(() => {
     try {
-      init()
-      const initData = parseInitData()
+      const initData = initInitData()
       if (initData) {
         postEvent("web_app_open_popup", {
           title: "user id",

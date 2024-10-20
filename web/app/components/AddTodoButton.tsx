@@ -27,7 +27,7 @@ export default function AddTodoButton({
   return (
     <AnimatePresence>
       <motion.div
-        className="absolute flex items-center drop-shadow-lg justify-center text-white overflow-hidden rounded-[30px] bg-white/30 hover:bg-white/40 transition-colors"
+        className="absolute flex items-center drop-shadow-lg justify-center text-white overflow-hidden rounded-[30px] bg-white/40 hover:bg-white/40 transition-colors"
         variants={AddTodoVariants}
         initial="closed"
         animate="closed"

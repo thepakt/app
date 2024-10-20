@@ -107,7 +107,7 @@ function RouteComponent() {
         </div>
       </div>
       {address && (
-        <div className="absolute bottom-20 left-0 right-2 flex justify-center">
+        <div className="fixed bottom-20 left-0 right-2 flex justify-center">
           <AddTodoButton
             setIsNewTodoOpen={setIsNewTodoOpen}
             isNewTodoOpen={isNewTodoOpen}

@@ -103,9 +103,8 @@ const FeedItem = ({
               ),
               // TODO: support subtasks
               tasks: [{ amount: BigInt(0) }],
-              // TODO: make this value dynamic
               // TODO: make it smart so it adjusts based on the decimals of the jetton
-              finishAmount: BigInt(200),
+              finishAmount: BigInt(bountyPriceInUsdt),
             })
             const acceptTaskNotification = await createAcceptTaskNotification({
               taskId: taskWithCreator.task.id,

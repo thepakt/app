@@ -19,11 +19,6 @@ export default function AddTodoButton({
     setIsRotated(isNewTodoOpen)
   }, [isNewTodoOpen])
 
-  const handleClick = () => {
-    setIsNewTodoOpen((prev) => !prev)
-    setIsRotated((prev) => !prev)
-  }
-
   return (
     <AnimatePresence>
       <motion.div
@@ -32,7 +27,7 @@ export default function AddTodoButton({
         initial="closed"
         animate="closed"
         transition={modalSpring}
-        onClick={handleClick}
+        onClick={() => setIsNewTodoOpen(true)}
       >
         <motion.div
           className="relative z-10 w-full h-full flex items-center cursor-pointer justify-center"

@@ -74,17 +74,18 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
   return (
     <motion.div
       ref={componentRef}
-      initial={{ opacity: 0, y: -20, height: 0, margin: "0" }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{
         opacity: 1,
         y: 0,
-        height: "auto",
-        margin: "0 0 16px 0",
-        padding: "16px",
       }}
-      exit={{ opacity: 0, y: -20, height: 0, margin: 0, padding: 0 }}
-      transition={{ type: "ease-in-out", duration: 0.3 }}
-      className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg"
+      exit={{ opacity: 0, y: 20 }}
+      transition={{
+        type: "spring",
+        damping: 20,
+        stiffness: 300,
+      }}
+      className="bg-white/10 p-4 backdrop-blur-md rounded-xl shadow-lg"
     >
       <input
         type="text"
@@ -143,12 +144,12 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
       </div>
 
       <div className="flex flex-col mb-2">
-        <div className="flex flex-col gap-1">
+        {/* <div className="flex flex-col gap-1">
           <span className="font-thin text-xs">Estimated time: </span>
           <Picker value={estimatedTimeInHours} onChange={handlePickerChange}>
             {Object.keys(estimatedTimeOptions).map((name) => (
               <Picker.Column key={name} name={name}>
-                {/* @ts-ignore */}
+
                 {estimatedTimeOptions[name].map((option) => (
                   <Picker.Item key={option} value={option}>
                     {option}
@@ -157,7 +158,7 @@ export default function NewTask({ onClose }: { onClose: () => void }) {
               </Picker.Column>
             ))}
           </Picker>
-        </div>
+        </div> */}
 
         <div className="relative bg-white/10 rounded-xl px-3 py-1">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">

@@ -104,7 +104,7 @@ export default function RouteComponent() {
                 {(profileData &&
                   "username" in profileData &&
                   profileData.username) ||
-                  "User not connected"}{" "}
+                  ""}{" "}
               </h1>
               {address && (
                 <p className="text-[12px] text-gray-400 rounded-full">

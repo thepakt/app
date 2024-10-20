@@ -68,7 +68,7 @@ function RouteComponent() {
             )
           })}
         </div> */}
-        <div className="w-full p-4 py-[0.5em] min-w-[300px] max-w-[500px] h-full">
+        <div className="w-full  py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <DatePicker
             isOpen={isDatePickerOpen}
             onClose={() => setIsDatePickerOpen(false)}

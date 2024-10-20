@@ -18,7 +18,6 @@ import { Route as DeferredImport } from './routes/deferred'
 import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
-import { Route as LayoutTasksImport } from './routes/_layout/tasks'
 import { Route as LayoutProfileImport } from './routes/_layout/profile'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
 
@@ -57,11 +56,6 @@ const LayoutRoute = LayoutImport.update({
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
-
-const LayoutTasksRoute = LayoutTasksImport.update({
-  path: '/tasks',
-  getParentRoute: () => LayoutRoute,
 } as any)
 
 const LayoutProfileRoute = LayoutProfileImport.update({
@@ -141,13 +135,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutProfileImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/tasks': {
-      id: '/_layout/tasks'
-      path: '/tasks'
-      fullPath: '/tasks'
-      preLoaderRoute: typeof LayoutTasksImport
-      parentRoute: typeof LayoutImport
-    }
   }
 }
 
@@ -156,13 +143,11 @@ declare module '@tanstack/react-router' {
 interface LayoutRouteChildren {
   LayoutExploreRoute: typeof LayoutExploreRoute
   LayoutProfileRoute: typeof LayoutProfileRoute
-  LayoutTasksRoute: typeof LayoutTasksRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutExploreRoute: LayoutExploreRoute,
   LayoutProfileRoute: LayoutProfileRoute,
-  LayoutTasksRoute: LayoutTasksRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -178,7 +163,6 @@ export interface FileRoutesByFullPath {
   '/users': typeof UsersRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
-  '/tasks': typeof LayoutTasksRoute
 }
 
 export interface FileRoutesByTo {
@@ -191,7 +175,6 @@ export interface FileRoutesByTo {
   '/users': typeof UsersRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
-  '/tasks': typeof LayoutTasksRoute
 }
 
 export interface FileRoutesById {
@@ -205,7 +188,6 @@ export interface FileRoutesById {
   '/users': typeof UsersRoute
   '/_layout/explore': typeof LayoutExploreRoute
   '/_layout/profile': typeof LayoutProfileRoute
-  '/_layout/tasks': typeof LayoutTasksRoute
 }
 
 export interface FileRouteTypes {
@@ -220,7 +202,6 @@ export interface FileRouteTypes {
     | '/users'
     | '/explore'
     | '/profile'
-    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -232,7 +213,6 @@ export interface FileRouteTypes {
     | '/users'
     | '/explore'
     | '/profile'
-    | '/tasks'
   id:
     | '__root__'
     | '/'
@@ -244,7 +224,6 @@ export interface FileRouteTypes {
     | '/users'
     | '/_layout/explore'
     | '/_layout/profile'
-    | '/_layout/tasks'
   fileRoutesById: FileRoutesById
 }
 
@@ -296,8 +275,7 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/explore",
-        "/_layout/profile",
-        "/_layout/tasks"
+        "/_layout/profile"
       ]
     },
     "/chat": {
@@ -321,10 +299,6 @@ export const routeTree = rootRoute
     },
     "/_layout/profile": {
       "filePath": "_layout/profile.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/tasks": {
-      "filePath": "_layout/tasks.tsx",
       "parent": "/_layout"
     }
   }

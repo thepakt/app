@@ -7,6 +7,7 @@ export const createUser = createServerFn(
     const userExists = await get.user.with({
       walletAddress: data.walletAddress,
     })
+    console.log(userExists, "user exists")
     if (userExists) return userExists
     const newUser = await create.user.with({
       walletAddress: data.walletAddress,

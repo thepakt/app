@@ -201,6 +201,17 @@ export function TaskComponent({
                 )}
               </div>
               <div className="flex items-center space-x-2"></div>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  console.log("Delete task:", task.id)
+                }}
+                className="self-end flex flex-row gap-2 items-center mt-4 px-4 py-2 bg-red-500/30 text-white rounded-full hover:bg-red-500/50 transition-colors"
+              >
+                <X className="size-3" />
+                delete task
+              </button>
             </motion.div>
           )}
         </AnimatePresence>

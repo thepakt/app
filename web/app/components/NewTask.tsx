@@ -108,7 +108,7 @@ export default function NewTask({
         damping: 20,
         stiffness: 300,
       }}
-      className="bg-black/30 p-4 backdrop-blur-md rounded-3xl mb-[0.5em] shadow-lg"
+      className="bg-black/30 p-6 backdrop-blur-md rounded-3xl rounded-tr-[50px] mb-[0.5em] shadow-lg"
     >
       <input
         type="text"
@@ -134,7 +134,7 @@ export default function NewTask({
         className="w-full max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-hidden mb-2"
         placeholder="Notes"
       />
-      <div className="flex flex-col mb-2">
+      <div className="flex flex-col text-[14px] mb-2">
         {/* no subtasks for now */}
         {/* <span className="font-thin text-xs mb-1">Subtasks:</span>
         {subtasks.map((subtask, index) => (
@@ -195,7 +195,7 @@ export default function NewTask({
                 setBounty(value)
               }
             }}
-            className="w-[100%] bg-transparent outline-none text-sm pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-[100%] bg-transparent outline-none text-[14px] pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="Amount"
           />
         </div>

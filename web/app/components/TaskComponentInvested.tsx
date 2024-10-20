@@ -38,16 +38,21 @@ export function TaskComponentInvested({
   return (
     isVisible && (
       <motion.div
-        layout
         onClick={() => {
           onClick(task.id)
         }}
-        initial={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 1, x: 0, scale: 0.9 }}
         animate={{
           opacity: taskCompleted ? 0 : 1,
+
           x: taskCompleted ? -100 : 0,
+          scale: 1,
         }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut",
+          scale: { duration: 0.2, ease: "easeOut" },
+        }}
         className={`rounded-3xl rounded-tl-[50px] p-5 mb-3 w-full max-w-2xl mx-auto relative ${taskCompleted ? "bg-green-500" : conflictClicked ? "bg-gradient-to-r from-black to-red-800/50 border border-red-500" : "bg-black/30"}`}
       >
         <div className="flex items-center justify-between mb-4">

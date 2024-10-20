@@ -46,7 +46,7 @@ function RouteComponent() {
 
   return (
     <div className="container pb-[3em] mx-auto px-4 mb-10">
-      <h1 className="text-lg font-semibold text-start pl-8 pt-[1.2em]">
+      <h1 className="text-lg font-semibold text-start pt-[1.2em]">
         Your Active Tasks
       </h1>
       <div className="w-full flex items-center justify-center overflow-hidden">
@@ -121,10 +121,10 @@ function RouteComponent() {
 
       {data?.tasks?.some((task) => task.workOnTaskHasStarted) && (
         <div className="w-full flex flex-col items-start">
-          <h1 className="text-md font-semibold pl-10 pt-[1.2em]">
+          <h1 className="text-md font-semibold pt-[1.2em]">
             Tasks In Progress
           </h1>
-          <div className="flex flex-col gap-2 mt-2 items-center w-full max-w-[500px]">
+          <div className="flex flex-col gap-2 mt-4 items-center w-full max-w-[500px]">
             {data.tasks
               .filter((task) => task.workOnTaskHasStarted)
               .map((task) => (

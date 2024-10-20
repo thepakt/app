@@ -77,12 +77,13 @@ function RouteComponent() {
             setDate={setDate}
           />
 
-          <button
+          {/* TODO: IGOR do the thing */}
+          {/* <button
             onClick={() => setIsDatePickerOpen(true)}
             className="absolute bottom-[200px] bg-red-500 right-0"
           >
             show picker
-          </button>
+          </button> */}
           <div className="flex flex-col gap-1 mt-16">
             <AnimatePresence>
               {isNewTodoOpen && (

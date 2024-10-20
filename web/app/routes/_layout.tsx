@@ -28,6 +28,14 @@ function LayoutComponent() {
     }
   }, [])
 
+  useEffect(() => {
+    // when i have tg username
+    // const usernameUpdated = await updateTgUsername({
+    //   tgUsername: initData.user.username ?? initData.user.id,
+    //   walletAddress: address,
+    // })
+  }, [])
+
   return (
     <>
       <div className=" absolute top-4 right-4">

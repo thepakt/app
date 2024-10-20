@@ -77,6 +77,7 @@ const FeedItem = ({
   creator: {
     walletAddress: string
     prettyName: string
+    username: string
   }
 }) => {
   const { createContract } = useActions()
@@ -93,7 +94,9 @@ const FeedItem = ({
         <div className="flex items-center">
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div className="pl-2">
-            <h2 className="text-white font-semibold">{creator.prettyName}</h2>
+            <h2 className="text-white font-semibold">
+              {creator.prettyName || creator.username || ""}
+            </h2>
             <p className="opacity-70 text-xs">
               {creator.walletAddress.slice(0, 4)}...
               {creator.walletAddress.slice(-4)}

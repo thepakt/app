@@ -1,8 +1,10 @@
 import { Task } from "@ronin/todo-escrow"
+import { useQueryClient } from "@tanstack/react-query"
 import { Address } from "@ton/core"
 import { AnimatePresence, motion } from "framer-motion"
 import { Bell, Share, Trash, X } from "lucide-react"
 import { useState } from "react"
+import { deleteTask } from "~/actions"
 import useActions from "~/lib/investor/useActions"
 
 export function TaskComponent({
@@ -21,6 +23,7 @@ export function TaskComponent({
   const { startContract } = useActions()
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const queryClient = useQueryClient()
 
   return (
     <motion.div
@@ -65,6 +68,7 @@ export function TaskComponent({
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-1 flex-col">
           <h2 className="text-white text-sm">Bounty:</h2>
+          {/* @ts-ignore */}
           <p className="text-white/50 text-xs">{task.bountyPriceInUSDT}$</p>
         </div>
         <div className="flex items-end gap-1 flex-col">
@@ -81,7 +85,17 @@ export function TaskComponent({
           <Share className="w-4 h-4" />
           <span className="text-[14px] text-center">Share</span>
         </button>
-        <button className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40">
+        <button
+          className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40"
+          onClick={async () => {
+            const deletedTask = await deleteTask({ taskId: task.id })
+            queryClient.invalidateQueries({
+              queryKey: ["tasks"],
+              refetchType: "all",
+            })
+            console.log(deletedTask, "deletedTask")
+          }}
+        >
           <Trash className="w-4 h-4" />
           <span className="text-[14px] text-center">Delete</span>
         </button>

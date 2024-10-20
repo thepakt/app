@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/start"
-import { create, get, set } from "ronin"
+import { create, get, set, drop } from "ronin"
 
 export const createUser = createServerFn(
   "POST",
@@ -187,39 +187,14 @@ export const contractStartedForTask = createServerFn(
   },
 )
 
-// export const deleteTask = createServerFn(
-//   "POST",
-//   async (data: {
-//     taskId: string
-//     userWalletAddress: string
-//   }) => {
-//     const user = await get.user.with({
-//       walletAddress: data.userWalletAddress,
-//     })
-//     if (!user) throw new Error("User not found")
-
-//     const task = await get.task.with({
-//       id: data.taskId,
-//       creator: user.id,
-//     })
-//     if (!task) throw new Error("Task not found or user is not the creator")
-
-//     // Delete associated subtasks
-//     await set.subtasks({
-//       with: {
-//         parentTask: task.id,
-//       },
-//       to: null,
-//     })
-
-//     // Delete the task
-//     const deletedTask = await set.task({
-//       with: {
-//         id: data.taskId,
-//       },
-//       to: null,
-//     })
-
-//     return deletedTask
-//   },
-// )
+export const deleteTask = createServerFn(
+  "POST",
+  async (data: { taskId: string }) => {
+    const deletedTask = await drop.task({
+      with: {
+        id: data.taskId,
+      },
+    })
+    return deletedTask
+  },
+)

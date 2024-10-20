@@ -1,14 +1,32 @@
+import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { TonConnectButton } from "@tonconnect/ui-react"
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { ChevronRight, StarIcon } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa"
-import { DatePicker } from "~/components/DatePicker"
-import Layout from "~/components/Layout"
 import { TodoItem } from "~/components/profile/TodoItem"
 import { UserData } from "~/components/profile/userData"
 
-export default function ProfileComponent() {
+export default function RouteComponent() {
+  const address = useTonAddress()
+  const [nfts, setNfts] = useState<any[]>([])
+  useEffect(() => {
+    if (!address) return
+    async function load() {
+      const response = await fetch(
+        // testnet
+        // TODO: move to mainnet (configurable)
+        `https://testnet.tonapi.io/v2/accounts/${address}/nfts?collection=kQDwLgmW_t9nJJyAhc1qm1lBSa9zp-YZyyN7da60P8hMPsaT&limit=1000&offset=0&indirect_ownership=false`,
+      )
+      if (!response.ok) {
+        throw new Error("Network response was not ok")
+      }
+      const nftItems = await response.json()
+      setNfts(nftItems.nft_items)
+    }
+    load()
+  }, [address])
+  console.log(nfts, "nfts")
   return (
     <main className="w-full flex items-center justify-center">
       <section className="w-full p-[1em] pt-[2em] min-h-screen">
@@ -69,11 +87,13 @@ export default function ProfileComponent() {
             ))}
           </ul>
         </div>
+
+        <div></div>
       </section>
     </main>
   )
 }
 
 export const Route = createFileRoute("/_layout/profile")({
-  component: ProfileComponent,
+  component: () => <RouteComponent />,
 })

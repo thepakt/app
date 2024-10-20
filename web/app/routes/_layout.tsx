@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, useRouter } from "@tanstack/react-router"
+import { Outlet, createFileRoute, useRouterState } from "@tanstack/react-router"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser } from "~/actions"
@@ -11,7 +11,7 @@ function LayoutComponent() {
       createUser({ walletAddress: address })
     }
   }, [address])
-  const pathname = useRouter().state.location.pathname
+  const router = useRouterState()
 
   return (
     <>

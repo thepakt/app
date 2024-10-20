@@ -110,14 +110,14 @@ export default function NewTask({
         damping: 20,
         stiffness: 300,
       }}
-      className="bg-black/30 p-4 backdrop-blur-md rounded-xl shadow-lg"
+      className="bg-black/30 p-4 backdrop-blur-md rounded-3xl mb-[0.5em] shadow-lg"
     >
       <input
         type="text"
         value={title}
         autoFocus
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full bg-transparent outline-none text-[20px] font-semibold mb-2"
+        className="w-full bg-transparent outline-none text-[18px] font-normal mb-2"
         placeholder="New Task"
       />
       <textarea

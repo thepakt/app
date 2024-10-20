@@ -17,6 +17,7 @@
     "@tanstack/react-router-with-query": "^1.63.5",
     "@tanstack/router-devtools": "^1.63.5",
     "@tanstack/start": "^1.63.5",
+    "@telegram-apps/sdk": "^2.5.1",
     "@ton-api/client": "^0.1.1",
     "@ton/core": "^0.59.0",
     "@ton/ton": "^15.1.0",

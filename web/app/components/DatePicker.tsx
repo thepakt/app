@@ -71,6 +71,7 @@ const Picker: React.FC<PickerProps> = ({
 
     const handleMouseDown = (e: MouseEvent) => {
       e.preventDefault()
+      e.stopPropagation()
       handleStart(e.clientY)
     }
 
@@ -94,7 +95,7 @@ const Picker: React.FC<PickerProps> = ({
     picker.addEventListener("touchstart", handleTouchStart, { passive: false })
     picker.addEventListener("touchmove", handleTouchMove, { passive: false })
     picker.addEventListener("touchend", handleTouchEnd, { passive: false })
-    picker.addEventListener("mousedown", handleMouseDown)
+    picker.addEventListener("mousedown", handleMouseDown, { capture: true })
     document.addEventListener("mousemove", handleMouseMove)
     document.addEventListener("mouseup", handleMouseUp)
     picker.addEventListener("mouseleave", handleMouseLeave)
@@ -103,7 +104,9 @@ const Picker: React.FC<PickerProps> = ({
       picker.removeEventListener("touchstart", handleTouchStart)
       picker.removeEventListener("touchmove", handleTouchMove)
       picker.removeEventListener("touchend", handleTouchEnd)
-      picker.removeEventListener("mousedown", handleMouseDown)
+      picker.removeEventListener("mousedown", handleMouseDown, {
+        capture: true,
+      })
       document.removeEventListener("mousemove", handleMouseMove)
       document.removeEventListener("mouseup", handleMouseUp)
       picker.removeEventListener("mouseleave", handleMouseLeave)

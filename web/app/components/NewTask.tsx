@@ -71,6 +71,7 @@ export default function NewTask({
 
   useEffect(() => {
     const clickOutside = (event: MouseEvent) => {
+      if (showDatePicker) return
       if (
         componentRef.current &&
         !componentRef.current.contains(event.target as Node)

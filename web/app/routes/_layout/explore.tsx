@@ -95,7 +95,7 @@ const FeedItem = ({
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div className="pl-2">
             <h2 className="text-white font-semibold">
-              {creator.prettyName || creator.username || ""}
+              {creator?.prettyName || creator?.username || ""}
             </h2>
             <p className="opacity-70 text-xs">
               {creator.walletAddress.slice(0, 4)}...

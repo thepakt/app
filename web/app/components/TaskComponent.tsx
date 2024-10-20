@@ -4,7 +4,7 @@ import { Address } from "@ton/core"
 import { AnimatePresence, motion } from "framer-motion"
 import { Bell, Share, Trash, X } from "lucide-react"
 import { useState } from "react"
-import { deleteTask } from "~/actions"
+import { deleteTask, startWorkOnTask } from "~/actions"
 import useActions from "~/lib/investor/useActions"
 
 export function TaskComponent({
@@ -144,6 +144,14 @@ export function TaskComponent({
                       Address.parse(contractOfTask),
                     )
                     console.log(contractStarted, "contractStarted")
+
+                    const startedWorkOnTask = await startWorkOnTask({
+                      taskId: task.id,
+                      investorWalletAddress: contractOfTask,
+                      workerTgUsername: "nikivi",
+                      investorTgUsername: "imartemy1524",
+                      taskName: task.title,
+                    })
 
                     setShowModal(false)
                   }}

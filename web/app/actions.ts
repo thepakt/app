@@ -201,28 +201,6 @@ export const contractStartedForTask = createServerFn(
       },
     })
     console.log(updatedAirdrop, "updatedAirdrop")
-
-    // starts chat between two users
-    //   try {
-    //     const response = await fetch("http://94.241.141.207:13452/create-chat", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         hash: "aboba",
-    //         users: ["nikivi", "nickname"],
-    //         title: "Title of the chat",
-    //       }),
-    //     })
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error! status: ${response.status}`)
-    //     }
-    //     const data = await response.json()
-    //     console.log("Chat created:", data)
-    //   } catch (error) {
-    //     console.error("Error creating chat:", error)
-    //   }
   },
 )
 
@@ -235,5 +213,48 @@ export const deleteTask = createServerFn(
       },
     })
     return deletedTask
+  },
+)
+
+export const startWorkOnTask = createServerFn(
+  "POST",
+  async (data: {
+    taskId: string
+    investorWalletAddress: string
+    workerTgUsername: string
+    investorTgUsername: string
+    taskName: string
+  }) => {
+    const investor = await get.user.with({
+      walletAddress: data.investorWalletAddress,
+    })
+    if (!investor) throw new Error("Investor not found")
+    const updatedTask = await set.task({
+      with: {
+        id: data.taskId,
+      },
+      to: {
+        investorLockedIn: investor.id,
+      },
+    })
+    try {
+      const response = await fetch("http://94.241.141.207:13452/create-chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          hash: "aboba",
+          users: [data.workerTgUsername, data.investorTgUsername],
+          title: data.taskName,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+    } catch (error) {
+      console.error("Error creating chat:", error)
+    }
+    return updatedTask
   },
 )

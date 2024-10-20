@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/start"
+import { Address } from "@ton/core"
 import { create, get, set, drop } from "ronin"
 
 export const createUser = createServerFn(
@@ -262,7 +263,7 @@ export const startWorkOnTask = createServerFn(
     taskName: string
   }) => {
     const investor = await get.user.with({
-      walletAddress: data.investorWalletAddress,
+      walletAddress: Address.parse(data.investorWalletAddress).toString(),
     })
     if (!investor) throw new Error("Investor not found")
     const updatedTask = await set.task({

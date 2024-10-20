@@ -84,25 +84,28 @@ export default function RouteComponent() {
       <section className="w-full p-[1em] pt-[4em] min-h-screen">
         <div className="max-w-2xl mx-auto">
           <div className="flex  gap-1 items-center mb-6">
-            <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
-            <div className="flex flex-col">
-              {!editing && (
-                <h1 className="text-[20px] flex items-center gap-2 font-semibold">
-                  {UserData.username}{" "}
-                  <PencilIcon onClick={() => setEditing(true)} size={16} />
-                </h1>
-              )}
-              {editing && (
-                <input
-                  type="text"
-                  autoFocus
-                  className="bg-transparent outline-none text-[20px] font-semibold"
-                  value={UserData.username}
-                  onKeyDown={handleUsernameSubmit}
-                  onBlur={() => setEditing(false)}
-                  onChange={(e) => {}}
+            {profileData &&
+              profileData.photoUrl &&
+              profileData.photoUrl.length && (
+                <img
+                  src={profileData.photoUrl}
+                  className="w-[50px] h-[50px] rounded-full"
                 />
               )}
+            {!(
+              profileData &&
+              profileData.photoUrl &&
+              profileData.photoUrl.length
+            ) && (
+              <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+            )}
+            <div className="flex flex-col">
+              <h1 className="text-[20px] flex items-center gap-2 font-semibold">
+                {(profileData &&
+                  "username" in profileData &&
+                  profileData.username) ||
+                  "Unknown"}{" "}
+              </h1>
               <p className="text-[12px] text-gray-400 rounded-full">
                 {address.slice(0, 4)}...
                 {address.slice(-4)}

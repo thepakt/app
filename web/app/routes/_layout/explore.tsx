@@ -34,15 +34,18 @@ function RouteComponent() {
       )}
       <main className="container mx-auto px-4">
         {/* @ts-ignore */}
-        {data?.map((task, index) => (
-          <FeedItem
-            key={index}
-            setWaitingForTransaction={setWaitingForTransaction}
-            index={index}
-            {...task}
-            taskId={task.id}
-          />
-        ))}
+        {data?.map((task, index) => {
+          return (
+            <FeedItem
+              key={index}
+              index={index}
+              setWaitingForTransaction={setWaitingForTransaction}
+              {...task}
+              taskId={task.id}
+              creator={task.creator}
+            />
+          )
+        })}
       </main>
     </div>
   )
@@ -59,6 +62,7 @@ const FeedItem = ({
   bountyEstimatedTimeInHours,
   setWaitingForTransaction,
   taskId,
+  creator,
 }: {
   username: string
   handle: string
@@ -69,6 +73,10 @@ const FeedItem = ({
   bountyPriceInUsdt: number
   bountyEstimatedTimeInHours: number
   taskId: string
+  creator: {
+    walletAddress: string
+    prettyName: string
+  }
 }) => {
   const { createContract } = useActions()
 
@@ -82,9 +90,12 @@ const FeedItem = ({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
-          <div>
-            <h2 className="text-white font-semibold">{username}</h2>
-            <p className="text-gray-400 text-sm">{handle}</p>
+          <div className="pl-2">
+            <h2 className="text-white font-semibold">{creator.prettyName}</h2>
+            <p className="opacity-70 text-xs">
+              {creator.walletAddress.slice(0, 4)}...
+              {creator.walletAddress.slice(-4)}
+            </p>
           </div>
         </div>
       </div>

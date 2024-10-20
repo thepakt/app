@@ -43,7 +43,7 @@
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "devDependencies": {
-    "@ronin/todo-escrow": "^0.0.0-3457974792539",
+    "@ronin/todo-escrow": "^0.0.0-3458020081306",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",

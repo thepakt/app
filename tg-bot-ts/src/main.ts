@@ -17,11 +17,11 @@ client.start({
     onError: (err) => console.error(err),
 }).catch(console.error);
 
-async function createChat(...users: string[]) {
+async function createChat(title: string, ...users: string[]) {
     const result = await client.invoke(
         new Api.messages.CreateChat({
             users,
-            title: "Hello guys bot"
+            title
         })
     );
 
@@ -36,14 +36,15 @@ app.post('/create-chat', (req, res) => {
         res.status(401).send('Invalid hash');
         return;
     }
-    const {users} = req.body;
+
+    const {users, title} = req.body;
 
     if (!Array.isArray(users) || users.length === 0) {
         res.status(400).send('Invalid users array');
     }
 
     try {
-        createChat(...users)
+        createChat(title, ...users)
             .then(result => res.json(result.toJSON()))
             .catch(error => {
                 console.error(error);

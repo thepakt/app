@@ -105,7 +105,9 @@ export default function RouteComponent() {
           </button> */}
 
           <ul className="flex flex-col gap-3">
-            <p className="text-[20px] font-semibold mb-4">Your SBTs:</p>
+            <p className="text-[20px] font-normal mb-4">
+              Your SBTs for tasks invested:
+            </p>
             {isLoading ? (
               <p>Loading...</p>
             ) : error ? (

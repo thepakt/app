@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { Address } from "@ton/core"
+import { address, Address } from "@ton/core"
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { motion } from "framer-motion"
 import { Heart, Share, Wallet } from "lucide-react"
 import { useState } from "react"
@@ -80,6 +81,8 @@ const FeedItem = ({
   }
 }) => {
   const { createContract } = useActions()
+  const [tonConnectUI] = useTonConnectUI()
+  const address = useTonAddress()
 
   return (
     <motion.div
@@ -133,6 +136,11 @@ const FeedItem = ({
         <button
           onClick={async () => {
             try {
+              if (!address) {
+                console.log("runs..")
+                tonConnectUI.openModal()
+                return
+              }
               const taskWithCreator = await getTaskWithItsCreator({
                 taskId,
               })

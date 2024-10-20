@@ -79,8 +79,6 @@ export default function RouteComponent() {
     load()
   }, [address])
 
-  console.log(nfts, "nfts")
-
   return (
     <main className="w-full flex items-center justify-center">
       <section className="w-full p-[1em] pt-[4em] min-h-screen">

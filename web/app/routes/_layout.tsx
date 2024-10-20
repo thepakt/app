@@ -5,7 +5,6 @@ import { useEffect } from "react"
 import { createUser } from "~/actions"
 import Bottombar from "~/components/BottomBar"
 
-// ..
 function LayoutComponent() {
   const address = useTonAddress()
   useEffect(() => {

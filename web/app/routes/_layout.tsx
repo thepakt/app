@@ -2,7 +2,7 @@ import { Outlet, createFileRoute } from "@tanstack/react-router"
 import { initInitData, postEvent } from "@telegram-apps/sdk"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
-import { createUser, updateTgUsername } from "~/actions"
+import { createUser, updateTgUsername, updateTgPhoto } from "~/actions"
 import Bottombar from "~/components/BottomBar"
 
 // Update just 1 time per session: on startup or after creating the account
@@ -22,10 +22,10 @@ async function updateUserInfo(address: string) {
       })
 
       // update photo as well
-      // const photoUrlUpdated = await updateTgPhoto({
-      //   tgUsername: initData.user.photo_url ?? "",
-      //   walletAddress: address,
-      // })
+      const photoUrlUpdated = await updateTgPhoto({
+        tgPhotoUrl: initData.user.photo_url ?? "",
+        walletAddress: address,
+      })
 
       hasUpdatedUserInfo = true
     }

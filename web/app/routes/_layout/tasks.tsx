@@ -94,16 +94,19 @@ function RouteComponent() {
                 key={task.id}
                 showNotification={
                   (data?.taskNotifications?.filter(
-                    (notification) => notification.task.id === task.id,
+                    (notification: { task: { id: string } }) =>
+                      notification.task.id === task.id,
                   )?.length ?? 0) > 0
                 }
                 contractOfTask={
                   data?.taskNotifications?.find(
-                    (taskNotification) => taskNotification.task.id === task.id,
+                    (taskNotification: {
+                      task: { id: string }
+                      contractAddress: string
+                    }) => taskNotification.task.id === task.id,
                   )?.contractAddress
                 }
                 task={task}
-                // @ts-ignore
                 isExpanded={expandedTodoId === task.id}
                 onClick={(id) => {
                   // @ts-ignore

@@ -131,31 +131,38 @@ const FeedItem = ({
         </div>
         <button
           onClick={async () => {
-            const taskWithCreator = await getTaskWithItsCreator({
-              taskId,
-            })
-            const moderator = await getModerator({})
-            if (!moderator) return
-            if (!taskWithCreator.creator?.walletAddress) return
-            setWaitingForTransaction(true)
-            const createdContractAddress = await createContract({
-              performer: Address.parse(taskWithCreator.creator.walletAddress),
-              moderator: Address.parse(moderator.walletAddress),
-              tokenMaster: Address.parse(
-                "kQC6cYfMFYFur2IgJroc3wBxg-q4hOxsqGQwEYSEARxtOmZf", // LOM
-              ),
-              // TODO: support subtasks
-              tasks: [{ amount: BigInt(0) }],
-              // TODO: make it smart so it adjusts based on the decimals of the jetton
-              finishAmount: BigInt(bountyPriceInUsdt),
-            })
-            const acceptTaskNotification = await createAcceptTaskNotification({
-              taskId: taskWithCreator.task.id,
-              contractAddress: createdContractAddress.toString(),
-              recieverWalletAddress: taskWithCreator.creator.walletAddress,
-            })
-            setWaitingForTransaction(false)
-            console.log(acceptTaskNotification, "acceptTaskNotification")
+            try {
+              const taskWithCreator = await getTaskWithItsCreator({
+                taskId,
+              })
+              const moderator = await getModerator({})
+              if (!moderator) return
+              if (!taskWithCreator.creator?.walletAddress) return
+              setWaitingForTransaction(true)
+              const createdContractAddress = await createContract({
+                performer: Address.parse(taskWithCreator.creator.walletAddress),
+                moderator: Address.parse(moderator.walletAddress),
+                tokenMaster: Address.parse(
+                  "kQC6cYfMFYFur2IgJroc3wBxg-q4hOxsqGQwEYSEARxtOmZf", // LOM
+                ),
+                // TODO: support subtasks
+                tasks: [{ amount: BigInt(0) }],
+                // TODO: make it smart so it adjusts based on the decimals of the jetton
+                finishAmount: BigInt(bountyPriceInUsdt),
+              })
+              const acceptTaskNotification = await createAcceptTaskNotification(
+                {
+                  taskId: taskWithCreator.task.id,
+                  contractAddress: createdContractAddress.toString(),
+                  recieverWalletAddress: taskWithCreator.creator.walletAddress,
+                },
+              )
+              setWaitingForTransaction(false)
+              console.log(acceptTaskNotification, "acceptTaskNotification")
+            } catch (err) {
+              setWaitingForTransaction(false)
+              alert(JSON.stringify(err))
+            }
           }}
           className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 rounded-lg"
         >

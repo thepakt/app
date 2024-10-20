@@ -1,5 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router"
 import { initInitData, postEvent } from "@telegram-apps/sdk"
+import { Address } from "@ton/core"
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser, updateTgUsername, updateTgPhoto } from "~/actions"
@@ -18,12 +19,12 @@ async function updateUserInfo(address: string) {
       await updateTgUsername({
         tgUsername:
           initData.user?.username || initData.user?.id?.toString() || "unknown",
-        walletAddress: address,
+        walletAddress: Address.parse(address).toString(),
       })
 
       // update photo as well
       const photoUrlUpdated = await updateTgPhoto({
-        tgPhotoUrl: initData.user.photo_url ?? "",
+        tgPhotoUrl: initData.user?.photoUrl ?? "",
         walletAddress: address,
       })
 

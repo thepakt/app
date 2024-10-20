@@ -7,7 +7,7 @@ import { useState } from "react"
 import {
   createAcceptTaskNotification,
   getModerator,
-  getPublicTasks,
+  getPublicTasksAndUser,
   getTaskWithItsCreator,
 } from "~/actions"
 import useActions from "~/lib/investor/useActions"
@@ -18,7 +18,7 @@ function RouteComponent() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["explore"],
     queryFn: async () => {
-      const res = await getPublicTasks({})
+      const res = await getPublicTasksAndUser({})
       console.log(res)
       return res
     },
@@ -35,7 +35,7 @@ function RouteComponent() {
       )}
       <main className="container mx-auto px-4">
         {/* @ts-ignore */}
-        {data?.map((task, index) => {
+        {data?.tasks?.map((task, index) => {
           return (
             <FeedItem
               key={index}

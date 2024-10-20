@@ -38,6 +38,7 @@ export const updateTgPhoto = createServerFn(
         walletAddress: data.walletAddress,
       },
       to: {
+        // @ts-ignore
         photoUrl: data.tgPhotoUrl,
       },
     })
@@ -159,6 +160,37 @@ export const getPublicTasks = createServerFn("POST", async (data: {}) => {
   })
   return tasks
 })
+
+export const getUserByWalletAddress = createServerFn(
+  "POST",
+  async (data: { walletAddress: string }) => {
+    const user = await get.user.with({
+      walletAddress: data.walletAddress,
+    })
+    return user
+  },
+)
+
+export const getPublicTasksAndUser = createServerFn(
+  "POST",
+  async (data: { walletAddress?: string }) => {
+    const tasks = await get.tasks({
+      including: ["creator"],
+    })
+    if (!data.walletAddress) {
+      return {
+        tasks,
+      }
+    }
+    const user = await get.user.with({
+      walletAddress: data.walletAddress,
+    })
+    return {
+      tasks,
+      user,
+    }
+  },
+)
 
 export const createAcceptTaskNotification = createServerFn(
   "POST",

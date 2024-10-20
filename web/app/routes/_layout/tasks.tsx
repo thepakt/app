@@ -8,7 +8,6 @@ import AddTodoButton from "~/components/AddTodoButton"
 import { DatePicker } from "~/components/DatePicker"
 import NewTask from "~/components/NewTask"
 import { TaskComponent } from "~/components/TaskComponent"
-import useActions from "~/lib/investor/useActions"
 
 function RouteComponent() {
   const address = useTonAddress()
@@ -97,6 +96,14 @@ function RouteComponent() {
             {data?.tasks?.map((task) => (
               <TaskComponent
                 key={task.id}
+                telegramUsernameOfInvestor={
+                  data?.taskNotifications?.find(
+                    (taskNotification: {
+                      task: { id: string }
+                      contractAddress: string
+                    }) => taskNotification.task.id === task.id,
+                  )?.telegramUsernameOfInvestor
+                }
                 showNotification={
                   (data?.taskNotifications?.filter(
                     (notification: { task: { id: string } }) =>

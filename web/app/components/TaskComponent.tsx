@@ -1,10 +1,11 @@
 import { Task } from "@ronin/todo-escrow"
 import { useQueryClient } from "@tanstack/react-query"
 import { Address } from "@ton/core"
+import { useTonAddress } from "@tonconnect/ui-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Bell, Share, Trash, X } from "lucide-react"
 import { useState } from "react"
-import { deleteTask, startWorkOnTask } from "~/actions"
+import { deleteTask, getUserByWalletAddress, startWorkOnTask } from "~/actions"
 import useActions from "~/lib/investor/useActions"
 
 export function TaskComponent({
@@ -13,14 +14,17 @@ export function TaskComponent({
   onClick,
   showNotification,
   contractOfTask,
+  telegramUsernameOfInvestor,
 }: {
   task: Task
   isExpanded: boolean
   onClick: (taskId: string) => void
   showNotification?: boolean
   contractOfTask?: string
+  telegramUsernameOfInvestor: string
 }) {
   const { startContract, getData } = useActions()
+  const address = useTonAddress()
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const queryClient = useQueryClient()
@@ -140,6 +144,13 @@ export function TaskComponent({
                   className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
                   onClick={async () => {
                     if (!contractOfTask) return
+                    if (!address) return
+
+                    const user = await getUserByWalletAddress({
+                      walletAddress: address,
+                    })
+                    if (!user) return
+
                     // const contractStarted = await startContract(
                     //   Address.parse(contractOfTask),
                     // )
@@ -154,12 +165,11 @@ export function TaskComponent({
                     const startedWorkOnTask = await startWorkOnTask({
                       taskId: task.id,
                       investorWalletAddress: investorAddressString,
-                      // TODO: get investor..
-                      workerTgUsername: "nikivi",
-                      investorTgUsername: "imartemy1524",
+                      workerTgUsername: user.username,
+                      investorTgUsername: telegramUsernameOfInvestor,
                       taskName: task.title,
                     })
-                    // console.log(startedWorkOnTask)
+                    console.log(startedWorkOnTask)
 
                     setShowModal(false)
                   }}

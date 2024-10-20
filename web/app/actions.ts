@@ -76,7 +76,9 @@ export const getActiveTasksAndNotifications = createServerFn(
     // const taskNotifications = await get.acceptTaskNotifications.with({
     //   reciever: user.id,
     // })
-    const taskNotifications = await get.acceptTaskNotifications()
+    const taskNotifications = await get.acceptTaskNotifications({
+      including: ["task", "reciever"],
+    })
     return {
       tasks,
       taskNotifications,

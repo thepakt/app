@@ -3,7 +3,7 @@ import { LayoutList, Telescope, User } from "lucide-react"
 
 export default function Bottombar() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-[#1f1f1f] to-transparent backdrop-blur-md">
+    <div className="fixed bottom-0 left-0 right-0 pb-[12px] bg-gradient-to-t from-[#1f1f1f] to-transparent backdrop-blur-md">
       <div className="max-w-screen-xl mx-auto px-4 py-2">
         <div className="flex justify-around items-center">
           <BottomBarItem icon={<Telescope />} href="/explore" />

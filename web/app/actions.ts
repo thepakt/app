@@ -275,24 +275,24 @@ export const startWorkOnTask = createServerFn(
         workOnTaskHasStarted: true,
       },
     })
-    // try {
-    //   const response = await fetch("http://94.241.141.207:13452/create-chat", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       hash: "aboba",
-    //       users: [data.workerTgUsername, data.investorTgUsername],
-    //       title: data.taskName,
-    //     }),
-    //   })
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`)
-    //   }
-    // } catch (error) {
-    //   console.error("Error creating chat:", error)
-    // }
+    try {
+      const response = await fetch("http://94.241.141.207:13452/create-chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          hash: "aboba",
+          users: [data.workerTgUsername, data.investorTgUsername],
+          title: data.taskName,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+    } catch (error) {
+      console.error("Error creating chat:", error)
+    }
     return updatedTask
   },
 )

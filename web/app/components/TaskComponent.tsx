@@ -151,10 +151,10 @@ export function TaskComponent({
                     })
                     if (!user) return
 
-                    // const contractStarted = await startContract(
-                    //   Address.parse(contractOfTask),
-                    // )
-                    // console.log(contractStarted, "contractStarted")
+                    const contractStarted = await startContract(
+                      Address.parse(contractOfTask),
+                    )
+                    console.log(contractStarted, "contractStarted")
 
                     const investorAddress = await getData(
                       Address.parse(contractOfTask),

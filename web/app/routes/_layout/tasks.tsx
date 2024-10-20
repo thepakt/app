@@ -122,7 +122,7 @@ function RouteComponent() {
       {data?.tasks?.some((task) => task.workOnTaskHasStarted) && (
         <div className="w-full flex flex-col items-start">
           <h1 className="text-md font-semibold pl-10 pt-[1.2em]">
-            Active Tasks
+            Tasks In Progress
           </h1>
           <div className="flex flex-col gap-2 mt-2 items-center w-full max-w-[500px]">
             {data.tasks

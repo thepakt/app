@@ -27,7 +27,7 @@ function RouteComponent() {
   if (isLoading) return <></>
 
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen pb-[3em] pt-16">
       {waitingForTransaction && (
         <div className="fixed top-0 left-0 flex items-center justify-center h-screen w-screen bg-black/30 z-50">
           <div className="h-[60px] w-[60px] animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
@@ -88,7 +88,7 @@ const FeedItem = ({
       transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.08 }}
       className="bg-black/30 rounded-3xl rounded-tl-[50px] p-5 mb-3 max-w-md mx-auto"
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div className="pl-2">

@@ -45,7 +45,7 @@ function RouteComponent() {
   })
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container  pb-[3em] mx-auto px-4 mb-10">
       <h1 className="text-lg font-semibold text-start pl-8 pt-[1.2em]">
         Your Active Tasks
       </h1>

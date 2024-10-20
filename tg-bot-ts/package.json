@@ -12,7 +12,11 @@
   },
   "dependencies": {
     "@mtcute/bun": "^0.17.0",
-    "@mtcute/dispatcher": "^0.17.2"
+    "@mtcute/dispatcher": "^0.17.2",
+    "@types/express": "^5.0.0",
+    "express": "^4.21.1",
+    "input": "^1.0.1",
+    "telegram": "^2.25.15"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.8.0",

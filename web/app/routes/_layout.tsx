@@ -25,7 +25,7 @@ async function updateUserInfo(address: string) {
       // update photo as well
       const photoUrlUpdated = await updateTgPhoto({
         tgPhotoUrl: initData.user?.photoUrl ?? "",
-        walletAddress: address,
+        walletAddress: Address.parse(address).toString(),
       })
 
       hasUpdatedUserInfo = true

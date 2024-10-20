@@ -104,7 +104,7 @@ export default function NewTask({
         opacity: 1,
         y: 0,
       }}
-      exit={{ opacity: 0.5, scale: 0.9 }}
+      exit={{ opacity: 0, scale: 0.9 }}
       transition={{
         type: "spring",
         damping: 20,

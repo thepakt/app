@@ -162,6 +162,8 @@ const FeedItem = ({
                   taskId: taskWithCreator.task.id,
                   contractAddress: createdContractAddress.toString(),
                   recieverWalletAddress: taskWithCreator.creator.walletAddress,
+                  // TODO: change to real tg name..
+                  telegramUsernameOfInvestor: "nikivi",
                 },
               )
               setWaitingForTransaction(false)

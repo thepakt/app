@@ -166,6 +166,7 @@ export const createAcceptTaskNotification = createServerFn(
     taskId: string
     contractAddress: string
     recieverWalletAddress: string
+    telegramUsernameOfInvestor: string
   }) => {
     const reciever = await get.user.with({
       walletAddress: data.recieverWalletAddress,
@@ -179,6 +180,9 @@ export const createAcceptTaskNotification = createServerFn(
       task: task.id,
       contractAddress: data.contractAddress,
       reciever: reciever.id,
+      // TODO: add current username tg name
+      // @ts-ignore
+      telegramUsernameOfInvestor: data.telegramUsernameOfInvestor,
     })
     return acceptTaskNotification
   },

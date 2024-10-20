@@ -20,7 +20,7 @@ export function TaskComponent({
   showNotification?: boolean
   contractOfTask?: string
 }) {
-  const { startContract } = useActions()
+  const { startContract, getData } = useActions()
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const queryClient = useQueryClient()
@@ -140,18 +140,26 @@ export function TaskComponent({
                   className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
                   onClick={async () => {
                     if (!contractOfTask) return
-                    const contractStarted = await startContract(
+                    // const contractStarted = await startContract(
+                    //   Address.parse(contractOfTask),
+                    // )
+                    // console.log(contractStarted, "contractStarted")
+
+                    const investorAddress = await getData(
                       Address.parse(contractOfTask),
                     )
-                    console.log(contractStarted, "contractStarted")
+                    const investorAddressString =
+                      investorAddress.investor.toString()
 
                     const startedWorkOnTask = await startWorkOnTask({
                       taskId: task.id,
-                      investorWalletAddress: contractOfTask,
+                      investorWalletAddress: investorAddressString,
+                      // TODO: get investor..
                       workerTgUsername: "nikivi",
                       investorTgUsername: "imartemy1524",
                       taskName: task.title,
                     })
+                    // console.log(startedWorkOnTask)
 
                     setShowModal(false)
                   }}

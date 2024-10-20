@@ -123,11 +123,11 @@ const FeedItem = ({
         <div className="flex gap-2">
           <button className="flex p-2 gap-1 bg-neutral-700/40 hover:bg-neutral-700 transition-all justify-center rounded-lg items-center w-full">
             <Heart className="w-3 h-3" />
-            <span className="text-[10px] text-center">I want it</span>
+            <span className="text-[13px] text-center">I want it</span>
           </button>
           <button className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40">
             <Share className="w-3 h-3" />
-            <span className="text-[10px] text-center">I know who wants it</span>
+            <span className="text-[13px] text-center">I know who wants it</span>
           </button>
         </div>
         <button
@@ -167,10 +167,10 @@ const FeedItem = ({
               alert(JSON.stringify(err))
             }
           }}
-          className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 rounded-lg"
+          className="flex bg-blue-500 hover:bg-blue-600 transition-all justify-center gap-1 w-full items-center p-2 py-3 rounded-xl"
         >
           <Wallet className="w-3 h-3 " />
-          <span className="text-[10px] text-center">
+          <span className="text-[15px] text-center">
             I am ready to pay for that
           </span>
         </button>

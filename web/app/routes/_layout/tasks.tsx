@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { Address } from "@ton/core"
 import { useTonAddress } from "@tonconnect/ui-react"
 import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
@@ -13,7 +12,6 @@ import useActions from "~/lib/investor/useActions"
 
 function RouteComponent() {
   const address = useTonAddress()
-  const { startContract } = useActions()
   const [isNewTodoOpen, setIsNewTodoOpen] = useState(false)
   const [expandedTodoId, setExpandedTodoId] = useState<number | null>(null)
   useEffect(() => {
@@ -94,6 +92,16 @@ function RouteComponent() {
             {data?.tasks?.map((task) => (
               <TaskComponent
                 key={task.id}
+                showNotification={
+                  (data?.taskNotifications?.filter(
+                    (notification) => notification.task.id === task.id,
+                  )?.length ?? 0) > 0
+                }
+                contractOfTask={
+                  data?.taskNotifications?.find(
+                    (taskNotification) => taskNotification.task.id === task.id,
+                  )?.contractAddress
+                }
                 task={task}
                 // @ts-ignore
                 isExpanded={expandedTodoId === task.id}

@@ -1,19 +1,24 @@
 import { Task } from "@ronin/todo-escrow"
+import { Address } from "@ton/core"
 import { AnimatePresence, motion } from "framer-motion"
-import { useState } from "react"
 import { Bell, Share, Trash, X } from "lucide-react"
+import { useState } from "react"
+import useActions from "~/lib/investor/useActions"
 
 export function TaskComponent({
   task,
   isExpanded,
   onClick,
-  notifications = 1,
+  showNotification,
+  contractOfTask,
 }: {
   task: Task
   isExpanded: boolean
   onClick: (taskId: string) => void
-  notifications?: number
+  showNotification?: boolean
+  contractOfTask?: string
 }) {
+  const { startContract } = useActions()
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
@@ -28,7 +33,7 @@ export function TaskComponent({
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="bg-black/30 rounded-3xl rounded-tl-[50px] p-5 mb-3 w-full max-w-2xl mx-auto relative"
     >
-      {notifications > 0 && (
+      {showNotification && (
         <div
           className="absolute top-2 right-2 bg-blue-500 rounded-full w-5 h-5 flex items-center justify-center transform cursor-pointer"
           onClick={(e) => {
@@ -95,7 +100,7 @@ export function TaskComponent({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white/80 dark:bg-neutral-600/80 backdrop-blur-md p-6 rounded-2xl shadow-lg relative max-w-sm w-full mx-4"
+              className="bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-lg relative max-w-sm w-full mx-4 border border-white/10"
             >
               <button
                 className="absolute top-4 right-4 transition-colors"
@@ -116,7 +121,13 @@ export function TaskComponent({
                 </button>
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
-                  onClick={() => {
+                  onClick={async () => {
+                    if (!contractOfTask) return
+                    const contractStarted = await startContract(
+                      Address.parse(contractOfTask),
+                    )
+                    console.log(contractStarted, "contractStarted")
+
                     setShowModal(false)
                   }}
                 >

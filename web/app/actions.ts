@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/start"
-import { create, get } from "ronin"
+import { create, get, set } from "ronin"
 
 export const createUser = createServerFn(
   "POST",
@@ -139,5 +139,47 @@ export const createAcceptTaskNotification = createServerFn(
       reciever: reciever.id,
     })
     return acceptTaskNotification
+  },
+)
+
+export const contractStartedForTask = createServerFn(
+  "POST",
+  async (data: { contractAddress: string }) => {
+    const acceptTaskNotification = await get.acceptTaskNotification.with({
+      contractAddress: data.contractAddress,
+    })
+    if (!acceptTaskNotification)
+      throw new Error("Accept task notification not found")
+    const updatedAirdrop = await set.acceptTaskNotification({
+      with: {
+        contractAddress: data.contractAddress,
+      },
+      to: {
+        accepted: true,
+      },
+    })
+    console.log(updatedAirdrop, "updatedAirdrop")
+
+    // starts chat between two users
+    //   try {
+    //     const response = await fetch("http://94.241.141.207:13452/create-chat", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         hash: "aboba",
+    //         users: ["nikivi", "nickname"],
+    //         title: "Title of the chat",
+    //       }),
+    //     })
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`)
+    //     }
+    //     const data = await response.json()
+    //     console.log("Chat created:", data)
+    //   } catch (error) {
+    //     console.error("Error creating chat:", error)
+    //   }
   },
 )

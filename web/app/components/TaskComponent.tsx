@@ -56,7 +56,7 @@ export function TaskComponent({
         </div>
       </div>
 
-      <p className="text-white text-sm mb-2">{task.title}</p>
+      <p className="text-sm">Notes</p>
       <p className="text-white/50 text-xs mb-4">{task.notes}</p>
 
       <div className="flex justify-between items-center mb-4">

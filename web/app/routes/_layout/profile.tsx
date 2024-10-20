@@ -25,7 +25,7 @@ interface NFT {
 export default function RouteComponent() {
   const address = useTonAddress()
   const [nfts, setNfts] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [profileData, setProfileData] = useState<any>(null)
   const [editing, setEditing] = useState(false)
@@ -104,25 +104,29 @@ export default function RouteComponent() {
                 {(profileData &&
                   "username" in profileData &&
                   profileData.username) ||
-                  "Unknown"}{" "}
+                  "User not connected"}{" "}
               </h1>
-              <p className="text-[12px] text-gray-400 rounded-full">
-                {address.slice(0, 4)}...
-                {address.slice(-4)}
-              </p>
+              {address && (
+                <p className="text-[12px] text-gray-400 rounded-full">
+                  {address.slice(0, 4)}...
+                  {address.slice(-4)}
+                </p>
+              )}
             </div>
           </div>
           <div className="flex items-center justify-between mb-6">
             <div className="flex flex-col gap-2">
-              <p className="flex items-center text-[20px] gap-1">
+              {/* <p className="flex items-center text-[20px] gap-1">
                 <StarIcon />
                 4.9
-              </p>
-              <p className="text-[12px] text-gray-400 rounded-full inline-block">
-                {UserData.tasksCompleted} tasks completed
-              </p>
+              </p> */}
+              {address && (
+                <p className="text-[12px] text-gray-400 rounded-full inline-block">
+                  0 tasks completed
+                </p>
+              )}
             </div>
-            <div className="flex gap-3">
+            {/* <div className="flex gap-3">
               {UserData.socialLinks.twitter && (
                 <a
                   href={UserData.socialLinks.twitter}
@@ -153,22 +157,24 @@ export default function RouteComponent() {
                   <FaTelegram className="text-xl text-gray-300 hover:text-blue-300 transition-all" />
                 </a>
               )}
-            </div>
+            </div> */}
           </div>
           {/* <button className=" hover:bg-neutral-700 w-full text-center bg-neutral-700/40 text-white py-3 rounded-full mb-6 flex items-center justify-center gap-2 transition-all">
             Invested in 7 projects <ChevronRight className="" />
           </button> */}
 
           <ul className="flex flex-col gap-3">
-            <p className="text-[20px] font-normal mb-4">
-              Your SBTs for tasks invested:
-            </p>
+            {address && (
+              <p className="text-[20px] font-normal mb-4">
+                Your SBTs for tasks invested:
+              </p>
+            )}
             {isLoading ? (
               <p>Loading...</p>
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : nfts.length === 0 ? (
-              <p>No SBTs found.</p>
+              <p>{address ? "No SBTs found." : ""}</p>
             ) : (
               <div className="grid grid-cols-3 gap-4">
                 {nfts.map((nft, index) => (

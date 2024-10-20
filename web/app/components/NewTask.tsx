@@ -116,7 +116,7 @@ export default function NewTask({
         value={title}
         autoFocus
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full bg-transparent outline-none text-md font-light mb-2"
+        className="w-full bg-transparent outline-none text-[20px] font-semibold mb-2"
         placeholder="New Task"
       />
       <textarea
@@ -132,7 +132,7 @@ export default function NewTask({
             setNotes(notes + "\n")
           }
         }}
-        className="w-full bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"
+        className="w-full max-h-[400px]  bg-transparent outline-none text-sm font-light pb-[2em] resize-none overflow-hidden mb-2"
         placeholder="Notes"
       />
 
@@ -166,7 +166,7 @@ export default function NewTask({
         >
           Add
         </button> */}
-        <h2>Estimated time:</h2>
+        <h2 className="text-[16px] font-semibold pb-1">Estimated time:</h2>
         <div className="flex items-center gap-2 h-[44px]">
           {date && (
             <div className="w-full bg-neutral-700 items-center justify-center rounded-md h-full px-3 flex">
@@ -199,7 +199,7 @@ export default function NewTask({
           </Picker>
         </div> */}
 
-        <div className="relative bg-white/10 h-[44px] rounded-md px-3 py-2">
+        <div className="relative flex items-center bg-white/10 h-[44px] rounded-md px-3 py-2">
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             $
           </span>

@@ -78,12 +78,12 @@ export function TaskComponent({
 
       <div className="flex gap-2">
         <button className="flex items-center p-2 gap-1 bg-neutral-700/40 hover:bg-neutral-700 transition-all justify-center rounded-lg w-full">
-          <Share className="w-3 h-3" />
-          <span className="text-[10px] text-center">Share</span>
+          <Share className="w-4 h-4" />
+          <span className="text-[14px] text-center">Share</span>
         </button>
         <button className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40">
-          <Trash className="w-3 h-3" />
-          <span className="text-[10px] text-center">Delete</span>
+          <Trash className="w-4 h-4" />
+          <span className="text-[14px] text-center">Delete</span>
         </button>
       </div>
 

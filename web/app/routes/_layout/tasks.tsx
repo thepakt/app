@@ -45,7 +45,10 @@ function RouteComponent() {
   })
 
   return (
-    <>
+    <div className="container mx-auto px-4">
+      <h1 className="text-lg font-bold text-start pl-10 pt-20">
+        Your Active Tasks
+      </h1>
       <div className="w-full flex items-center justify-center overflow-hidden">
         {/* TODO: should show notification */}
         {/* <div>
@@ -79,7 +82,7 @@ function RouteComponent() {
           >
             show picker
           </button> */}
-          <div className="flex flex-col gap-1 mt-16">
+          <div className="flex flex-col gap-1 mt-2">
             <AnimatePresence>
               {isNewTodoOpen && (
                 <NewTask
@@ -129,7 +132,7 @@ function RouteComponent() {
           </div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   )
 }
 

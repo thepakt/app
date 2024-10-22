@@ -15,6 +15,9 @@ async function updateUserInfo(address: string) {
   try {
     const initData = initInitData()
     if (initData) {
+      alert(JSON.stringify(Object.keys(initData.user)))
+      alert(JSON.stringify(initData.user?.photoUrl))
+      alert(JSON.stringify(initData.user?.photo_url))
       // when i have tg username
       await updateTgUsername({
         tgUsername:
@@ -23,7 +26,7 @@ async function updateUserInfo(address: string) {
       })
 
       // update photo as well
-      const photoUrlUpdated = await updateTgPhoto({
+      await updateTgPhoto({
         tgPhotoUrl: initData.user?.photoUrl ?? "",
         walletAddress: Address.parse(address).toString(),
       })

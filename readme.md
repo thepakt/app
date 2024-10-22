@@ -1,16 +1,16 @@
-# Todo Escrow
+# [Todo Escrow Mini App](https://t.me/todo_escrow_bot)
 
-## TODO (mini app)
+## Setup
 
-- connect wallet
-- tie wallet to a user account on website
-- users write todos
-- optionally set todo with bounty and time period
-- lock the amount for time period until task is done
-- open a chat inside the app for duration of the task
-- notifications etc.
+```
+cd web
+bun i
+```
 
-## Website
+## Run
 
-- for now can use website as testing ground for all things ton
-- will be moved to the mini app after
+In [web](web):
+
+```
+bun dev
+```

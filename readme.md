@@ -1,7 +1,5 @@
 # [Todo Escrow Mini App](https://t.me/todo_escrow_bot)
 
-..
-
 ## Setup
 
 ```

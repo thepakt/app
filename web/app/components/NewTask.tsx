@@ -41,6 +41,9 @@ export default function NewTask({
     unit: "Hours",
   })
 
+  const [isOpensource, setIsOpensourse] = useState(false)
+  const [isCrowdfunding, setIsCrowdfunding] = useState<boolean>(false)
+
   useEffect(() => {
     let newAmount: number[] = []
     switch (estimatedTimeOptions.unit[0]) {
@@ -198,6 +201,40 @@ export default function NewTask({
             className="w-[100%] bg-transparent outline-none text-[14px] pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             placeholder="Amount"
           />
+        </div>
+        <div className="pt-2 w-fit flex flex-col">
+          <label className="inline-flex items-center justify-between gap-6 cursor-pointer">
+            <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
+              For an opensource project?
+            </span>
+            <input
+              type="checkbox"
+              defaultChecked={isOpensource}
+              onChange={(e) => setIsOpensourse(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+          </label>
+          <label className="pt-2 inline-flex items-center justify-between gap-6 cursor-pointer">
+            <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
+              Allow multiple investors (crowdfunding)?
+            </span>
+            <input
+              type="checkbox"
+              defaultChecked={isCrowdfunding}
+              onChange={(e) => setIsCrowdfunding(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+          </label>
+          {isCrowdfunding && (
+            <span className="text-xs text-gray-800 dark:text-gray-400 w-min min-w-fit select-none">
+              In this case TODO Escrow will accumulate funds from different
+              investors, coming from both TON blockchain, telegram stars, and
+              regular card payments, and then create a contract between the
+              platform and the doer
+            </span>
+          )}
         </div>
 
         <div className="pt-2">

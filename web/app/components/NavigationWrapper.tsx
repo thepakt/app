@@ -36,12 +36,24 @@ export default function NavbarWrapper(props: any) {
         {/* TODO: check why isSticky does not work */}
         <Navbar intent="navbar" isSticky={true}>
           {/* Desktop */}
-          <Navbar.Nav>
-            {/* <Navbar.Logo />
-              <Navbar.Section>
-                <Navbar.Item href="#">test</Navbar.Item>
-                <Navbar.Item href="#">test em up!</Navbar.Item>
-              </Navbar.Section> */}
+          <Navbar.Nav className="justify-between">
+            <Navbar.Flex>
+              {/* <Navbar.Trigger className="-ml-2" />
+              <Separator orientation="vertical" className="h-6 mx-2" /> */}
+              <Navbar.Logo href="/docs/components/navigation/navbar">
+                <IconBrandJustd className="size-5" />
+              </Navbar.Logo>
+            </Navbar.Flex>
+            <Navbar.Flex>
+              <Button
+                appearance="plain"
+                size="square-petite"
+                aria-label="Search for products"
+              >
+                <IconSearch />
+              </Button>
+              <TonConnectButton />
+            </Navbar.Flex>
           </Navbar.Nav>
 
           {/* Mobile */}

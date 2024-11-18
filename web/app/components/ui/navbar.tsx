@@ -154,7 +154,7 @@ const Nav = ({ className, ...props }: NavbarProps) => {
 
   return (
     <div className={navStyles({ isSticky, intent, className })} {...props}>
-      <div>{props.children}</div>
+      <div className={className}>{props.children}</div>
     </div>
   )
 }

@@ -1,12 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 import { withTV } from 'tailwind-variants/transformer'
+const { colors } = require("./theme/colors")
 
 const config = withTV({
   darkMode: ['class'],
-  content: [ "./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}", ],
+  content: [ "./app/**/*.{js,ts,jsx,tsx,mdx}", ],
   theme: {
     extend: {
       colors: {
+        ...colors,
         light: 'hsl(var(--light))',
         dark: 'hsl(var(--dark))',
         border: 'hsl(var(--border))',
@@ -57,6 +59,14 @@ const config = withTV({
           DEFAULT: 'hsl(var(--overlay))',
           fg: 'hsl(var(--overlay-fg))'
         }
+      },
+      fontFamily: {
+        sans: [
+          '"SF Pro Display"',
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+        ],
       },
       borderRadius: {
         '3xl': 'calc(var(--radius) + 7.5px)',

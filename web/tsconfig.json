@@ -24,6 +24,9 @@
     "paths": {
       "~/*": [
         "./app/*"
+      ],
+      "ui": [
+        "./components/ui/index.ts"
       ]
     },
     "noEmit": true,

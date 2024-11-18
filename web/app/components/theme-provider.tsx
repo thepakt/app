@@ -1,11 +1,106 @@
-'use client'
+import { createContext, useContext, useEffect, useState } from "react"
 
-import * as React from 'react'
+type Theme = "dark" | "light" | "system"
 
-import { ThemeProvider as NextThemesProvider, type ThemeProviderProps, useTheme } from 'next-themes'
-
-const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+type ThemeProviderProps = {
+  children: React.ReactNode
+  defaultTheme?: Theme
+  storageKey?: string
 }
 
-export { ThemeProvider, useTheme }
+type ThemeProviderState = {
+  theme: Theme
+  setTheme: (theme: Theme) => void
+}
+
+const initialState: ThemeProviderState = {
+  theme: "system",
+  setTheme: () => null,
+}
+
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+
+function ThemeProvider({
+  children,
+  defaultTheme = "system",
+  storageKey = "iut",
+  ...props
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(
+    () => defaultTheme,
+    // () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
+  )
+
+  useEffect(() => {
+    const root = window.document.documentElement
+
+    root.classList.remove("light", "dark")
+    root.classList.add("dark")
+
+    // Ignore light theme for now
+    return;
+
+    // if (theme === "system") {
+    //   const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+    //     .matches
+    //     ? "dark"
+    //     : "light"
+
+    //   root.classList.add(systemTheme)
+    //   return
+    // }
+
+    // const metaThemeColor = document.getElementById("theme-color-meta")
+    // if (metaThemeColor) {
+    //   if (theme === "dark") {
+    //     metaThemeColor.setAttribute("content", "#000000")
+    //   } else if (theme === "light") {
+    //     metaThemeColor.setAttribute("content", "#ffffff")
+    //   } else if (theme === "system") {
+    //     if (
+    //       window.matchMedia &&
+    //       window.matchMedia("(prefers-color-scheme: dark)").matches
+    //     ) {
+    //       metaThemeColor.setAttribute("content", "#000000")
+    //     } else {
+    //       metaThemeColor.setAttribute("content", "#ffffff")
+    //     }
+    //   } else {
+    //     metaThemeColor.setAttribute("content", "#ffffff")
+    //   }
+    // }
+
+    root.classList.add(theme)
+  }, [theme])
+
+  const value = {
+    theme,
+    setTheme: (theme: Theme) => {
+      // localStorage.setItem(storageKey, theme)
+      // setTheme(theme)
+    },
+  }
+
+  return (
+    <ThemeProviderContext.Provider {...props} value={value}>
+      {children}
+    </ThemeProviderContext.Provider>
+  )
+}
+
+const useTheme = () => {
+  const context = useContext(ThemeProviderContext)
+
+  if (context === undefined)
+    throw new Error("useTheme must be used within a ThemeProvider")
+
+  return context
+}
+
+export {
+  ThemeProvider,
+  useTheme,
+  type Theme,
+  type ThemeProviderProps,
+  type ThemeProviderState,
+}

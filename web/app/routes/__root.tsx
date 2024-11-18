@@ -11,8 +11,10 @@ import { Toaster } from "react-hot-toast"
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary"
 import { NotFound } from "~/components/NotFound"
 import appCss from "~/styles/app.css?url"
+import justgetdCss from "~/styles/justgetd-index.css?url"
 import { seo } from "~/utils/seo"
 import { proxy } from "valtio"
+import { ThemeProvider } from "~/components/theme-provider"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -32,6 +34,7 @@ export const Route = createRootRouteWithContext<{
   ],
   links: () => [
     { rel: "stylesheet", href: appCss },
+    { rel: "stylesheet", href: justgetdCss },
     {
       rel: "apple-touch-icon",
       sizes: "180x180",
@@ -67,7 +70,9 @@ function RootComponent() {
   return (
     <RootDocument>
       <TonConnectUIProvider manifestUrl="https://gist.githubusercontent.com/nikitavoloboev/e95b5d8890134a00d8c533ebcca8780b/raw/da5b438ed3cd0d9d58c317b393a4914450e94de9/gistfile1.txt">
-        <Outlet />
+        <ThemeProvider>
+          <Outlet />
+        </ThemeProvider>
       </TonConnectUIProvider>
       <Toaster />
     </RootDocument>

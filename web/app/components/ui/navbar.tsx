@@ -264,6 +264,9 @@ const Flex = ({ className, ...props }: React.ComponentProps<"div">) => {
 const compactStyles = tv({
   base: "lg:hidden flex peer-has-[[data-intent=floating]]:border bg-tertiary justify-between",
   variants: {
+    isSticky: {
+      true: "sticky z-40 top-0"
+    },
     intent: {
       floating: "border h-12 rounded-lg px-3.5",
       inset: "h-14 px-4",
@@ -273,8 +276,8 @@ const compactStyles = tv({
 })
 
 const Compact = ({ className, ...props }: React.ComponentProps<"div">) => {
-  const { intent } = useNavbar()
-  return <div className={compactStyles({ intent, className })} {...props} />
+  const { isSticky, intent } = useNavbar()
+  return <div className={compactStyles({ isSticky, intent, className })} {...props} />
 }
 
 const insetStyles = tv({

@@ -5,6 +5,7 @@ import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 import { createUser, updateTgUsername, updateTgPhoto } from "~/actions"
 import Bottombar from "~/components/BottomBar"
+import NavigationWrapper from "~/components/NavigationWrapper"
 
 // Update just 1 time per session: on startup or after creating the account
 let hasUpdatedUserInfo = false
@@ -63,12 +64,10 @@ function LayoutComponent() {
 
   return (
     <>
-      <div className=" absolute top-4 right-4">
-        <TonConnectButton />
-      </div>
-
-      <Outlet />
-      <Bottombar />
+      <NavigationWrapper>
+        <Outlet />
+        <Bottombar />
+      </NavigationWrapper>
     </>
   )
 }

@@ -15,12 +15,12 @@ import { Route as UsersImport } from './routes/users'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as FeedImport } from './routes/feed'
 import { Route as DeferredImport } from './routes/deferred'
-import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 import { Route as LayoutTasksImport } from './routes/_layout/tasks'
 import { Route as LayoutProfileImport } from './routes/_layout/profile'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
+import { Route as LayoutChatImport } from './routes/_layout/chat'
 
 // Create/Update Routes
 
@@ -41,11 +41,6 @@ const FeedRoute = FeedImport.update({
 
 const DeferredRoute = DeferredImport.update({
   path: '/deferred',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ChatRoute = ChatImport.update({
-  path: '/chat',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,6 +69,11 @@ const LayoutExploreRoute = LayoutExploreImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutChatRoute = LayoutChatImport.update({
+  path: '/chat',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -90,13 +90,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof LayoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatImport
       parentRoute: typeof rootRoute
     }
     '/deferred': {
@@ -127,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
     }
+    '/_layout/chat': {
+      id: '/_layout/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof LayoutChatImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/explore': {
       id: '/_layout/explore'
       path: '/explore'
@@ -154,12 +154,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface LayoutRouteChildren {
+  LayoutChatRoute: typeof LayoutChatRoute
   LayoutExploreRoute: typeof LayoutExploreRoute
   LayoutProfileRoute: typeof LayoutProfileRoute
   LayoutTasksRoute: typeof LayoutTasksRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutChatRoute: LayoutChatRoute,
   LayoutExploreRoute: LayoutExploreRoute,
   LayoutProfileRoute: LayoutProfileRoute,
   LayoutTasksRoute: LayoutTasksRoute,
@@ -171,11 +173,11 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
-  '/chat': typeof ChatRoute
   '/deferred': typeof DeferredRoute
   '/feed': typeof FeedRoute
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRoute
+  '/chat': typeof LayoutChatRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
   '/tasks': typeof LayoutTasksRoute
@@ -184,11 +186,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
-  '/chat': typeof ChatRoute
   '/deferred': typeof DeferredRoute
   '/feed': typeof FeedRoute
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRoute
+  '/chat': typeof LayoutChatRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
   '/tasks': typeof LayoutTasksRoute
@@ -198,11 +200,11 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
-  '/chat': typeof ChatRoute
   '/deferred': typeof DeferredRoute
   '/feed': typeof FeedRoute
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRoute
+  '/_layout/chat': typeof LayoutChatRoute
   '/_layout/explore': typeof LayoutExploreRoute
   '/_layout/profile': typeof LayoutProfileRoute
   '/_layout/tasks': typeof LayoutTasksRoute
@@ -213,11 +215,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/chat'
     | '/deferred'
     | '/feed'
     | '/redirect'
     | '/users'
+    | '/chat'
     | '/explore'
     | '/profile'
     | '/tasks'
@@ -225,11 +227,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
-    | '/chat'
     | '/deferred'
     | '/feed'
     | '/redirect'
     | '/users'
+    | '/chat'
     | '/explore'
     | '/profile'
     | '/tasks'
@@ -237,11 +239,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_layout'
-    | '/chat'
     | '/deferred'
     | '/feed'
     | '/redirect'
     | '/users'
+    | '/_layout/chat'
     | '/_layout/explore'
     | '/_layout/profile'
     | '/_layout/tasks'
@@ -251,7 +253,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
-  ChatRoute: typeof ChatRoute
   DeferredRoute: typeof DeferredRoute
   FeedRoute: typeof FeedRoute
   RedirectRoute: typeof RedirectRoute
@@ -261,7 +262,6 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
-  ChatRoute: ChatRoute,
   DeferredRoute: DeferredRoute,
   FeedRoute: FeedRoute,
   RedirectRoute: RedirectRoute,
@@ -282,7 +282,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_layout",
-        "/chat",
         "/deferred",
         "/feed",
         "/redirect",
@@ -295,13 +294,11 @@ export const routeTree = rootRoute
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
+        "/_layout/chat",
         "/_layout/explore",
         "/_layout/profile",
         "/_layout/tasks"
       ]
-    },
-    "/chat": {
-      "filePath": "chat.tsx"
     },
     "/deferred": {
       "filePath": "deferred.tsx"
@@ -314,6 +311,10 @@ export const routeTree = rootRoute
     },
     "/users": {
       "filePath": "users.tsx"
+    },
+    "/_layout/chat": {
+      "filePath": "_layout/chat.tsx",
+      "parent": "/_layout"
     },
     "/_layout/explore": {
       "filePath": "_layout/explore.tsx",

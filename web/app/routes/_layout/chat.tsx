@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router"
 import { useState, KeyboardEvent, useEffect, useRef, DragEvent } from "react"
 import { motion, AnimatePresence, Variants } from "framer-motion"
 import "../../styles/chat.css"
+import { IconSend, IconSend2, IconSend2Fill } from "justd-icons"
+import { Button } from "~/components/ui"
 
 interface Message {
   id: number
@@ -73,6 +75,18 @@ function RouteComponent() {
     }
   }
 
+  const handleSendClick = () => {
+    const newMessage: Message = {
+      id: Date.now(),
+      user: "Lorem Ipsum",
+      message: inputValue.trim(),
+      own: true,
+      time: new Date(),
+    }
+    setMessages([...messages, newMessage])
+    setInputValue("")
+  }
+
   const messageVariants: Variants = {
     initial: { opacity: 0, scale: 0.9, y: 20 },
     animate: { opacity: 1, scale: 1, y: 0 },
@@ -139,77 +153,87 @@ function RouteComponent() {
 
   return (
     <>
-      <div
-        className="MessageList"
-        onClick={closeContextMenu} // Close menu on click outside
-      >
-        <div className="messages-container">
-          <AnimatePresence initial={false}>
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                variants={messageVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                transition={springTransition}
-                className={getMessageClasses(message)}
-                onContextMenu={(e) => handleRightClick(e.nativeEvent, message)}
-              >
-                <div className="message-select-control"></div>
-                <div className="message-content-wrapper">
-                  <div
-                    className={`message-content ${
-                      message.own
-                        ? "has-solid-background"
-                        : "peer-color-3 has-solid-background"
-                    }`}
-                  >
-                    <div className="content-inner">
-                      {/* Username */}
-                      {message.user && !message.own && message.firstInGroup && (
-                        <div className="message-title" dir="ltr">
-                          <span
-                            className="message-title-name-container interactive"
-                            dir="ltr"
-                          >
-                            <span className="forward-title-container"></span>
-                            <span className="message-title-name">
-                              <span className="sender-title">
-                                {message.user}
+      <div className="MessageContainer pb-2">
+        <div
+          className="MessageList"
+          onClick={closeContextMenu} // Close menu on click outside
+        >
+          <div className="messages-container">
+            <AnimatePresence initial={false}>
+              {messages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  variants={messageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={springTransition}
+                  className={getMessageClasses(message)}
+                  onContextMenu={(e) =>
+                    handleRightClick(e.nativeEvent, message)
+                  }
+                >
+                  <div className="message-select-control"></div>
+                  <div className="message-content-wrapper">
+                    <div
+                      className={`message-content ${
+                        message.own
+                          ? "has-solid-background"
+                          : "peer-color-3 has-solid-background"
+                      }`}
+                    >
+                      <div className="content-inner">
+                        {/* Username */}
+                        {message.user &&
+                          !message.own &&
+                          message.firstInGroup && (
+                            <div className="message-title" dir="ltr">
+                              <span
+                                className="message-title-name-container interactive"
+                                dir="ltr"
+                              >
+                                <span className="forward-title-container"></span>
+                                <span className="message-title-name">
+                                  <span className="sender-title">
+                                    {message.user}
+                                  </span>
+                                </span>
                               </span>
+                              <div className="title-spacer"></div>
+                            </div>
+                          )}
+                        {message.replyTo && (
+                          <div className="message-reply">
+                            <span>Replying to:</span>
+                            <p>
+                              {
+                                messages.find(
+                                  (msg) => msg.id === message.replyTo,
+                                )?.message
+                              }
+                            </p>
+                          </div>
+                        )}
+                        <div className="text-content">
+                          {message.message}
+                          <span className="MessageMeta">
+                            <span className="message-time">
+                              {message.time.getHours() +
+                                ":" +
+                                (message.time.getMinutes().toString().length ==
+                                2
+                                  ? message.time.getMinutes()
+                                  : "0" + message.time.getMinutes())}
                             </span>
                           </span>
-                          <div className="title-spacer"></div>
                         </div>
-                      )}
-                      {message.replyTo && (
-                        <div className="message-reply">
-                          <span>Replying to:</span>
-                          <p>
-                            {
-                              messages.find((msg) => msg.id === message.replyTo)
-                                ?.message
-                            }
-                          </p>
-                        </div>
-                      )}
-                      <div className="text-content">{message.message}</div>
-                      <span className="MessageMeta">
-                        <span className="message-time">
-                          {message.time.getHours() +
-                            ":" +
-                            (message.time.getMinutes().toString().length == 2
-                              ? message.time.getMinutes()
-                              : "0" + message.time.getMinutes())}
-                        </span>
-                      </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
         <div className="middle-column-footer">
           <div className="composer-wrapper">
@@ -221,6 +245,18 @@ function RouteComponent() {
               className="w-full my-1 p-2 px-5 rounded-md bg-transparent outline-none drop-shadow-md"
               placeholder="Type a message..."
             />
+          </div>
+          <div className="ml-2 self-center">
+            <Button
+              appearance="solid"
+              intent="secondary"
+              size="large"
+              shape="square"
+              isDisabled={inputValue.length < 1}
+              onPress={handleSendClick}
+            >
+              <IconSend2Fill className="text-primary" />
+            </Button>
           </div>
         </div>
 

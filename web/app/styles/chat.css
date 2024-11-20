@@ -220,6 +220,8 @@ textarea {
   transition:
     bottom 150ms ease-out,
     transform var(--layer-transition);
+
+  color-scheme: dark;
 }
 
 .MessageList .messages-container {

@@ -57,12 +57,12 @@ export default function ChatComponent() {
 
   useEffect(scrollToBottom, [messages])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value)
   }
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && inputValue.trim() !== "") {
+  const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && inputValue.trim() !== "" && !(e.ctrlKey || e.shiftKey)) {
       const newMessage: Message = {
         id: Date.now(),
         user: "Lorem Ipsum",
@@ -71,7 +71,9 @@ export default function ChatComponent() {
         time: new Date(),
       }
       setMessages([...messages, newMessage])
+      e.preventDefault();
       setInputValue("")
+      e.target.style.height = `40px`;
     }
   }
 
@@ -236,13 +238,16 @@ export default function ChatComponent() {
           </div>
         </div>
         <div className="middle-column-footer">
-          <div className="composer-wrapper">
-            <input
-              type="text"
+          <div className="flex composer-wrapper">
+            <textarea
               value={inputValue}
               onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              className="w-full my-1 p-2 px-5 rounded-md bg-transparent outline-none drop-shadow-md"
+              onKeyDown={handleKeyPress}
+              className="w-full mt-1 p-1 px-5 rounded-md bg-transparent resize-none shadow-none drop-shadow-none h-[40px]"
+              onInput={(e) => {
+                e.target.style.height = 'auto';
+                e.target.style.height = `${Math.max(40, Math.min(e.target.scrollHeight - 16, 150))}px`;
+              }}
               placeholder="Type a message..."
             />
           </div>

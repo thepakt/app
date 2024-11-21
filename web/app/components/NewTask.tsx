@@ -63,7 +63,6 @@ export default function NewTask({
   const handlePickerChange = (
     newValue: Partial<typeof estimatedTimeInHours>,
   ) => {
-    // Update the state with the new value for amount or unit
     setEstimatedTimeInHours((prev) => ({
       ...prev,
       ...newValue,
@@ -98,173 +97,166 @@ export default function NewTask({
   }, [onClose])
 
   return (
-    <motion.div
-      ref={componentRef}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{
-        type: "spring",
-        damping: 20,
-        stiffness: 300,
-      }}
-      className="bg-black/30 p-6 backdrop-blur-md rounded-3xl rounded-tr-[50px] mb-[0.5em] shadow-lg"
-    >
-      <input
-        type="text"
-        value={title}
-        autoFocus
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full bg-transparent outline-none text-[18px] font-normal mb-2"
-        placeholder="New Task"
-      />
-      <textarea
-        value={notes}
-        onChange={(e) => {
-          setNotes(e.target.value)
-          e.target.style.height = "auto"
-          e.target.style.height = e.target.scrollHeight + "px"
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <motion.div
+        ref={componentRef}
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
         }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault()
-            setNotes(notes + "\n")
-          }
+        exit={{
+          opacity: 0,
+          scale: 0.95,
+          y: 20,
+          transition: {
+            duration: 0.2,
+          },
         }}
-        className="w-full max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-hidden mb-2"
-        placeholder="Notes"
-      />
-      <div className="flex flex-col text-[14px] mb-2">
-        {/* no subtasks for now */}
-        {/* <span className="font-thin text-xs mb-1">Subtasks:</span>
-        {subtasks.map((subtask, index) => (
-          <div key={index} className="flex items-center mb-1">
-            <input
-              type="text"
-              value={subtask}
-              onChange={(e) => {
-                const newSubtasks = [...subtasks]
-                newSubtasks[index] = e.target.value
-                setSubtasks(newSubtasks)
-              }}
-              className="flex-grow bg-white/10 rounded-xl px-3 py-1 text-sm outline-none"
-            />
+        transition={{
+          type: "spring",
+          damping: 25,
+          stiffness: 350,
+          mass: 0.5,
+        }}
+        className="bg-black/40 p-6 backdrop-blur-xl
+          rounded-3xl rounded-tr-[50px] mb-[0.5em]
+          shadow-2xl border border-white/5
+          hover:border-white/10 transition-colors
+          bg-gradient-to-br from-black/40 to-black/20"
+        whileHover={{
+          scale: 1.005,
+          transition: { duration: 0.2 },
+        }}
+        whileTap={{ scale: 0.995 }}
+      >
+        <input
+          type="text"
+          value={title}
+          autoFocus
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full bg-transparent outline-none text-[18px] font-normal mb-2"
+          placeholder="New Task"
+        />
+        <textarea
+          value={notes}
+          onChange={(e) => {
+            setNotes(e.target.value)
+            e.target.style.height = "auto"
+            e.target.style.height = Math.min(e.target.scrollHeight, 400) + "px"
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault()
+              setNotes(notes + "\n")
+            }
+          }}
+          className="w-full max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-y-auto mb-2"
+          placeholder="Notes"
+        />
+        <div className="flex flex-col mb-2">
+          <h2 className="text-[16px] font-semibold pb-1">Estimated time:</h2>
+          <div className="flex items-center gap-2 h-[44px]">
+            {date && (
+              <div className="w-full bg-neutral-800 items-center justify-center rounded-md h-full px-3 flex">
+                {date.amount} {date.amount === 1 ? "Hour" : date.type}
+              </div>
+            )}
             <button
-              onClick={() =>
-                setSubtasks(subtasks.filter((_, i) => i !== index))
-              }
+              onClick={() => setShowDatePicker(true)}
+              className="w-full min-w-[120px] rounded-md h-full p-2 bg-blue-500"
             >
-              remove
+              Pick time
             </button>
           </div>
-        ))} */}
-        {/* <button
-          onClick={() => setSubtasks([...subtasks, ""])}
-          className="items-start mt-1"
-        >
-          Add
-        </button> */}
-        <h2 className="text-[16px] font-semibold pb-1">Estimated time:</h2>
-        <div className="flex items-center gap-2 h-[44px]">
-          {date && (
-            <div className="w-full bg-neutral-800 items-center justify-center rounded-md h-full px-3 flex">
-              {date.amount} {date.amount === 1 ? "Hour" : date.type}
-            </div>
-          )}
-          <button
-            onClick={() => setShowDatePicker(true)}
-            className="w-full min-w-[120px] rounded-md h-full p-2 bg-blue-500"
-          >
-            Pick time
-          </button>
-        </div>
-      </div>
-
-      <div className="flex flex-col mb-2">
-        <div className="relative flex items-center bg-neutral-800 h-[44px] rounded-md px-3 py-2">
-          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            $
-          </span>
-          <input
-            type="text"
-            inputMode="decimal"
-            value={bounty}
-            onChange={(e) => {
-              const value = e.target.value
-              if (value === "" || /^\d*\.?\d*$/.test(value)) {
-                setBounty(value)
-              }
-            }}
-            className="w-[100%] bg-transparent outline-none text-[14px] pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            placeholder="Amount"
-          />
-        </div>
-        <div className="pt-2 w-fit flex flex-col">
-          <label className="inline-flex items-center justify-between gap-6 cursor-pointer">
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
-              For an opensource project?
-            </span>
-            <input
-              type="checkbox"
-              defaultChecked={isOpensource}
-              onChange={(e) => setIsOpensourse(e.target.checked)}
-              className="sr-only peer"
-            />
-            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
-          </label>
-          <label className="pt-2 inline-flex items-center justify-between gap-6 cursor-pointer">
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
-              Allow multiple investors (crowdfunding)?
-            </span>
-            <input
-              type="checkbox"
-              defaultChecked={isCrowdfunding}
-              onChange={(e) => setIsCrowdfunding(e.target.checked)}
-              className="sr-only peer"
-            />
-            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
-          </label>
-          {isCrowdfunding && (
-            <span className="text-xs text-gray-800 dark:text-gray-400 w-min min-w-fit select-none">
-              In this case TODO Escrow will accumulate funds from different
-              investors, coming from both TON blockchain, telegram stars, and
-              regular card payments, and then create a contract between the
-              platform and the doer
-            </span>
-          )}
         </div>
 
-        <div className="pt-2">
-          <button
-            type="button"
-            className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
-            onClick={async () => {
-              await createTask({
-                task: {
-                  title: title.trim(),
-                  notes: notes,
-                  public: false,
-                  bountyEstimatedTimeInHours:
-                    date.type === "Days" ? date.amount * 24 : date.amount,
-                  bountyPriceInUsdt: Number(bounty),
-                },
-                userWalletAddress: address,
-                subtasks,
-              })
-              queryClient.invalidateQueries({
-                queryKey: ["tasks"],
-                refetchType: "all",
-              })
-              onClose()
-            }}
-          >
-            Create task
-          </button>
+        <div className="flex flex-col mb-2">
+          <div className="relative flex items-center bg-neutral-800 h-[44px] rounded-md px-3 py-2">
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              $
+            </span>
+            <input
+              type="text"
+              inputMode="decimal"
+              value={bounty}
+              onChange={(e) => {
+                const value = e.target.value
+                if (value === "" || /^\d*\.?\d*$/.test(value)) {
+                  setBounty(value)
+                }
+              }}
+              className="w-[100%] bg-transparent outline-none text-[14px] pl-4 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              placeholder="Amount"
+            />
+          </div>
+
+          <div className="pt-2 w-fit flex flex-col">
+            <label className="inline-flex items-center justify-between gap-6 cursor-pointer">
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
+                For an opensource project?
+              </span>
+              <input
+                type="checkbox"
+                defaultChecked={isOpensource}
+                onChange={(e) => setIsOpensourse(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+            </label>
+
+            <label className="pt-2 inline-flex items-center justify-between gap-6 cursor-pointer">
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
+                Allow multiple investors (crowdfunding)?
+              </span>
+              <input
+                type="checkbox"
+                defaultChecked={isCrowdfunding}
+                onChange={(e) => setIsCrowdfunding(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+            </label>
+            {isCrowdfunding && (
+              <span className="text-xs text-gray-800 dark:text-gray-400 w-min min-w-fit select-none">
+                In this case TODO Escrow will accumulate funds from different
+                investors, coming from both TON blockchain, telegram stars, and
+                regular card payments, and then create a contract between the
+                platform and the doer
+              </span>
+            )}
+          </div>
+
+          <div className="pt-2 mt-2">
+            <button
+              type="button"
+              className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
+              onClick={async () => {
+                await createTask({
+                  task: {
+                    title: title.trim(),
+                    notes: notes,
+                    public: false,
+                    bountyEstimatedTimeInHours:
+                      date.type === "Days" ? date.amount * 24 : date.amount,
+                    bountyPriceInUsdt: Number(bounty),
+                  },
+                  userWalletAddress: address,
+                  subtasks,
+                })
+                queryClient.invalidateQueries({
+                  queryKey: ["tasks"],
+                  refetchType: "all",
+                })
+                onClose()
+              }}
+            >
+              Create task
+            </button>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   )
 }

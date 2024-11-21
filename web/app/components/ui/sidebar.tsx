@@ -208,8 +208,8 @@ const Sidebar = ({
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
           intent === "floating" || intent === "inset"
-            ? "p-2 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
-            : "group-data-[collapsible=dock]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
+            ? "p-4 pt-12 pb-20 my-2 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
+            : "group-data-[collapsible=dock]:w-[--sidebar-width-icon] group-data-[side=right]:border-l",
           className
         )}
         {...props}
@@ -217,10 +217,10 @@ const Sidebar = ({
         <div
           data-slot="sidebar"
           className={cn(
-            "flex h-full w-full flex-col bg-tertiary group-data-[intent=inset]:bg-transparent group-data-[intent=floating]:rounded-lg group-data-[intent=floating]:border group-data-[intent=floating]:border-border group-data-[intent=floating]:bg-secondary/50",
+            "flex h-full w-full flex-col bg-tertiary group-data-[intent=inset]:bg-transparent group-data-[intent=floating]:rounded-lg group-data-[intent=floating]:bg-secondary",
             intent === "inset" || state === "collapsed"
               ? "[&_[data-slot=sidebar-header]]:border-transparent [&_[data-slot=sidebar-footer]]:border-transparent"
-              : "[&_[data-slot=sidebar-header]]:border-b [&_[data-slot=sidebar-footer]]:border-t"
+              : ""
           )}
         >
           {children}
@@ -232,12 +232,12 @@ const Sidebar = ({
 
 const itemStyles = tv({
   base: [
-    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 col-span-full [&>[data-slot=icon]]:shrink-0 items-center [&>[data-slot=icon]]:text-muted-fg relative rounded-lg lg:text-sm leading-6",
+    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 col-span-full [&>[data-slot=icon]]:shrink-0 items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
     "forced-colors:text-[MenuLink] text-fg"
   ],
   variants: {
     collapsed: {
-      false: "grid-cols-subgrid [&>[data-slot=icon]]:mr-2 px-3 py-2"
+      false: "grid-cols-subgrid [&>[data-slot=icon]]:mr-1 [&>[data-slot=icon]]:mt-[5px] [&>[data-slot=icon]]:self-start px-3 py-2"
     },
     isFocused: {
       true: "outline-none"
@@ -395,7 +395,7 @@ const footer = tv({
   variants: {
     collapsed: {
       false: [
-        "p-2 [&_[slot=menu-trigger]>[data-slot=avatar]]:-ml-1.5 [&_[slot=menu-trigger]]:w-full [&_[slot=menu-trigger]]:hover:bg-muted [&_[slot=menu-trigger]]:justify-start [&_[slot=menu-trigger]]:flex [&_[slot=menu-trigger]]:items-center"
+        "[&_[slot=menu-trigger]>[data-slot=avatar]]:-ml-1.5 [&_[slot=menu-trigger]]:w-full [&_[slot=menu-trigger]]:hover:bg-muted [&_[slot=menu-trigger]]:justify-start [&_[slot=menu-trigger]]:flex [&_[slot=menu-trigger]]:items-center"
       ],
       true: "size-12 p-1 [&_[slot=menu-trigger]]:size-9 justify-center items-center"
     }
@@ -474,7 +474,7 @@ const Section = ({
                     )
                   }
                 >
-                  <span className="flex items-center [&>[data-slot=icon]]:text-muted-fg [&>[data-slot=icon]]:mr-2">
+                  <span className="flex items-center text-xl font-medium text-fg ">
                     {Icon && <Icon data-slot="icon" />}
                     {title}
                   </span>
@@ -482,7 +482,7 @@ const Section = ({
                   {!Icon && <IconChevronDown className="idctr" />}
                 </ButtonPrimitive>
               ) : (
-                <h4 className="text-sm text-muted-fg px-3 py-2">{title}</h4>
+                <h4 className="text-xl font-medium text-fg px-3 py-2">{title}</h4>
               )}
             </span>
           )}

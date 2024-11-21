@@ -43,21 +43,21 @@
     }
 
     .dark {
-        --bg: 226.63 80% 3%;
+        --bg: 0 0% 22%;
         --fg: 210 72% 99%;
-        --primary: 210 24% 98%;
+        --primary: 180 11% 93%;
         --primary-fg: 223.94 71% 4%;
-        --secondary: 220.91 40% 11%;
+        --secondary: 0 0% 11%;
         --secondary-fg: 210 72% 99%;
-        --tertiary: 220.59 61% 5%;
+        --tertiary: 0 0% 0%;
         --tertiary-fg: 210 72% 99%;
-        --accent: 215 30% 16%;
+        --accent: 0 46% 50%;
         --accent-fg: 210 72% 99%;
-        --accent-subtle: 220.91 40% 11%;
+        --accent-subtle: 0 46% 35%;
         --accent-subtle-fg: 210 72% 99%;
         --overlay: 225.36 76% 3%;
         --overlay-fg: 210 72% 99%;
-        --muted: 215 28.04% 17%;
+        --muted: 0 46% 11%;
         --muted-fg: 217.89 11% 65%;
         --info: 205.77 100% 50%;
         --info-fg: 0 0% 100%;

@@ -223,6 +223,12 @@ textarea {
 
   color-scheme: dark;
 }
+/* .MessageList::-webkit-scrollbar {
+  background: transparent;
+} */
+.MessageList::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 .MessageList .messages-container {
   width: 100%;
@@ -277,7 +283,7 @@ textarea {
 .message-content.has-solid-background,
 .message-content.has-background,
 .is-album .message-content {
-  background: var(--background-color);
+  background: var(--color-background-secondary);
 }
 .message-content.has-shadow {
   box-shadow: 0 1px 2px var(--color-default-shadow);
@@ -697,8 +703,8 @@ textarea {
   --color-background-compact-menu-hover: rgb(0, 0, 0, 0.4);
   --color-background-secondary: rgb(15, 15, 15);
   --color-background-secondary-accent: rgb(25, 25, 25);
-  --color-background-own: rgb(118, 106, 200);
-  --color-background-own-apple: rgb(118, 106, 200);
+  --color-background-own: hsl(0 46% 35%);
+  --color-background-own-apple: hsl(0 46% 35%);
   --color-background-selected: rgb(44, 44, 44);
   --color-background-own-selected: rgb(101, 73, 212);
   --color-chat-hover: rgb(44, 44, 44);

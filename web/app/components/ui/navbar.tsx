@@ -116,7 +116,7 @@ const navStyles = tv({
     intent: {
       floating:
         "bg-tertiary w-full max-w-7xl 2xl:max-w-screen-2xl mx-auto shadow-sm border rounded-xl sm:px-4",
-      navbar: "shadow-sm sm:px-6", //bg-tertiary border-b
+      navbar: "sm:px-6", //shadow-sm bg-tertiary border-b
       inset: [
         "bg-secondary mx-auto dark:bg-bg sm:px-6",
         "2xl:[&>div]:max-w-screen-2xl lg:[&>div]:flex [&>div]:items-center [&>div]:w-full [&>div]:mx-auto"

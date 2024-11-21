@@ -63,6 +63,7 @@ const config = withTV({
       fontFamily: {
         sans: [
           '"SF Pro Display"',
+          '"Futura"',
           "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",

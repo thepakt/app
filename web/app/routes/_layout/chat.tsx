@@ -13,7 +13,7 @@ function RouteComponent() {
 
   return (
     <>
-    <div className="pt-4 h-full flex flex-col justify-between">
+    <div className="h-full flex flex-col justify-between">
       <ProjectInfo
         title="To do"
         description="In this project, I would like to do this, this, and this, to make that and that happen."

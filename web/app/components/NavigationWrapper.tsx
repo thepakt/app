@@ -1,14 +1,14 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router"
-import { TonConnectButton, useTonConnectModal } from "@tonconnect/ui-react"
+import { Outlet } from "@tanstack/react-router"
+import { useTonConnectModal } from "@tonconnect/ui-react"
 import {
   IconBag,
+  IconBell,
   IconBrandJustd,
+  IconCircleCheck,
   IconCompass,
   IconCreditCard,
-  IconInbox,
   IconSearch,
 } from "justd-icons"
-import { Separator } from "react-aria-components"
 import { Button, Navbar, Sidebar } from "~/components/ui"
 
 export default function NavbarWrapper(props: any) {
@@ -16,22 +16,38 @@ export default function NavbarWrapper(props: any) {
 
   return (
     <Sidebar.Provider>
-      <Sidebar>
+      <Sidebar intent="floating" collapsible="dock">
         <Sidebar.Content>
-          <Sidebar.Section className="mt-12">
-            <Sidebar.Item icon={IconInbox} href="inbox">
-              Inbox
+          <Sidebar.Section title="Might happen" className="mt-8">
+            <Sidebar.Item icon={IconCircleCheck} href="inbox">
+              <div className="flex flex-col">
+                <span className="text-base">Create</span>
+                <span className="text-xs">Things You Would Like To Do</span>
+              </div>
             </Sidebar.Item>
             <Sidebar.Item icon={IconCompass} href="explore">
-              Explore
+              <div className="flex flex-col">
+                <span className="text-base">Explore</span>
+                <span className="text-xs">What Others Wish to Make</span>
+              </div>
             </Sidebar.Item>
           </Sidebar.Section>
-          <Sidebar.Section title="Active Projects">
-            <Sidebar.Item icon={IconBag} href="chat" />
-            <Sidebar.Item icon={IconCreditCard} href="chat" />
+          <Sidebar.Section collapsible title="Happening">
+            <Sidebar.Item icon={IconBag} href="chat">
+              <div className="flex flex-col">
+                <span className="text-base">To do</span>
+              </div>
+            </Sidebar.Item>
+            <Sidebar.Item icon={IconCreditCard} href="chat">
+              <div className="flex flex-col">
+                <span className="text-base">To do</span>
+              </div>
+            </Sidebar.Item>
           </Sidebar.Section>
         </Sidebar.Content>
-        <Sidebar.Footer />
+        <Sidebar.Footer>
+          <Sidebar.Section collapsible title="Has happened" />
+        </Sidebar.Footer>
         <Sidebar.Rail />
       </Sidebar>
       <Sidebar.Inset>
@@ -52,7 +68,7 @@ export default function NavbarWrapper(props: any) {
                 size="square-petite"
                 aria-label="Search for products"
               >
-                <IconSearch />
+                <IconBell />
               </Button>
               <Button
                 appearance="solid"

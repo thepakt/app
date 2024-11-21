@@ -22,7 +22,7 @@ export default function ProjectInfo({ title, description, contributors, steps, c
   };
 
   return (
-    <div className="bg-secondary text-white rounded-lg p-6 max-w-4xl mx-auto shadow-lg border border-gray-700">
+    <div className="bg-secondary text-white rounded-lg p-6 max-w-4xl mx-6 shadow-lg">
       {/* Card Header */}
       <div className="flex justify-between items-center cursor-pointer" onClick={toggleExpand}>
         <h2 className="text-2xl font-bold">{title}</h2>

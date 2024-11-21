@@ -106,8 +106,8 @@ const Navbar = ({
 
 const navStyles = tv({
   base: [
-    "hidden h-[--navbar-height] [--navbar-height:3.5rem] px-4 group peer lg:flex items-center w-full",
-    "[&>div]:max-w-[1680px] lg:[&>div]:flex [&>div]:items-center [&>div]:w-full [&>div]:mx-auto"
+    "hidden h-[--navbar-height] [--navbar-height:3rem] px-4 group peer lg:flex items-center w-full",
+    "[&>div]:max-w-[1680px] lg:[&>div]:flex [&>div]:items-center [&>div]:w-full [&>div]:mx-auto bg-bg"
   ],
   variants: {
     isSticky: {
@@ -262,7 +262,7 @@ const Flex = ({ className, ...props }: React.ComponentProps<"div">) => {
 }
 
 const compactStyles = tv({
-  base: "lg:hidden flex peer-has-[[data-intent=floating]]:border bg-tertiary justify-between",
+  base: "lg:hidden flex peer-has-[[data-intent=floating]]:border bg-bg justify-between",
   variants: {
     isSticky: {
       true: "sticky z-40 top-0"

@@ -1,5 +1,4 @@
 import { Outlet } from "@tanstack/react-router"
-import { useTonConnectModal } from "@tonconnect/ui-react"
 import {
   IconBag,
   IconBell,
@@ -10,9 +9,9 @@ import {
   IconSearch,
 } from "justd-icons"
 import { Button, Navbar, Sidebar } from "~/components/ui"
+import WalletConnectButton from "./WalletConnectButton"
 
-export default function NavbarWrapper(props: any) {
-  const { state, open, close } = useTonConnectModal()
+export default function NavbarWrapper(props: any) {  
 
   return (
     <Sidebar.Provider>
@@ -58,9 +57,9 @@ export default function NavbarWrapper(props: any) {
             <Navbar.Flex>
               {/* <Navbar.Trigger className="-ml-2" />
               <Separator orientation="vertical" className="h-6 mx-2" /> */}
-              <Navbar.Logo href="/docs/components/navigation/navbar">
+              {/* <Navbar.Logo href="/docs/components/navigation/navbar">
                 <IconBrandJustd className="size-5" />
-              </Navbar.Logo>
+              </Navbar.Logo> */}
             </Navbar.Flex>
             <Navbar.Flex>
               <Button
@@ -70,14 +69,7 @@ export default function NavbarWrapper(props: any) {
               >
                 <IconBell />
               </Button>
-              <Button
-                appearance="solid"
-                size="medium"
-                aria-label="Connect Wallet"
-                onPress={open}
-              >
-                Connect Wallet
-              </Button>
+              <WalletConnectButton />
               {/* TODO: fix <TonConnectButton /> . When 2 buttons switch visibility with media queries, 1/2 buttons is rendered */}
             </Navbar.Flex>
           </Navbar.Nav>
@@ -99,14 +91,7 @@ export default function NavbarWrapper(props: any) {
               >
                 <IconSearch />
               </Button>
-              <Button
-                appearance="solid"
-                size="medium"
-                aria-label="Connect Wallet"
-                onPress={open}
-              >
-                Connect Wallet
-              </Button>
+              <WalletConnectButton />
               {/* <TonConnectButton /> */}
             </Navbar.Flex>
           </Navbar.Compact>

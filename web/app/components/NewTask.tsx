@@ -97,7 +97,7 @@ export default function NewTask({
   }, [onClose])
 
   return (
-    <div className="fixed inset-0 flex items-center w-full justify-center z-50 p-4">
+    <div className="sticky flex items-start w-full max-w-50 justify-center z-30 p-4">
       <motion.div
         ref={componentRef}
         initial={{ opacity: 0, y: 30, scale: 0.95 }}

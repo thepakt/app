@@ -55,9 +55,9 @@
         --accent-fg: 210 72% 99%;
         --accent-subtle: 0 46% 35%;
         --accent-subtle-fg: 210 72% 99%;
-        --overlay: 225.36 76% 3%;
+        --overlay: 0 0% 11%;
         --overlay-fg: 210 72% 99%;
-        --muted: 0 46% 11%;
+        --muted: 0 0% 21%;
         --muted-fg: 217.89 11% 65%;
         --info: 205.77 100% 50%;
         --info-fg: 0 0% 100%;
@@ -65,7 +65,7 @@
         --success-fg: 151.77 82% 96%;
         --ring: 210 24% 98%;
         --toggle: 216.93 21% 25%;
-        --border: 215 28.04% 17%;
+        --border: 216.93 0% 70%;
         --input: 216.97 27% 18%;
         --primary-chart: 216.93 20% 26%;
         --secondary-chart: 217.89 19% 80%;

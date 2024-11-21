@@ -49,6 +49,16 @@ function RouteComponent() {
       <h1 className="text-lg font-semibold text-start pt-[1.2em]">
         Your Active Tasks
       </h1>
+      <AnimatePresence>
+        {isNewTodoOpen && (
+          <NewTask
+            onClose={() => setIsNewTodoOpen(false)}
+            showDatePicker={isDatePickerOpen}
+            date={date}
+            setShowDatePicker={setIsDatePickerOpen}
+          />
+        )}
+      </AnimatePresence>
       <div className="w-full flex items-center justify-center overflow-hidden">
         <div className="w-full py-[0.5em] min-w-[300px] max-w-[500px] h-full">
           <DatePicker
@@ -58,16 +68,6 @@ function RouteComponent() {
           />
 
           <div className="flex flex-col gap-1 mt-2">
-            <AnimatePresence>
-              {isNewTodoOpen && (
-                <NewTask
-                  onClose={() => setIsNewTodoOpen(false)}
-                  showDatePicker={isDatePickerOpen}
-                  date={date}
-                  setShowDatePicker={setIsDatePickerOpen}
-                />
-              )}
-            </AnimatePresence>
             {/* @ts-ignore */}
             {data?.tasks?.map((task) => {
               if (task?.workOnTaskHasStarted) return <></>

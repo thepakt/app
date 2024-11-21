@@ -208,7 +208,7 @@ const Sidebar = ({
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
           intent === "floating" || intent === "inset"
-            ? "p-4 pt-12 pb-20 my-2 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
+            ? "p-4 pt-12 pb-20 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
             : "group-data-[collapsible=dock]:w-[--sidebar-width-icon] group-data-[side=right]:border-l",
           className
         )}

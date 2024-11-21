@@ -89,7 +89,6 @@ export default function NewTask({
     document.addEventListener("mousedown", clickOutside)
     return () => {
       document.removeEventListener("mousedown", clickOutside)
-      // Clear timeout on cleanup
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
       }
@@ -97,7 +96,7 @@ export default function NewTask({
   }, [onClose])
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex items-center w-full justify-center z-50 p-4">
       <motion.div
         ref={componentRef}
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -120,11 +119,12 @@ export default function NewTask({
           stiffness: 350,
           mass: 0.5,
         }}
-        className="bg-black/40 p-6 backdrop-blur-xl
+        className="bg-black/40 w-[100%] max-w-[900px] h-[70%] p-6 backdrop-blur-xl
           rounded-3xl rounded-tr-[50px] mb-[0.5em]
           shadow-2xl border border-white/5
           hover:border-white/10 transition-colors
-          bg-gradient-to-br from-black/40 to-black/20"
+          bg-gradient-to-br from-black/40 to-black/20
+          flex flex-col"
         whileHover={{
           scale: 1.005,
           transition: { duration: 0.2 },
@@ -152,7 +152,7 @@ export default function NewTask({
               setNotes(notes + "\n")
             }
           }}
-          className="w-full max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-y-auto mb-2"
+          className="w-full min-h-[150px] max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-y-auto mb-2"
           placeholder="Notes"
         />
         <div className="flex flex-col mb-2">
@@ -172,7 +172,7 @@ export default function NewTask({
           </div>
         </div>
 
-        <div className="flex flex-col mb-2">
+        <div className="flex-1 flex flex-col">
           <div className="relative flex items-center bg-neutral-800 h-[44px] rounded-md px-3 py-2">
             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
               $
@@ -192,7 +192,7 @@ export default function NewTask({
             />
           </div>
 
-          <div className="pt-2 w-fit flex flex-col">
+          <div className="my-auto py-2 w-fit flex flex-col">
             <label className="inline-flex items-center justify-between gap-6 cursor-pointer">
               <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
                 For an opensource project?
@@ -228,7 +228,7 @@ export default function NewTask({
             )}
           </div>
 
-          <div className="pt-2 mt-2">
+          <div className="pt-2">
             <button
               type="button"
               className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"

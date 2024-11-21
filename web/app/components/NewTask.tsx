@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import { createTask } from "~/actions"
+import { ChevronDown } from "lucide-react"
 
 type TimeUnit = "Hours" | "Days"
 
@@ -155,20 +156,70 @@ export default function NewTask({
           className="w-full min-h-[150px] max-h-[400px] bg-transparent outline-none text-[16px] font-light pb-[2em] resize-none overflow-y-auto mb-2"
           placeholder="Notes"
         />
-        <div className="flex flex-col mb-2">
+        <div className="flex flex-col items-center justify-between md:flex-row w-full mb-2">
           <h2 className="text-[16px] font-semibold pb-1">Estimated time:</h2>
-          <div className="flex items-center gap-2 h-[44px]">
+          <div className="flex items-center flex-row md:hidden w-full gap-2">
             {date && (
-              <div className="w-full bg-neutral-800 items-center justify-center rounded-md h-full px-3 flex">
+              <div className="w-full bg-inherit items-center justify-center h-[44px] px-3 flex">
                 {date.amount} {date.amount === 1 ? "Hour" : date.type}
               </div>
             )}
             <button
               onClick={() => setShowDatePicker(true)}
-              className="w-full min-w-[120px] rounded-md h-full p-2 bg-blue-500"
+              className="w-full min-w-[120px] rounded-md h-[44px] p-2 bg-white/10 hover:bg-white/20 transition-colors"
             >
               Pick time
             </button>
+          </div>
+
+          <div className="hidden md:flex items-start gap-3 h-[44px]">
+            <div className="flex-1 flex items-center gap-2">
+              <div className="relative w-24">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="1"
+                  max={estimatedTimeInHours.unit === "Hours" ? 23 : 20}
+                  value={estimatedTimeInHours.amount || ""}
+                  onChange={(e) => {
+                    const value =
+                      e.target.value === "" ? 0 : parseInt(e.target.value)
+                    if (!isNaN(value)) {
+                      handlePickerChange({ amount: value })
+                    }
+                  }}
+                  className="w-full bg-neutral-800/50 backdrop-blur-xl rounded-xl h-full px-4 outline-none
+                    text-center text-[16px] appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none
+                    [&::-webkit-inner-spin-button]:appearance-none
+                    hover:bg-neutral-800/70 transition-colors
+                    focus:bg-neutral-800/90 focus:ring-2 focus:ring-blue-500/20"
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-1"></div>
+              </div>
+              <div className="relative w-32">
+                <select
+                  value={estimatedTimeInHours.unit}
+                  onChange={(e) =>
+                    handlePickerChange({ unit: e.target.value as TimeUnit })
+                  }
+                  className="w-full appearance-none bg-neutral-800/50 backdrop-blur-xl rounded-xl h-full px-4 pr-10 outline-none
+                    text-[16px] cursor-pointer
+                    hover:bg-neutral-800/70 transition-colors
+                    focus:bg-neutral-800/90 focus:ring-2 focus:ring-blue-500/20"
+                >
+                  {estimatedTimeOptions.unit.map((unit) => (
+                    <option key={unit} value={unit}>
+                      {unit}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <ChevronDown size={16} />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -231,7 +282,7 @@ export default function NewTask({
           <div className="pt-2">
             <button
               type="button"
-              className="py-1 h-[44px] bg-white w-[100%] hover:opacity-45 transition-opacity text-black text-sm font-medium rounded-md"
+              className="py-1 h-[44px] bg-blue-500 w-[100%] hover:opacity-45 transition-opacity text-white text-sm font-medium rounded-md"
               onClick={async () => {
                 await createTask({
                   task: {

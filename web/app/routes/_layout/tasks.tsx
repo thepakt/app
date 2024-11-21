@@ -105,6 +105,11 @@ function RouteComponent() {
                 />
               )
             })}
+            {(!data?.tasks || data.tasks.length === 0) && (
+              <p className="text-center opacity-50 mt-4">
+                You don't have any tasks yet. Create one to get started
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -12,18 +12,26 @@ function ConnectPage() {
   const from: string | null = router.state.location.search?.from || null
 
   const address = useTonAddress()
+  
   useEffect(() => {
     if (address)
-      router.commitLocation({
-        ...router.state.location,
-        href: from ?? "/explore",
-      })
-  })
+      if (from)
+        router.commitLocation({
+          ...router.state.location,
+          href: from,
+          searchStr: from.substring(from.indexOf("?")),
+        })
+      else
+        router.commitLocation({
+          ...router.state.location,
+          href: "/explore",
+        })
+  }, [address])
 
   const intent = () => {
     if (!from) return "continue"
     if (from && from.substring(0, 8) == "/explore") return "explore"
-    if (from && from.substring(0, 7) == "/create") return "create"
+    if (from && from.substring(0, 13) == "/tasks?create") return "create"
     return "continue"
   }
 

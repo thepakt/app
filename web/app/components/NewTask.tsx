@@ -42,6 +42,7 @@ export default function NewTask({
     unit: "Hours",
   })
 
+  const [isPublic, setIsPublic] = useState(true)
   const [isOpensource, setIsOpensourse] = useState(false)
   const [isCrowdfunding, setIsCrowdfunding] = useState<boolean>(false)
 
@@ -120,7 +121,7 @@ export default function NewTask({
           stiffness: 350,
           mass: 0.5,
         }}
-        className="bg-black/40 w-[100%] max-w-[900px] h-[70%] p-6 backdrop-blur-xl
+        className="bg-black/40 w-[100%] max-w-[650px] h-[70%] p-6 backdrop-blur-xl
           rounded-3xl rounded-tr-[50px] mb-[0.5em]
           shadow-2xl border border-white/5
           hover:border-white/10 transition-colors
@@ -245,6 +246,18 @@ export default function NewTask({
 
           <div className="my-auto py-2 w-fit flex flex-col">
             <label className="inline-flex items-center justify-between gap-6 cursor-pointer">
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
+                Public task
+              </span>
+              <input
+                type="checkbox"
+                defaultChecked={isPublic}
+                onChange={(e) => setIsPublic(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+            </label>
+            <label className="pt-2 inline-flex items-center justify-between gap-6 cursor-pointer">
               <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
                 For an opensource project?
               </span>

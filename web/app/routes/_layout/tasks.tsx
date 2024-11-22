@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useTonAddress } from "@tonconnect/ui-react"
 import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
@@ -12,7 +12,9 @@ import { TaskComponentInvested } from "~/components/TaskComponentInvested"
 
 function RouteComponent() {
   const address = useTonAddress()
-  const [isNewTodoOpen, setIsNewTodoOpen] = useState(false)
+  const [isNewTodoOpen, setIsNewTodoOpen] = useState(
+    new URLSearchParams(location.search).has("create"),
+  )
   const [expandedTodoId, setExpandedTodoId] = useState<number | null>(null)
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [date, setDate] = useState<{ amount: number; type: string }>({
@@ -31,6 +33,21 @@ function RouteComponent() {
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
+
+  // TODO: store ?create in location.search if isNewTodoOpen
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(location.search);
+  //   if (isNewTodoOpen) {
+  //     searchParams.set('create', 'true'); // Add `create` parameter
+  //   } else {
+  //     searchParams.delete('create'); // Remove `create` parameter
+  //   }
+  //   router.commitLocation({
+  //     ...router.state.location,
+  //     searchStr: searchParams.toString(),
+  //     replace: true,
+  //   });
+  // }, [isNewTodoOpen, location.pathname, router]);
 
   const { data, error } = useQuery({
     queryKey: ["tasks"],
@@ -114,9 +131,10 @@ function RouteComponent() {
         </div>
       </div>
       <AnimatePresence>
-        {!isNewTodoOpen && address && (
+        {!isNewTodoOpen && (
           <div className="fixed bottom-20 left-0 right-2 flex justify-center">
             <AddTodoButton
+              isLoggedIn={!!(address && address.length)}
               setIsNewTodoOpen={setIsNewTodoOpen}
               isNewTodoOpen={isNewTodoOpen}
             />

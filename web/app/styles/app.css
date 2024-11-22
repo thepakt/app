@@ -12,7 +12,7 @@ body {
   background-color: #1f1f1f;
   color: white;
   min-height: 100vh;
-  font-family: 'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: "ISM Plex Sans", 'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @layer utilities {
@@ -72,4 +72,30 @@ body {
   background: #555;
 }
 
+.futura {
+  font-family: 'FuturaBT-Medium';
+}
 
+.ibm-plex-serif-regular {
+  font-family: "IBM Plex Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ibm-plex-serif-regular-italic {
+  font-family: "IBM Plex Serif", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.ibm-plex-sans-regular {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ibm-plex-sans-medium {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}

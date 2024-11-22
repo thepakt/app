@@ -35,6 +35,10 @@ export const Route = createRootRouteWithContext<{
   links: () => [
     { rel: "stylesheet", href: appCss },
     { rel: "stylesheet", href: justgetdCss },
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
+    { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital@0;1&display=swap"},
+    { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/futura-font@1.0.0/styles.min.css"},
     {
       rel: "apple-touch-icon",
       sizes: "180x180",

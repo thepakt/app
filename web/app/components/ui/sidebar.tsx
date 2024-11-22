@@ -478,7 +478,7 @@ const Section = ({
                     )
                   }
                 >
-                  <span className="flex items-center text-xl font-medium text-fg ">
+                  <span className="flex items-center text-xl font-medium text-fg">
                     {Icon && <Icon data-slot="icon" />}
                     {title}
                   </span>
@@ -486,7 +486,7 @@ const Section = ({
                   {!Icon && <IconChevronDown className="idctr" />}
                 </ButtonPrimitive>
               ) : (
-                <h4 className="text-xl font-medium text-fg px-3 py-2">{title}</h4>
+                <h4 className="text-xl font-medium text-fg px-3 py-2 futura">{title}</h4>
               )}
             </span>
           )}

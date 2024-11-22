@@ -62,12 +62,19 @@ const config = withTV({
       },
       fontFamily: {
         sans: [
-          '"SF Pro Display"',
+          '"IBM Plex Sans"',
           '"Futura"',
           "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",
         ],
+        serif: [
+          "'IBM Plex Serif'",
+          "ui-serif",
+          "Georgia", 
+          "Cambria",
+          "serif"
+        ]
       },
       borderRadius: {
         '3xl': 'calc(var(--radius) + 7.5px)',

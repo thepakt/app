@@ -34,7 +34,7 @@ const dropdownItemStyles = tv({
     isFocused: {
       false: "data-[danger=true]:text-danger",
       true: [
-        "bg-accent text-accent-fg forced-colors:text-[HighlightText] forced-colors:bg-[Highlight]",
+        "bg-muted text-accent-fg forced-colors:text-[HighlightText] forced-colors:bg-[Highlight]",
         "data-[danger=true]:bg-danger data-[danger=true]:text-danger-fg",
         "[&_.text-muted-fg]:text-accent-fg/80 [&[data-slot=label]]:text-accent-fg [&[data-slot=description]]:text-accent-fg"
       ]

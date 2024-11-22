@@ -270,7 +270,7 @@ const compactStyles = tv({
     intent: {
       floating: "border h-12 rounded-lg px-3.5",
       inset: "h-14 px-4",
-      navbar: "h-14 border-b px-4"
+      navbar: "h-14 px-4"
     }
   }
 })

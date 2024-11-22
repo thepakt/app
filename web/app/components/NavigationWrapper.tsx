@@ -10,17 +10,18 @@ import {
 } from "justd-icons"
 import { Button, Navbar, Sidebar } from "~/components/ui"
 import WalletConnectButton from "./WalletConnectButton"
+import { Separator } from "react-aria-components"
 
 export default function NavbarWrapper(props: any) {  
 
   return (
     <Sidebar.Provider>
-      <Sidebar intent="floating" collapsible="dock">
+      <Sidebar intent="floating" collapsible="dock" >
         <Sidebar.Content>
           <Sidebar.Section title="Might happen" className="mt-8">
-            <Sidebar.Item icon={IconCircleCheck} href="inbox">
+            <Sidebar.Item icon={IconCircleCheck} href="tasks">
               <div className="flex flex-col">
-                <span className="text-base">Create</span>
+                <span className="text-base">Create & Manage</span>
                 <span className="text-xs">Things You Would Like To Do</span>
               </div>
             </Sidebar.Item>
@@ -55,8 +56,6 @@ export default function NavbarWrapper(props: any) {
           {/* Desktop */}
           <Navbar.Nav className="justify-between">
             <Navbar.Flex>
-              {/* <Navbar.Trigger className="-ml-2" />
-              <Separator orientation="vertical" className="h-6 mx-2" /> */}
               {/* <Navbar.Logo href="/docs/components/navigation/navbar">
                 <IconBrandJustd className="size-5" />
               </Navbar.Logo> */}
@@ -77,11 +76,10 @@ export default function NavbarWrapper(props: any) {
           {/* Mobile */}
           <Navbar.Compact>
             <Navbar.Flex>
-              {/* <Navbar.Trigger className="-ml-2" />
-              <Separator orientation="vertical" className="h-6 mx-2" /> */}
-              <Navbar.Logo href="/docs/components/navigation/navbar">
+              <Sidebar.Trigger />
+              {/* <Navbar.Logo href="/docs/components/navigation/navbar">
                 <IconBrandJustd className="size-5" />
-              </Navbar.Logo>
+              </Navbar.Logo> */}
             </Navbar.Flex>
             <Navbar.Flex>
               <Button
@@ -89,7 +87,7 @@ export default function NavbarWrapper(props: any) {
                 size="square-petite"
                 aria-label="Search for products"
               >
-                <IconSearch />
+                <IconBell />
               </Button>
               <WalletConnectButton />
               {/* <TonConnectButton /> */}

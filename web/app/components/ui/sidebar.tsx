@@ -56,7 +56,8 @@ const Provider = React.forwardRef<
     },
     ref
   ) => {
-    const isMobile = useMediaQuery("(max-width: 768px)")
+    const isMobile = useMediaQuery("(max-width: 640px)")
+    const isPreMobile = useMediaQuery("(min-width: 641px) and (max-width: 768px)")
     const [openMobile, setOpenMobile] = React.useState(false)
 
     const [_open, _setOpen] = React.useState(defaultOpen)
@@ -77,6 +78,8 @@ const Provider = React.forwardRef<
     const toggleSidebar = React.useCallback(() => {
       return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
     }, [isMobile, setOpen, setOpenMobile])
+    
+    React.useEffect(() => {isPreMobile ? setOpen(false) : setOpen(true && !isMobile)}, [isMobile, isPreMobile])
 
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -130,8 +133,8 @@ const Inset = ({ className, ...props }: React.ComponentProps<"main">) => {
       className={cn([
         [
           "relative flex min-h-svh max-w-full flex-1 flex-col bg-bg",
-          "md:peer-data-[intent=inset]:ml-0 md:peer-data-[intent=inset]:bg-tertiary md:peer-data-[intent=inset]:rounded-xl",
-          "peer-data-[intent=inset]:overflow-hidden peer-data-[intent=inset]:border peer-data-[intent=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[intent=inset]:my-2 md:peer-data-[intent=inset]:mr-2"
+          "sm:peer-data-[intent=inset]:ml-0 sm:peer-data-[intent=inset]:bg-tertiary sm:peer-data-[intent=inset]:rounded-xl",
+          "peer-data-[intent=inset]:overflow-hidden peer-data-[intent=inset]:border peer-data-[intent=inset]:min-h-[calc(100svh-theme(spacing.4))] sm:peer-data-[intent=inset]:my-2 sm:peer-data-[intent=inset]:mr-2"
         ],
         className
       ])}
@@ -173,7 +176,8 @@ const Sidebar = ({
           data-slot="sidebar"
           data-mobile="true"
           classNames={{
-            content: "bg-tertiary text-fg [&>button]:hidden"
+            content: "bg-tertiary text-fg [&>button]:hidden ring-0 px-3",
+            overlay: "bg-white/50 dark:bg-black/50 backdrop-blur-sm"
           }}
           isStack={intent === "floating"}
           side={side}
@@ -185,7 +189,7 @@ const Sidebar = ({
   }
   return (
     <div
-      className="group peer hidden md:block"
+      className="group peer hidden sm:block"
       data-state={state}
       data-collapsible={state === "collapsed" ? collapsible : ""}
       data-intent={intent}
@@ -203,7 +207,7 @@ const Sidebar = ({
       />
       <div
         className={cn(
-          "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
+          "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear sm:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -232,7 +236,7 @@ const Sidebar = ({
 
 const itemStyles = tv({
   base: [
-    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 col-span-full [&>[data-slot=icon]]:shrink-0 items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
+    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 grid-cols-8 [&>[data-slot=icon]]:shrink-0  [&>[data-slot=icon]]:col-span-1 [&>[data-slot=text]]:col-span-9 items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
     "forced-colors:text-[MenuLink] text-fg"
   ],
   variants: {
@@ -300,7 +304,7 @@ const Item = ({ isCurrent, children, className, icon: Icon, ...props }: ItemProp
       {(values) => (
         <>
           {Icon && <Icon data-slot="icon" />}
-          <span className="col-start-2 group-data-[collapsible=dock]:hidden">
+          <span className="col-start-2 col-span-7 col-end-8 group-data-[collapsible=dock]:hidden">
             {typeof children === "function" ? children(values) : children}
             {props.badge && (
               <div className="bdx h-[1.30rem] px-1 rounded-md text-muted-fg text-xs font-medium ring-1 ring-fg/20 grid place-content-center w-auto inset-y-1/2 -translate-y-1/2 absolute right-1.5 bg-fg/[0.02] dark:bg-fg/10">
@@ -361,8 +365,8 @@ const Trigger = ({ className, onPress, ...props }: React.ComponentProps<typeof B
       }}
       {...props}
     >
-      <IconSidebarFill className="md:inline hidden" />
-      <IconHamburger className="md:hidden inline" />
+      <IconSidebarFill className="sm:inline hidden" />
+      <IconHamburger className="sm:hidden inline" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
@@ -397,7 +401,7 @@ const footer = tv({
       false: [
         "[&_[slot=menu-trigger]>[data-slot=avatar]]:-ml-1.5 [&_[slot=menu-trigger]]:w-full [&_[slot=menu-trigger]]:hover:bg-muted [&_[slot=menu-trigger]]:justify-start [&_[slot=menu-trigger]]:flex [&_[slot=menu-trigger]]:items-center"
       ],
-      true: "size-12 p-1 [&_[slot=menu-trigger]]:size-9 justify-center items-center"
+      true: "p-1 [&_[slot=menu-trigger]]:size-9 justify-center items-center"
     }
   }
 })
@@ -438,7 +442,7 @@ const Section = ({
     <Disclosure
       data-slot="sidebar-section"
       className={cn(
-        "col-span-full px-2",
+        "col-span-full px-2 w-full",
         state === "collapsed" && [title && "px-0", !isMobile && "px-0"],
         state === "expanded" && [
           "[&_[data-slot=sidebar-section]]:px-0",

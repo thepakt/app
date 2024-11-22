@@ -236,7 +236,7 @@ const Sidebar = ({
 
 const itemStyles = tv({
   base: [
-    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 grid-cols-8 [&>[data-slot=icon]]:shrink-0  [&>[data-slot=icon]]:col-span-1 [&>[data-slot=text]]:col-span-9 items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
+    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 sm:col-span-full [&>[data-slot=icon]]:shrink-0  [&>[data-slot=icon]]:col-span-1 sm:[&>[data-slot=icon]]:col-auto items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
     "forced-colors:text-[MenuLink] text-fg"
   ],
   variants: {
@@ -304,7 +304,7 @@ const Item = ({ isCurrent, children, className, icon: Icon, ...props }: ItemProp
       {(values) => (
         <>
           {Icon && <Icon data-slot="icon" />}
-          <span className="col-start-2 col-span-7 col-end-8 group-data-[collapsible=dock]:hidden">
+          <span className="col-start-2 col-span-7 sm:col-span-none col-end-8 sm:col-end-none group-data-[collapsible=dock]:hidden">
             {typeof children === "function" ? children(values) : children}
             {props.badge && (
               <div className="bdx h-[1.30rem] px-1 rounded-md text-muted-fg text-xs font-medium ring-1 ring-fg/20 grid place-content-center w-auto inset-y-1/2 -translate-y-1/2 absolute right-1.5 bg-fg/[0.02] dark:bg-fg/10">

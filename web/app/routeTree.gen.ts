@@ -20,6 +20,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as LayoutTasksImport } from './routes/_layout/tasks'
 import { Route as LayoutProfileImport } from './routes/_layout/profile'
 import { Route as LayoutExploreImport } from './routes/_layout/explore'
+import { Route as LayoutConnectImport } from './routes/_layout/connect'
 import { Route as LayoutChatImport } from './routes/_layout/chat'
 
 // Create/Update Routes
@@ -66,6 +67,11 @@ const LayoutProfileRoute = LayoutProfileImport.update({
 
 const LayoutExploreRoute = LayoutExploreImport.update({
   path: '/explore',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutConnectRoute = LayoutConnectImport.update({
+  path: '/connect',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -127,6 +133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutChatImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/connect': {
+      id: '/_layout/connect'
+      path: '/connect'
+      fullPath: '/connect'
+      preLoaderRoute: typeof LayoutConnectImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/explore': {
       id: '/_layout/explore'
       path: '/explore'
@@ -155,6 +168,7 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutChatRoute: typeof LayoutChatRoute
+  LayoutConnectRoute: typeof LayoutConnectRoute
   LayoutExploreRoute: typeof LayoutExploreRoute
   LayoutProfileRoute: typeof LayoutProfileRoute
   LayoutTasksRoute: typeof LayoutTasksRoute
@@ -162,6 +176,7 @@ interface LayoutRouteChildren {
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutChatRoute: LayoutChatRoute,
+  LayoutConnectRoute: LayoutConnectRoute,
   LayoutExploreRoute: LayoutExploreRoute,
   LayoutProfileRoute: LayoutProfileRoute,
   LayoutTasksRoute: LayoutTasksRoute,
@@ -178,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRoute
   '/chat': typeof LayoutChatRoute
+  '/connect': typeof LayoutConnectRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
   '/tasks': typeof LayoutTasksRoute
@@ -191,6 +207,7 @@ export interface FileRoutesByTo {
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRoute
   '/chat': typeof LayoutChatRoute
+  '/connect': typeof LayoutConnectRoute
   '/explore': typeof LayoutExploreRoute
   '/profile': typeof LayoutProfileRoute
   '/tasks': typeof LayoutTasksRoute
@@ -205,6 +222,7 @@ export interface FileRoutesById {
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRoute
   '/_layout/chat': typeof LayoutChatRoute
+  '/_layout/connect': typeof LayoutConnectRoute
   '/_layout/explore': typeof LayoutExploreRoute
   '/_layout/profile': typeof LayoutProfileRoute
   '/_layout/tasks': typeof LayoutTasksRoute
@@ -220,6 +238,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/users'
     | '/chat'
+    | '/connect'
     | '/explore'
     | '/profile'
     | '/tasks'
@@ -232,6 +251,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/users'
     | '/chat'
+    | '/connect'
     | '/explore'
     | '/profile'
     | '/tasks'
@@ -244,6 +264,7 @@ export interface FileRouteTypes {
     | '/redirect'
     | '/users'
     | '/_layout/chat'
+    | '/_layout/connect'
     | '/_layout/explore'
     | '/_layout/profile'
     | '/_layout/tasks'
@@ -295,6 +316,7 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/chat",
+        "/_layout/connect",
         "/_layout/explore",
         "/_layout/profile",
         "/_layout/tasks"
@@ -314,6 +336,10 @@ export const routeTree = rootRoute
     },
     "/_layout/chat": {
       "filePath": "_layout/chat.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/connect": {
+      "filePath": "_layout/connect.tsx",
       "parent": "/_layout"
     },
     "/_layout/explore": {

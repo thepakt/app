@@ -315,7 +315,7 @@ Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Doubl
           >
             Funding Goal
           </label>
-          <p className="text-gray-400 text-xs font-serif italic mb-2 p-2 border-dashed border-muted rounded-md border-2 w-96">
+          <p className="text-gray-400 text-xs font-serif italic mb-2 p-2 border-dashed border-muted rounded-md border-2 w-full sm:w-96">
             Once you reach your goal, a smart contract will be created to manage
             the funds. Backers' investments will be secured — if you don't
             deliver, funds will be automatically returned and your reputation

@@ -22,6 +22,7 @@ function RouteComponent() {
     amount: 1,
     type: "Hours",
   })
+  const router = useRouter()
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
@@ -52,7 +53,7 @@ function RouteComponent() {
 
   const { data, error } = useQuery({
     queryKey: ["tasks"],
-    queryFn: async () => {
+    queryFn: async (): Promise<{ tasks: any[]; taskNotifications: any[] }> => {
       const res = await getActiveTasksAndNotifications({
         walletAddress: address,
       })
@@ -93,7 +94,8 @@ function RouteComponent() {
                 <TaskComponent
                   key={task.id}
                   telegramUsernameOfInvestor={
-                    data?.taskNotifications?.find(
+                    Array.isArray(data?.taskNotifications) &&
+                    data.taskNotifications.find(
                       (taskNotification: {
                         task: { id: string }
                         contractAddress: string
@@ -123,9 +125,26 @@ function RouteComponent() {
                 />
               )
             })}
-            {(!data?.tasks || data.tasks.length === 0) && (
-              <p className="text-center opacity-50 mt-4">
-                You don't have any tasks yet. Create one to get started
+            {(!data?.tasks || data.tasks.length === 0) && !isNewTodoOpen && (
+              <p className="text-center text-white/30 mt-4">
+                You don't have any tasks yet.
+                <br />
+                <span
+                  onClick={() => {
+                    if (address && address.length) {
+                      setIsNewTodoOpen(true)
+                    } else {
+                      router.commitLocation({
+                        ...router.state.location,
+                        href: "/connect?from=/tasks?create",
+                      })
+                    }
+                  }}
+                  className="text-white/60 cursor-pointer"
+                >
+                  Create one
+                </span>{" "}
+                to get started
               </p>
             )}
           </div>

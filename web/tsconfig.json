@@ -31,7 +31,6 @@
     },
     "noEmit": true,
     "types": [
-      "@ronin/todo-escrow"
     ]
   }
 }

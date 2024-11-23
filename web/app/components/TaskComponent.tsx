@@ -1,4 +1,4 @@
-import { Task } from "@ronin/todo-escrow"
+import { Task } from "@ronin/pakt"
 import { useQueryClient } from "@tanstack/react-query"
 import { Address } from "@ton/core"
 import { useTonAddress } from "@tonconnect/ui-react"
@@ -61,7 +61,9 @@ export function TaskComponent({
         <div className="flex items-center">
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-muted to-accent rounded-full"></div>
           <div className="ml-3">
-            <h2 className="text-white font-medium futura text-lg">{task.title}</h2>
+            <h2 className="text-white font-medium futura text-lg">
+              {task.title}
+            </h2>
             <p className="text-gray-400 text-sm"></p>
           </div>
         </div>
@@ -70,7 +72,10 @@ export function TaskComponent({
       {task.notes && (
         <>
           <p className="text-base text-gray-200 font-serif">Notes</p>
-          <p className="text-white/50 text-sm font-serif mb-4 whitespace-break-spaces" dangerouslySetInnerHTML={{__html: task.notes}}></p>
+          <p
+            className="text-white/50 text-sm font-serif mb-4 whitespace-break-spaces"
+            dangerouslySetInnerHTML={{ __html: task.notes }}
+          ></p>
         </>
       )}
 
@@ -80,14 +85,20 @@ export function TaskComponent({
           <p className="text-white/50 text-xs">{task.bountyPriceInUsdt}$</p>
         </div>
         <div className="flex items-end gap-1 flex-col">
-          <h2 className="text-base text-gray-200 font-serif">Estimated time:</h2>
+          <h2 className="text-base text-gray-200 font-serif">
+            Estimated time:
+          </h2>
           <p className="text-white/50 text-xs">
             {task.bountyEstimatedTimeInHours}{" "}
             {task.bountyEstimatedTimeInHours === 1 ? "hour" : "hours"}
           </p>
         </div>
       </div>
-      <Meter label="Funded" value={15} className="mb-4 text-base text-gray-200" />
+      <Meter
+        label="Funded"
+        value={15}
+        className="mb-4 text-base text-gray-200"
+      />
       <div className="flex gap-2">
         <button className="flex items-center p-2 gap-1 bg-neutral-700/40 hover:bg-neutral-700 transition-all justify-center rounded-lg w-full">
           <Share className="w-4 h-4" />
@@ -153,12 +164,12 @@ export function TaskComponent({
                     if (!user) return
 
                     const contractStarted = await startContract(
-                      Address.parse(contractOfTask),
+                      Address.parse(contractOfTask)
                     )
                     console.log(contractStarted, "contractStarted")
 
                     const investorAddress = await getData(
-                      Address.parse(contractOfTask),
+                      Address.parse(contractOfTask)
                     )
                     const investorAddressString =
                       investorAddress.investor.toString()

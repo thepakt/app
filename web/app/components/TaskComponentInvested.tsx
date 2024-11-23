@@ -1,4 +1,4 @@
-import { Task } from "@ronin/todo-escrow"
+import { Task } from "@ronin/pakt"
 import { useQueryClient } from "@tanstack/react-query"
 import { motion } from "framer-motion"
 import { FlagOff, Sticker } from "lucide-react"
@@ -53,7 +53,13 @@ export function TaskComponentInvested({
           ease: "easeOut",
           scale: { duration: 0.2, ease: "easeOut" },
         }}
-        className={`rounded-3xl rounded-tl-[50px] p-5 mb-3 w-full max-w-2xl mx-auto relative ${taskCompleted ? "bg-green-500" : conflictClicked ? "bg-gradient-to-r from-black to-red-800/50 border border-red-500" : "bg-black/30"}`}
+        className={`rounded-3xl rounded-tl-[50px] p-5 mb-3 w-full max-w-2xl mx-auto relative ${
+          taskCompleted
+            ? "bg-green-500"
+            : conflictClicked
+            ? "bg-gradient-to-r from-black to-red-800/50 border border-red-500"
+            : "bg-black/30"
+        }`}
       >
         <div className="flex items-center justify-between mb-4">
           {waitingForTransaction && (

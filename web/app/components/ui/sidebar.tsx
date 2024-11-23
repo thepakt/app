@@ -236,7 +236,7 @@ const Sidebar = ({
 
 const itemStyles = tv({
   base: [
-    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 sm:col-span-full [&>[data-slot=icon]]:shrink-0  [&>[data-slot=icon]]:col-span-1 sm:[&>[data-slot=icon]]:col-auto items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
+    "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 col-span-auto sm:col-span-full [&>[data-slot=icon]]:shrink-0  [&>[data-slot=icon]]:col-span-1 sm:[&>[data-slot=icon]]:col-auto items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
     "forced-colors:text-[MenuLink] text-fg"
   ],
   variants: {
@@ -268,11 +268,12 @@ const itemStyles = tv({
 
 interface ItemProps extends LinkProps {
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  iconComponent?: React.ReactNode
   badge?: string | number | undefined
   isCurrent?: boolean
 }
 
-const Item = ({ isCurrent, children, className, icon: Icon, ...props }: ItemProps) => {
+const Item = ({ isCurrent, children, className, icon: Icon, iconComponent, ...props }: ItemProps) => {
   const { state, isMobile } = React.useContext(SidebarContext)!
   return state === "collapsed" && !isMobile ? (
     <Tooltip closeDelay={0} delay={0}>
@@ -281,6 +282,7 @@ const Item = ({ isCurrent, children, className, icon: Icon, ...props }: ItemProp
         className="focus:outline-none col-span-full hover:bg-muted hover:text-secondary-fg text-muted-fg rounded-lg size-9 grid place-content-center"
       >
         {Icon && <Icon data-slot="icon" />}
+        {!!iconComponent && iconComponent}
         <span className="sr-only">{children as string}</span>
       </Link>
       <Tooltip.Content intent="inverse" showArrow={false} placement="right">
@@ -304,6 +306,7 @@ const Item = ({ isCurrent, children, className, icon: Icon, ...props }: ItemProp
       {(values) => (
         <>
           {Icon && <Icon data-slot="icon" />}
+          {!!iconComponent && iconComponent}
           <span className="col-start-2 col-span-7 sm:col-span-none col-end-8 sm:col-end-none group-data-[collapsible=dock]:hidden">
             {typeof children === "function" ? children(values) : children}
             {props.badge && (
@@ -494,7 +497,7 @@ const Section = ({
             <div
               data-slot="sidebar-section-panel"
               className={cn(
-                "grid gap-y-0.5 group-data-[collapsible=dock]:place-content-center",
+                "grid gap-y-0.5 group-data-[collapsible=dock]:place-content-center gap-1",
                 state === "collapsed"
                   ? "group-data-[collapsible=dock]:place-content-center"
                   : "grid-cols-[auto_1fr] [&_[data-slot=sidebar-item]:first-child]:mt-0.5"

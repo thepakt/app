@@ -8,15 +8,40 @@ import {
   IconCreditCard,
   IconSearch,
 } from "justd-icons"
-import { Button, Navbar, Sidebar } from "~/components/ui"
+import { Button, Navbar, ProgressCircle, Sidebar } from "~/components/ui"
 import WalletConnectButton from "./WalletConnectButton"
 import { Separator } from "react-aria-components"
 
-export default function NavbarWrapper(props: any) {  
+export default function NavbarWrapper(props: any) {
+  const activeTasks: {
+    title: string
+    subtitle: string
+    currentProgress: number
+    totalProgress: number
+  }[] = [
+    {
+      title: "Soup'em All VR: Art Revolution Simulator",
+      subtitle: "Build soup physics engine (I know a guy)",
+      currentProgress: 5,
+      totalProgress: 10,
+    },
+    {
+      title: "Yet Another Project",
+      subtitle: "Launch a starship and land the boosters",
+      currentProgress: 1,
+      totalProgress: 3,
+    },
+    {
+      title: "Yet Another Project",
+      subtitle: "Launcrs",
+      currentProgress: 1,
+      totalProgress: 3,
+    },
+  ]
 
   return (
     <Sidebar.Provider>
-      <Sidebar intent="floating" collapsible="dock" >
+      <Sidebar intent="floating" collapsible="dock">
         <Sidebar.Content>
           <Sidebar.Section title="Might happen" className="mt-8">
             <Sidebar.Item icon={IconCircleCheck} href="tasks">
@@ -33,20 +58,43 @@ export default function NavbarWrapper(props: any) {
             </Sidebar.Item>
           </Sidebar.Section>
           <Sidebar.Section collapsible title="Happening">
-            <Sidebar.Item icon={IconBag} href="chat">
-              <div className="flex flex-col">
-                <span className="text-base">To do</span>
-              </div>
-            </Sidebar.Item>
-            <Sidebar.Item icon={IconCreditCard} href="chat">
-              <div className="flex flex-col">
-                <span className="text-base">To do</span>
-              </div>
-            </Sidebar.Item>
+            {activeTasks.map((task, index) => (
+              <Sidebar.Item
+                key={index}
+                iconComponent={
+                  <ProgressCircle
+                    data-slot="icon"
+                    value={task.currentProgress}
+                    minValue={0}
+                    maxValue={task.totalProgress}
+                    className="text-accent mr-1"
+                  />
+                }
+                href="chat"
+              >
+                <div className="flex flex-col max-w-[220px] sm:max-w-[180px] pl-1 sm:pl-0 truncate overflow-hidden">
+                  <span className="text-base truncate text-ellipsis w-[300px] min-w-[300px]">
+                    {task.title}
+                  </span>
+                  <span className="text-xs truncate text-ellipsis">
+                    {task.subtitle}
+                  </span>
+                </div>
+              </Sidebar.Item>
+            ))}
+            {activeTasks.length == 0 && (
+              <p className="text-gray-400 text-xs font-serif italic mb-2 p-2 border-dashed border-muted rounded-md border-2 w-full">
+                Create tasks, invest in ideas, or get funded – your projects will appear here
+              </p>
+            )}
           </Sidebar.Section>
         </Sidebar.Content>
         <Sidebar.Footer>
-          <Sidebar.Section collapsible title="Has happened" />
+          <Sidebar.Section collapsible title="Has happened">
+            <p className="text-gray-400 text-xs font-serif italic mb-2 p-2 border-dashed border-muted rounded-md border-2 w-full">
+              Once you complete a project, it will appear here
+            </p>
+          </Sidebar.Section>
         </Sidebar.Footer>
         <Sidebar.Rail />
       </Sidebar>

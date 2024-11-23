@@ -22,7 +22,7 @@ export default function ProjectInfo({ title, description, contributors, steps, c
   };
 
   return (
-    <div className="bg-secondary text-white rounded-lg p-6 max-w-4xl mx-6 shadow-lg">
+    <div className="bg-secondary text-white rounded-lg p-6 max-w-4xl ml-6 sm:ml-0 mr-6 shadow-lg">
       {/* Card Header */}
       <div className="flex justify-between items-center cursor-pointer" onClick={toggleExpand}>
         <h2 className="text-2xl font-bold">{title}</h2>
@@ -45,22 +45,22 @@ export default function ProjectInfo({ title, description, contributors, steps, c
       {/* Progress Bar */}
       {isExpanded && (
         <div className="mt-6">
-          <div className="flex items-center justify-between w-full">
+          <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-2">
             {steps.map((step, index) => (
               <div
                 key={index}
                 className={`flex items-center w-full p-2 border ${
                   index + 1 <= currentStep
-                    ? "border-blue-500 bg-gray-800 text-white"
-                    : "border-gray-700 bg-gray-900 text-gray-400"
+                    ? "border-accent bg-muted/40 text-white"
+                    : "border-gray-700 bg-muted text-gray-400"
                 } rounded-lg`}
               >
                 {/* Step Circle */}
                 <div
-                  className={`flex items-center justify-center w-10 h-10 rounded-full font-bold ${
+                  className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${
                     index + 1 <= currentStep
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-400"
+                      ? "bg-accent text-white"
+                      : "bg-accent/50 text-gray-400"
                   }`}
                 >
                   {index + 1}
@@ -70,13 +70,13 @@ export default function ProjectInfo({ title, description, contributors, steps, c
                 <div className="ml-4 text-sm font-medium">{step}</div>
 
                 {/* Line Between Steps */}
-                {index < steps.length - 1 && (
+                {/* {index < steps.length - 1 && (
                   <div
                     className={`flex-grow h-1 mx-4 ${
                       index + 1 < currentStep ? "bg-blue-500" : "bg-gray-700"
                     }`}
                   ></div>
-                )}
+                )} */}
               </div>
             ))}
           </div>

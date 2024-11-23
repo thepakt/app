@@ -36,7 +36,7 @@ export default function ChatComponent() {
     },
     {
       id: 2,
-      user: "Иван Мартемьянов",
+      user: "@imartemy",
       message: "I'm free after around 17:00",
       time: new Date(),
       replyTo: 1,
@@ -46,9 +46,34 @@ export default function ChatComponent() {
       firstInGroup: true,
       lastInGroup: true,
     },
+    {
+      id: 3,
+      user: "Eugène Kniazev",
+      message:
+        "Nice, let's discuss differentiation from our competitors and the future of thepakt.com",
+      time: new Date(),
+      reactions: [],
+      own: true,
+      edited: false,
+      hasReply: false,
+      firstInGroup: true,
+      lastInGroup: true,
+    },
+    {
+      id: 4,
+      user: "@nikivi",
+      message: "Sounds dope, I'm in",
+      time: new Date(),
+      own: false,
+      edited: false,
+      hasReply: false,
+      firstInGroup: true,
+      lastInGroup: true,
+    },
   ])
 
   const [inputValue, setInputValue] = useState("")
+  const inputTextareaRef = useRef<HTMLTextAreaElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -62,7 +87,11 @@ export default function ChatComponent() {
   }
 
   const handleKeyPress = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && inputValue.trim() !== "" && !(e.ctrlKey || e.shiftKey)) {
+    if (
+      e.key === "Enter" &&
+      inputValue.trim() !== "" &&
+      !(e.ctrlKey || e.shiftKey)
+    ) {
       const newMessage: Message = {
         id: Date.now(),
         user: "Lorem Ipsum",
@@ -71,9 +100,10 @@ export default function ChatComponent() {
         time: new Date(),
       }
       setMessages([...messages, newMessage])
-      e.preventDefault();
+      e.preventDefault()
       setInputValue("")
-      e.target.style.height = `40px`;
+      inputTextareaRef?.current?.focus()
+      e.target.style.height = `40px`
     }
   }
 
@@ -87,6 +117,7 @@ export default function ChatComponent() {
     }
     setMessages([...messages, newMessage])
     setInputValue("")
+    inputTextareaRef?.current?.focus()
   }
 
   const messageVariants: Variants = {
@@ -156,11 +187,19 @@ export default function ChatComponent() {
   return (
     <>
       <div className="MessageContainer pb-2">
+        <h4 className="futura self-start mb-1">Chat</h4>
         <div
           className="MessageList"
           onClick={closeContextMenu} // Close menu on click outside
         >
           <div className="messages-container">
+            <p className="text-gray-400 text-sm font-serif mb-2 p-2 border-dashed border-gray-400 rounded-md border-2 w-full">
+              We recommend communicating directly through our platform's chat.
+              This ensures that in case of any dispute, a moderator can access
+              the conversation history to help resolve the issue effectively. If
+              a problem is reported, a moderator may join the chat to mediate,
+              and their presence will be clearly indicated in the interface.
+            </p>
             <AnimatePresence initial={false}>
               {messages.map((message) => (
                 <motion.div
@@ -234,19 +273,21 @@ export default function ChatComponent() {
                   </div>
                 </motion.div>
               ))}
+              <span ref={messagesEndRef} />
             </AnimatePresence>
           </div>
         </div>
         <div className="middle-column-footer">
           <div className="flex composer-wrapper">
             <textarea
+              ref={inputTextareaRef}
               value={inputValue}
               onChange={handleInputChange}
               onKeyDown={handleKeyPress}
               className="w-full mt-1 p-1 px-5 rounded-md bg-transparent resize-none shadow-none drop-shadow-none h-[40px]"
               onInput={(e) => {
-                e.target.style.height = 'auto';
-                e.target.style.height = `${Math.max(40, Math.min(e.target.scrollHeight - 16, 150))}px`;
+                e.target.style.height = "auto"
+                e.target.style.height = `${Math.max(40, Math.min(e.target.scrollHeight - 16, 150))}px`
               }}
               placeholder="Type a message..."
             />

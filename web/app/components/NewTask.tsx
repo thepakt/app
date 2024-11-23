@@ -128,11 +128,11 @@ export default function NewTask({
           stiffness: 350,
           mass: 0.5,
         }}
-        className="bg-black/40 w-[100%] max-w-[650px] h-[70%] p-4 backdrop-blur-xl
-          rounded-3xl rounded-tr-[50px] mb-[0.5em]
+        className="bg-secondary w-[100%] max-w-[650px] h-[70%] p-4 backdrop-blur-xl
+          rounded-3xl mb-[0.5em]
           shadow-2xl border border-white/5
           hover:border-white/10 transition-colors
-          bg-gradient-to-br from-black/40 to-black/20
+          bg-gradient-to-br from-muted/80 to-muted/60
           flex flex-col"
         // TBH this scale blurs the block a bit, and the text is harder to read
         // we can use this effect on buttons, but not the whole block
@@ -423,7 +423,7 @@ Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Doubl
             </label>
             <label className="pt-2 inline-flex items-center justify-between gap-6 cursor-pointer">
               <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
-                For an opensource project?
+                For an opensource project
               </span>
               <input
                 type="checkbox"
@@ -436,7 +436,7 @@ Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Doubl
 
             <label className="pt-2 inline-flex items-center justify-between gap-6 cursor-pointer">
               <span className="text-sm font-medium text-gray-900 dark:text-gray-300 select-none">
-                Allow multiple investors (crowdfunding)?
+                Allow multiple investors (crowdfunding)
               </span>
               <input
                 type="checkbox"

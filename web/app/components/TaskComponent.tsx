@@ -7,6 +7,7 @@ import { Bell, Share, Trash, X } from "lucide-react"
 import { useState } from "react"
 import { deleteTask, getUserByWalletAddress, startWorkOnTask } from "~/actions"
 import useActions from "~/lib/investor/useActions"
+import { Meter } from "./ui/meter"
 
 export function TaskComponent({
   task,
@@ -58,9 +59,9 @@ export function TaskComponent({
           </div>
         )}
         <div className="flex items-center">
-          <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
+          <div className="w-[50px] h-[50px] bg-gradient-to-br from-muted to-accent rounded-full"></div>
           <div className="ml-3">
-            <h2 className="text-white font-semibold">{task.title}</h2>
+            <h2 className="text-white font-medium futura text-lg">{task.title}</h2>
             <p className="text-gray-400 text-sm"></p>
           </div>
         </div>
@@ -68,25 +69,25 @@ export function TaskComponent({
 
       {task.notes && (
         <>
-          <p className="text-sm">Notes</p>
-          <p className="text-white/50 text-xs mb-4">{task.notes}</p>
+          <p className="text-base text-gray-200 font-serif">Notes</p>
+          <p className="text-white/50 text-sm font-serif mb-4 whitespace-break-spaces" dangerouslySetInnerHTML={{__html: task.notes}}></p>
         </>
       )}
 
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-1 flex-col">
-          <h2 className="text-white text-sm">Bounty:</h2>
+          <h2 className="text-base text-gray-200 font-serif">Bounty:</h2>
           <p className="text-white/50 text-xs">{task.bountyPriceInUsdt}$</p>
         </div>
         <div className="flex items-end gap-1 flex-col">
-          <h2 className="text-white text-sm">Estimated time:</h2>
+          <h2 className="text-base text-gray-200 font-serif">Estimated time:</h2>
           <p className="text-white/50 text-xs">
             {task.bountyEstimatedTimeInHours}{" "}
             {task.bountyEstimatedTimeInHours === 1 ? "hour" : "hours"}
           </p>
         </div>
       </div>
-
+      <Meter label="Funded" value={15} className="mb-4 text-base text-gray-200" />
       <div className="flex gap-2">
         <button className="flex items-center p-2 gap-1 bg-neutral-700/40 hover:bg-neutral-700 transition-all justify-center rounded-lg w-full">
           <Share className="w-4 h-4" />

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useRouter } from "@tanstack/react-router"
-import { useTonAddress } from "@tonconnect/ui-react"
+import { useTonAddress, useTonWallet } from "@tonconnect/ui-react"
 import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 import { getActiveTasksAndNotifications } from "~/actions"
@@ -12,6 +12,7 @@ import { TaskComponentInvested } from "~/components/TaskComponentInvested"
 
 function RouteComponent() {
   const address = useTonAddress()
+  const wallet = useTonWallet()
   const [isNewTodoOpen, setIsNewTodoOpen] = useState(
     new URLSearchParams(location.search).has("create"),
   )
@@ -63,7 +64,7 @@ function RouteComponent() {
 
   return (
     <div className="container pb-[3em] mx-auto px-4 mb-10">
-      <h1 className="text-lg font-semibold text-start pt-[1.2em]">
+      <h1 className="text-xl font-medium futura text-start pt-[1.2em]">
         Your Active Tasks
       </h1>
       <AnimatePresence>

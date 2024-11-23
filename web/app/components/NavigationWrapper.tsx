@@ -67,16 +67,15 @@ export default function NavbarWrapper(props: any) {
                     value={task.currentProgress}
                     minValue={0}
                     maxValue={task.totalProgress}
-                    className="text-accent mr-1"
+                    className="text-accent flex-shrink-0 my-auto"
                   />
                 }
+                className="flex items-center"
                 href="chat"
               >
-                <div className="flex flex-col max-w-[220px] sm:max-w-[180px] pl-1 sm:pl-0 truncate overflow-hidden">
-                  <span className="text-base truncate text-ellipsis w-[300px] min-w-[300px]">
-                    {task.title}
-                  </span>
-                  <span className="text-xs truncate text-ellipsis">
+                <div className="flex flex-col max-w-[200px] sm:max-w-[180px]">
+                  <span className="text-base truncate">{task.title}</span>
+                  <span className="text-xs line-clamp-2 text-muted-fg">
                     {task.subtitle}
                   </span>
                 </div>
@@ -84,7 +83,8 @@ export default function NavbarWrapper(props: any) {
             ))}
             {activeTasks.length == 0 && (
               <p className="text-gray-400 text-xs font-serif italic mb-2 p-2 border-dashed border-muted rounded-md border-2 w-full">
-                Create tasks, invest in ideas, or get funded – your projects will appear here
+                Create tasks, invest in ideas, or get funded – your projects
+                will appear here
               </p>
             )}
           </Sidebar.Section>

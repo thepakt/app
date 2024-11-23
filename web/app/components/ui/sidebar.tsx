@@ -2,12 +2,17 @@
 
 import * as React from "react"
 
-import { IconChevronDown, IconChevronRight, IconHamburger, IconSidebarFill } from "justd-icons"
+import {
+  IconChevronDown,
+  IconChevronRight,
+  IconHamburger,
+  IconSidebarFill,
+} from "justd-icons"
 import type { DisclosureProps, LinkProps } from "react-aria-components"
 import {
   Link,
   UNSTABLE_Disclosure as Disclosure,
-  UNSTABLE_DisclosurePanel as DisclosurePanel
+  UNSTABLE_DisclosurePanel as DisclosurePanel,
 } from "react-aria-components"
 import { tv } from "tailwind-variants"
 
@@ -54,10 +59,12 @@ const Provider = React.forwardRef<
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const isMobile = useMediaQuery("(max-width: 640px)")
-    const isPreMobile = useMediaQuery("(min-width: 641px) and (max-width: 768px)")
+    const isPreMobile = useMediaQuery(
+      "(min-width: 641px) and (max-width: 768px)",
+    )
     const [openMobile, setOpenMobile] = React.useState(false)
 
     const [_open, _setOpen] = React.useState(defaultOpen)
@@ -65,21 +72,27 @@ const Provider = React.forwardRef<
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
         if (setOpenProp) {
-          return setOpenProp?.(typeof value === "function" ? value(open) : value)
+          return setOpenProp?.(
+            typeof value === "function" ? value(open) : value,
+          )
         }
 
         _setOpen(value)
 
         document.cookie = `sidebar:state=${open}; path=/; max-age=${60 * 60 * 24 * 7}`
       },
-      [setOpenProp, open]
+      [setOpenProp, open],
     )
 
     const toggleSidebar = React.useCallback(() => {
-      return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
+      return isMobile
+        ? setOpenMobile((open) => !open)
+        : setOpen((open) => !open)
     }, [isMobile, setOpen, setOpenMobile])
-    
-    React.useEffect(() => {isPreMobile ? setOpen(false) : setOpen(true && !isMobile)}, [isMobile, isPreMobile])
+
+    React.useEffect(() => {
+      isPreMobile ? setOpen(false) : setOpen(true && !isMobile)
+    }, [isMobile, isPreMobile])
 
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -103,9 +116,17 @@ const Provider = React.forwardRef<
         isMobile,
         openMobile,
         setOpenMobile,
-        toggleSidebar
+        toggleSidebar,
       }),
-      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+      [
+        state,
+        open,
+        setOpen,
+        isMobile,
+        openMobile,
+        setOpenMobile,
+        toggleSidebar,
+      ],
     )
 
     return (
@@ -113,7 +134,7 @@ const Provider = React.forwardRef<
         <div
           className={cn(
             "group/sidebar-wrapper [--sidebar-width:16.5rem] [--sidebar-width-icon:3rem] flex min-h-svh w-full text-fg dark:has-[[data-intent=inset]]:bg-bg has-[[data-intent=inset]]:bg-secondary/50",
-            className
+            className,
           )}
           ref={ref}
           {...props}
@@ -122,7 +143,7 @@ const Provider = React.forwardRef<
         </div>
       </SidebarContext.Provider>
     )
-  }
+  },
 )
 Provider.displayName = "Provider"
 
@@ -134,9 +155,9 @@ const Inset = ({ className, ...props }: React.ComponentProps<"main">) => {
         [
           "relative flex min-h-svh max-w-full flex-1 flex-col bg-bg",
           "sm:peer-data-[intent=inset]:ml-0 sm:peer-data-[intent=inset]:bg-tertiary sm:peer-data-[intent=inset]:rounded-xl",
-          "peer-data-[intent=inset]:overflow-hidden peer-data-[intent=inset]:border peer-data-[intent=inset]:min-h-[calc(100svh-theme(spacing.4))] sm:peer-data-[intent=inset]:my-2 sm:peer-data-[intent=inset]:mr-2"
+          "peer-data-[intent=inset]:overflow-hidden peer-data-[intent=inset]:border peer-data-[intent=inset]:min-h-[calc(100svh-theme(spacing.4))] sm:peer-data-[intent=inset]:my-2 sm:peer-data-[intent=inset]:mr-2",
         ],
-        className
+        className,
       ])}
       {...props}
     />
@@ -160,7 +181,10 @@ const Sidebar = ({
   if (collapsible === "none") {
     return (
       <div
-        className={cn("flex h-full w-[--sidebar-width] flex-col bg-tertiary text-fg ", className)}
+        className={cn(
+          "flex h-full w-[--sidebar-width] flex-col bg-tertiary text-fg ",
+          className,
+        )}
         {...props}
       >
         {children}
@@ -177,7 +201,7 @@ const Sidebar = ({
           data-mobile="true"
           classNames={{
             content: "bg-tertiary text-fg [&>button]:hidden ring-0 px-3",
-            overlay: "bg-white/50 dark:bg-black/50 backdrop-blur-sm"
+            overlay: "bg-white/50 dark:bg-black/50 backdrop-blur-sm",
           }}
           isStack={intent === "floating"}
           side={side}
@@ -202,7 +226,7 @@ const Sidebar = ({
           "group-data-[side=right]:rotate-180",
           intent === "floating" || intent === "inset"
             ? "group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
-            : "group-data-[collapsible=dock]:w-[--sidebar-width-icon]"
+            : "group-data-[collapsible=dock]:w-[--sidebar-width-icon]",
         )}
       />
       <div
@@ -214,7 +238,7 @@ const Sidebar = ({
           intent === "floating" || intent === "inset"
             ? "p-4 pt-12 pb-20 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
             : "group-data-[collapsible=dock]:w-[--sidebar-width-icon] group-data-[side=right]:border-l",
-          className
+          className,
         )}
         {...props}
       >
@@ -224,7 +248,7 @@ const Sidebar = ({
             "flex h-full w-full flex-col bg-tertiary group-data-[intent=inset]:bg-transparent group-data-[intent=floating]:rounded-lg group-data-[intent=floating]:bg-secondary",
             intent === "inset" || state === "collapsed"
               ? "[&_[data-slot=sidebar-header]]:border-transparent [&_[data-slot=sidebar-footer]]:border-transparent"
-              : ""
+              : "",
           )}
         >
           {children}
@@ -237,33 +261,34 @@ const Sidebar = ({
 const itemStyles = tv({
   base: [
     "group/sidebar-item grid cursor-pointer [&>[data-slot=icon]]:size-4 col-span-auto sm:col-span-full [&>[data-slot=icon]]:shrink-0  [&>[data-slot=icon]]:col-span-1 sm:[&>[data-slot=icon]]:col-auto items-center [&>[data-slot=icon]]:text-fg relative rounded-lg lg:text-sm leading-6",
-    "forced-colors:text-[MenuLink] text-fg"
+    "forced-colors:text-[MenuLink] text-fg",
   ],
   variants: {
     collapsed: {
-      false: "grid-cols-subgrid [&>[data-slot=icon]]:mr-1 [&>[data-slot=icon]]:mt-[5px] [&>[data-slot=icon]]:self-start px-3 py-2"
+      false:
+        "grid-cols-subgrid [&>[data-slot=icon]]:mr-1 [&>[data-slot=icon]]:mt-[5px] [&>[data-slot=icon]]:self-start px-3 py-2",
     },
     isFocused: {
-      true: "outline-none"
+      true: "outline-none",
     },
     isFocusVisible: {
-      true: "bg-muted [&:focus-visible_[slot=description]]:text-accent-fg/70 text-secondary-fg"
+      true: "bg-muted [&:focus-visible_[slot=description]]:text-accent-fg/70 text-secondary-fg",
     },
     isHovered: {
       true: [
-        "bg-muted [&:focus-visible_[slot=description]]:text-accent-fg/70 text-secondary-fg [&_.text-muted-fg]:text-secondary-fg/80"
-      ]
+        "bg-muted [&:focus-visible_[slot=description]]:text-accent-fg/70 text-secondary-fg [&_.text-muted-fg]:text-secondary-fg/80",
+      ],
     },
     isCurrent: {
       true: [
         "[&_[data-slot=icon]]:text-primary-fg [&_.text-muted-fg]:text-primary-fg/80 bg-primary text-primary-fg",
-        "[&_.bdx]:bg-primary-fg/20 [&_.bdx]:ring-primary-fg/30"
-      ]
+        "[&_.bdx]:bg-primary-fg/20 [&_.bdx]:ring-primary-fg/30",
+      ],
     },
     isDisabled: {
-      true: "opacity-70 cursor-default text-muted-fg"
-    }
-  }
+      true: "opacity-70 cursor-default text-muted-fg",
+    },
+  },
 })
 
 interface ItemProps extends LinkProps {
@@ -273,7 +298,14 @@ interface ItemProps extends LinkProps {
   isCurrent?: boolean
 }
 
-const Item = ({ isCurrent, children, className, icon: Icon, iconComponent, ...props }: ItemProps) => {
+const Item = ({
+  isCurrent,
+  children,
+  className,
+  icon: Icon,
+  iconComponent,
+  ...props
+}: ItemProps) => {
   const { state, isMobile } = React.useContext(SidebarContext)!
   return state === "collapsed" && !isMobile ? (
     <Tooltip closeDelay={0} delay={0}>
@@ -298,8 +330,8 @@ const Item = ({ isCurrent, children, className, icon: Icon, iconComponent, ...pr
           ...renderProps,
           collapsed: state === "collapsed",
           isCurrent,
-          className
-        })
+          className,
+        }),
       )}
       {...props}
     >
@@ -327,9 +359,9 @@ const Content = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="sidebar-content"
       className={cn([
-        "flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=dock]:items-center group-data-[collapsible=dock]:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden group-data-[collapsible=dock]:items-center group-data-[collapsible=dock]:overflow-hidden",
         state === "collapsed" ? "gap-y-6" : "gap-y-2",
-        className
+        className,
       ])}
       {...props}
     />
@@ -340,9 +372,9 @@ const navStyles = tv({
   base: "bg-tertiary md:bg-bg w-full justify-between sm:justify-start h-[3.57rem] px-4 border-b flex items-center gap-x-2",
   variants: {
     isSticky: {
-      true: "sticky top-0 z-40"
-    }
-  }
+      true: "sticky top-0 z-40",
+    },
+  },
 })
 
 interface NavProps extends React.ComponentProps<"nav"> {
@@ -350,10 +382,20 @@ interface NavProps extends React.ComponentProps<"nav"> {
 }
 
 const Nav = ({ isSticky = false, className, ...props }: NavProps) => {
-  return <nav data-slot="sidebar-nav" {...props} className={navStyles({ isSticky, className })} />
+  return (
+    <nav
+      data-slot="sidebar-nav"
+      {...props}
+      className={navStyles({ isSticky, className })}
+    />
+  )
 }
 
-const Trigger = ({ className, onPress, ...props }: React.ComponentProps<typeof Button>) => {
+const Trigger = ({
+  className,
+  onPress,
+  ...props
+}: React.ComponentProps<typeof Button>) => {
   const { toggleSidebar } = useSidebar()
   return (
     <Button
@@ -380,12 +422,15 @@ const header = tv({
   variants: {
     collapsed: {
       false: "px-5 py-4",
-      true: "px-5 py-4 md:p-0 md:size-9 mt-1 group-data-[intent=floating]:mt-2 md:rounded-lg md:hover:bg-muted md:mx-auto md:justify-center md:items-center"
-    }
-  }
+      true: "px-5 py-4 md:p-0 md:size-9 mt-1 group-data-[intent=floating]:mt-2 md:rounded-lg md:hover:bg-muted md:mx-auto md:justify-center md:items-center",
+    },
+  },
 })
 
-const Header = ({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) => {
+const Header = ({
+  className,
+  ...props
+}: React.HtmlHTMLAttributes<HTMLDivElement>) => {
   const { state } = React.useContext(SidebarContext)!
   return (
     <div
@@ -402,14 +447,17 @@ const footer = tv({
   variants: {
     collapsed: {
       false: [
-        "[&_[slot=menu-trigger]>[data-slot=avatar]]:-ml-1.5 [&_[slot=menu-trigger]]:w-full [&_[slot=menu-trigger]]:hover:bg-muted [&_[slot=menu-trigger]]:justify-start [&_[slot=menu-trigger]]:flex [&_[slot=menu-trigger]]:items-center"
+        "[&_[slot=menu-trigger]>[data-slot=avatar]]:-ml-1.5 [&_[slot=menu-trigger]]:w-full [&_[slot=menu-trigger]]:hover:bg-muted [&_[slot=menu-trigger]]:justify-start [&_[slot=menu-trigger]]:flex [&_[slot=menu-trigger]]:items-center",
       ],
-      true: "p-1 [&_[slot=menu-trigger]]:size-9 justify-center items-center"
-    }
-  }
+      true: "p-1 [&_[slot=menu-trigger]]:size-9 justify-center items-center",
+    },
+  },
 })
 
-const Footer = ({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) => {
+const Footer = ({
+  className,
+  ...props
+}: React.HtmlHTMLAttributes<HTMLDivElement>) => {
   const { state } = React.useContext(SidebarContext)!
   return (
     <div
@@ -440,7 +488,8 @@ const Section = ({
   const { state, isMobile } = useSidebar()
 
   const isExpanded =
-    state === "collapsed" || (title ? (collapsible ? (defaultExpanded ?? true) : true) : true)
+    state === "collapsed" ||
+    (title ? (collapsible ? (defaultExpanded ?? true) : true) : true)
   return (
     <Disclosure
       data-slot="sidebar-section"
@@ -452,10 +501,10 @@ const Section = ({
           title && [
             Icon
               ? "mt-0.5 [&_[data-slot=sidebar-section-panel]]:px-6 [&_[data-slot=sidebar-section-panel]_[data-slot=icon]]:-ml-0.5"
-              : "my-2.5"
-          ]
+              : "my-2.5",
+          ],
         ],
-        className
+        className,
       )}
       defaultExpanded={isExpanded}
       {...props}
@@ -477,7 +526,7 @@ const Section = ({
                         Icon &&
                         "bg-muted text-secondary-fg [&_.text-muted-fg]:text-secondary-fg/80 [&>[data-slot=icon]]:shrink-0 items-center [&>[data-slot=icon]]:text-muted-fg relative rounded-lg lg:text-sm leading-6",
                       isExpanded && !Icon && "[&>.idctr]:rotate-180",
-                      isExpanded && Icon && "[&>.idctr]:rotate-90"
+                      isExpanded && Icon && "[&>.idctr]:rotate-90",
                     )
                   }
                 >
@@ -489,7 +538,9 @@ const Section = ({
                   {!Icon && <IconChevronDown className="idctr" />}
                 </ButtonPrimitive>
               ) : (
-                <h4 className="text-xl font-medium text-fg px-3 py-2 futura">{title}</h4>
+                <h4 className="text-xl font-medium text-fg px-3 py-2 futura">
+                  {title}
+                </h4>
               )}
             </span>
           )}
@@ -500,7 +551,7 @@ const Section = ({
                 "grid gap-y-0.5 group-data-[collapsible=dock]:place-content-center gap-1",
                 state === "collapsed"
                   ? "group-data-[collapsible=dock]:place-content-center"
-                  : "grid-cols-[auto_1fr] [&_[data-slot=sidebar-item]:first-child]:mt-0.5"
+                  : "grid-cols-[auto_1fr] [&_[data-slot=sidebar-item]:first-child]:mt-0.5",
               )}
             >
               {props.children}
@@ -529,7 +580,7 @@ const Rail = ({ className, ...props }: React.ComponentProps<"button">) => {
         "group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full group-data-[collapsible=offcanvas]:hover:bg-tertiary",
         "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2",
         "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2",
-        className
+        className,
       )}
       {...props}
     />

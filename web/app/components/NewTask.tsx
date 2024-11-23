@@ -195,11 +195,11 @@ export default function NewTask({
                 setNotes(notes + "\n")
               }
             }}
-            placeholder="I'm tired of activists getting arrested for supporting our cause! 
-We need a safe space to practice our art of protest. 
-            
-That's why I'm making a VR app where ANYONE can throw soup at famous paintings! 
-Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Double click. 
+            placeholder="I'm tired of activists getting arrested for supporting our cause!
+We need a safe space to practice our art of protest.
+
+That's why I'm making a VR app where ANYONE can throw soup at famous paintings!
+Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Double click.
 🎨 + 🥫 = 💚"
             className="w-full bg-neutral-800 rounded-lg p-2 text-white text-sm font-serif outline-none min-h-[140px] max-h-[300px] resize-y focus:ring-2 focus:ring-accent"
           />
@@ -471,7 +471,7 @@ Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Doubl
                     bountyPriceInUsdt: Number(bounty),
                   },
                   userWalletAddress: address,
-                  subtasks,
+                  subtasks: subtasks.map((subtask) => subtask.subtask),
                 })
                 queryClient.invalidateQueries({
                   queryKey: ["tasks"],

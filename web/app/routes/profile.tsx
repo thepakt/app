@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Address } from "@ton/core"
-import { useTonAddress } from "@tonconnect/ui-react"
-import { useEffect, useState } from "react"
+import { createFileRoute } from '@tanstack/react-router'
+import { Address } from '@ton/core'
+import { useTonAddress } from '@tonconnect/ui-react'
+import { useEffect, useState } from 'react'
 
 interface NFTPreview {
   resolution: string
@@ -24,7 +24,7 @@ export default function RouteComponent() {
   const [editing, setEditing] = useState(false)
 
   const handleUsernameSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       setEditing(false)
     }
   }
@@ -41,7 +41,7 @@ export default function RouteComponent() {
         // setProfileData(profileData)
         // console.log(profileData, "Profile data")
       } catch (err) {
-        setError("Failed to load profile")
+        setError('Failed to load profile')
         console.error(err)
       } finally {
         setIsLoading(false)
@@ -58,12 +58,12 @@ export default function RouteComponent() {
           `${import.meta.env.VITE_TONAPI_URL}/v2/accounts/${address}/nfts?collection=kQDwLgmW_t9nJJyAhc1qm1lBSa9zp-YZyyN7da60P8hMPsaT&limit=1000&offset=0&indirect_ownership=false`,
         )
         if (!response.ok) {
-          throw new Error("Network response was not ok")
+          throw new Error('Network response was not ok')
         }
         const nftItems = await response.json()
         setNfts(nftItems.nft_items)
       } catch (err) {
-        setError("Failed to load NFTs")
+        setError('Failed to load NFTs')
         console.error(err)
       } finally {
         setIsLoading(false)
@@ -95,9 +95,9 @@ export default function RouteComponent() {
             <div className="flex flex-col">
               <h1 className="text-[20px] flex items-center gap-2 font-semibold">
                 {(profileData &&
-                  "username" in profileData &&
+                  'username' in profileData &&
                   profileData.username) ||
-                  ""}{" "}
+                  ''}{' '}
               </h1>
               {address && (
                 <p className="text-[12px] text-gray-400 rounded-full">
@@ -167,7 +167,7 @@ export default function RouteComponent() {
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : nfts.length === 0 ? (
-              <p>{address ? "No SBTs found." : ""}</p>
+              <p>{address ? 'No SBTs found.' : ''}</p>
             ) : (
               <div className="grid grid-cols-3 gap-4">
                 {nfts.map((nft, index) => (
@@ -180,7 +180,7 @@ export default function RouteComponent() {
                         src={
                           nft.previews.find(
                             (p: { resolution: string }) =>
-                              p.resolution === "100x100",
+                              p.resolution === '100x100',
                           )?.url
                         }
                         alt={`SBT ${index + 1}`}
@@ -222,6 +222,6 @@ export default function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute("/_layout/profile")({
+export const Route = createFileRoute('/profile')({
   component: () => <RouteComponent />,
 })

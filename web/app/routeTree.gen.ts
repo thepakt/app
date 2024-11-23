@@ -12,15 +12,14 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsersImport } from './routes/users'
-import { Route as RedirectImport } from './routes/redirect'
+import { Route as ProfileImport } from './routes/profile'
 import { Route as FeedImport } from './routes/feed'
+import { Route as ExploreImport } from './routes/explore'
 import { Route as DeferredImport } from './routes/deferred'
+import { Route as ConnectImport } from './routes/connect'
+import { Route as ChatImport } from './routes/chat'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
-import { Route as LayoutProfileImport } from './routes/_layout/profile'
-import { Route as LayoutExploreImport } from './routes/_layout/explore'
-import { Route as LayoutConnectImport } from './routes/_layout/connect'
-import { Route as LayoutChatImport } from './routes/_layout/chat'
 
 // Create/Update Routes
 
@@ -30,9 +29,9 @@ const UsersRoute = UsersImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const RedirectRoute = RedirectImport.update({
-  id: '/redirect',
-  path: '/redirect',
+const ProfileRoute = ProfileImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -42,9 +41,27 @@ const FeedRoute = FeedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ExploreRoute = ExploreImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const DeferredRoute = DeferredImport.update({
   id: '/deferred',
   path: '/deferred',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ConnectRoute = ConnectImport.update({
+  id: '/connect',
+  path: '/connect',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChatRoute = ChatImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -57,30 +74,6 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
-
-const LayoutProfileRoute = LayoutProfileImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutExploreRoute = LayoutExploreImport.update({
-  id: '/explore',
-  path: '/explore',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutConnectRoute = LayoutConnectImport.update({
-  id: '/connect',
-  path: '/connect',
-  getParentRoute: () => LayoutRoute,
-} as any)
-
-const LayoutChatRoute = LayoutChatImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => LayoutRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -101,11 +94,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatImport
+      parentRoute: typeof rootRoute
+    }
+    '/connect': {
+      id: '/connect'
+      path: '/connect'
+      fullPath: '/connect'
+      preLoaderRoute: typeof ConnectImport
+      parentRoute: typeof rootRoute
+    }
     '/deferred': {
       id: '/deferred'
       path: '/deferred'
       fullPath: '/deferred'
       preLoaderRoute: typeof DeferredImport
+      parentRoute: typeof rootRoute
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreImport
       parentRoute: typeof rootRoute
     }
     '/feed': {
@@ -115,11 +129,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedImport
       parentRoute: typeof rootRoute
     }
-    '/redirect': {
-      id: '/redirect'
-      path: '/redirect'
-      fullPath: '/redirect'
-      preLoaderRoute: typeof RedirectImport
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
     }
     '/users': {
@@ -129,94 +143,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/chat': {
-      id: '/_layout/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof LayoutChatImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/connect': {
-      id: '/_layout/connect'
-      path: '/connect'
-      fullPath: '/connect'
-      preLoaderRoute: typeof LayoutConnectImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/explore': {
-      id: '/_layout/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof LayoutExploreImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/profile': {
-      id: '/_layout/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof LayoutProfileImport
-      parentRoute: typeof LayoutImport
-    }
   }
 }
 
 // Create and export the route tree
 
-interface LayoutRouteChildren {
-  LayoutChatRoute: typeof LayoutChatRoute
-  LayoutConnectRoute: typeof LayoutConnectRoute
-  LayoutExploreRoute: typeof LayoutExploreRoute
-  LayoutProfileRoute: typeof LayoutProfileRoute
-}
-
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutChatRoute: LayoutChatRoute,
-  LayoutConnectRoute: LayoutConnectRoute,
-  LayoutExploreRoute: LayoutExploreRoute,
-  LayoutProfileRoute: LayoutProfileRoute,
-}
-
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof LayoutRouteWithChildren
+  '': typeof LayoutRoute
+  '/chat': typeof ChatRoute
+  '/connect': typeof ConnectRoute
   '/deferred': typeof DeferredRoute
+  '/explore': typeof ExploreRoute
   '/feed': typeof FeedRoute
-  '/redirect': typeof RedirectRoute
+  '/profile': typeof ProfileRoute
   '/users': typeof UsersRoute
-  '/chat': typeof LayoutChatRoute
-  '/connect': typeof LayoutConnectRoute
-  '/explore': typeof LayoutExploreRoute
-  '/profile': typeof LayoutProfileRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof LayoutRouteWithChildren
+  '': typeof LayoutRoute
+  '/chat': typeof ChatRoute
+  '/connect': typeof ConnectRoute
   '/deferred': typeof DeferredRoute
+  '/explore': typeof ExploreRoute
   '/feed': typeof FeedRoute
-  '/redirect': typeof RedirectRoute
+  '/profile': typeof ProfileRoute
   '/users': typeof UsersRoute
-  '/chat': typeof LayoutChatRoute
-  '/connect': typeof LayoutConnectRoute
-  '/explore': typeof LayoutExploreRoute
-  '/profile': typeof LayoutProfileRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout': typeof LayoutRoute
+  '/chat': typeof ChatRoute
+  '/connect': typeof ConnectRoute
   '/deferred': typeof DeferredRoute
+  '/explore': typeof ExploreRoute
   '/feed': typeof FeedRoute
-  '/redirect': typeof RedirectRoute
+  '/profile': typeof ProfileRoute
   '/users': typeof UsersRoute
-  '/_layout/chat': typeof LayoutChatRoute
-  '/_layout/connect': typeof LayoutConnectRoute
-  '/_layout/explore': typeof LayoutExploreRoute
-  '/_layout/profile': typeof LayoutProfileRoute
 }
 
 export interface FileRouteTypes {
@@ -224,56 +190,59 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/deferred'
-    | '/feed'
-    | '/redirect'
-    | '/users'
     | '/chat'
     | '/connect'
+    | '/deferred'
     | '/explore'
+    | '/feed'
     | '/profile'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
-    | '/deferred'
-    | '/feed'
-    | '/redirect'
-    | '/users'
     | '/chat'
     | '/connect'
+    | '/deferred'
     | '/explore'
+    | '/feed'
     | '/profile'
+    | '/users'
   id:
     | '__root__'
     | '/'
     | '/_layout'
+    | '/chat'
+    | '/connect'
     | '/deferred'
+    | '/explore'
     | '/feed'
-    | '/redirect'
+    | '/profile'
     | '/users'
-    | '/_layout/chat'
-    | '/_layout/connect'
-    | '/_layout/explore'
-    | '/_layout/profile'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LayoutRoute: typeof LayoutRouteWithChildren
+  LayoutRoute: typeof LayoutRoute
+  ChatRoute: typeof ChatRoute
+  ConnectRoute: typeof ConnectRoute
   DeferredRoute: typeof DeferredRoute
+  ExploreRoute: typeof ExploreRoute
   FeedRoute: typeof FeedRoute
-  RedirectRoute: typeof RedirectRoute
+  ProfileRoute: typeof ProfileRoute
   UsersRoute: typeof UsersRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LayoutRoute: LayoutRouteWithChildren,
+  LayoutRoute: LayoutRoute,
+  ChatRoute: ChatRoute,
+  ConnectRoute: ConnectRoute,
   DeferredRoute: DeferredRoute,
+  ExploreRoute: ExploreRoute,
   FeedRoute: FeedRoute,
-  RedirectRoute: RedirectRoute,
+  ProfileRoute: ProfileRoute,
   UsersRoute: UsersRoute,
 }
 
@@ -289,9 +258,12 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_layout",
+        "/chat",
+        "/connect",
         "/deferred",
+        "/explore",
         "/feed",
-        "/redirect",
+        "/profile",
         "/users"
       ]
     },
@@ -299,41 +271,28 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/_layout": {
-      "filePath": "_layout.tsx",
-      "children": [
-        "/_layout/chat",
-        "/_layout/connect",
-        "/_layout/explore",
-        "/_layout/profile"
-      ]
+      "filePath": "_layout.tsx"
+    },
+    "/chat": {
+      "filePath": "chat.tsx"
+    },
+    "/connect": {
+      "filePath": "connect.tsx"
     },
     "/deferred": {
       "filePath": "deferred.tsx"
     },
+    "/explore": {
+      "filePath": "explore.tsx"
+    },
     "/feed": {
       "filePath": "feed.tsx"
     },
-    "/redirect": {
-      "filePath": "redirect.tsx"
+    "/profile": {
+      "filePath": "profile.tsx"
     },
     "/users": {
       "filePath": "users.tsx"
-    },
-    "/_layout/chat": {
-      "filePath": "_layout/chat.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/connect": {
-      "filePath": "_layout/connect.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/explore": {
-      "filePath": "_layout/explore.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/profile": {
-      "filePath": "_layout/profile.tsx",
-      "parent": "/_layout"
     }
   }
 }

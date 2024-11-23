@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
-import { motion } from "framer-motion"
-import { Heart, Share, Wallet } from "lucide-react"
-import { useState } from "react"
-import useActions from "~/lib/investor/useActions"
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
+import { motion } from 'framer-motion'
+import { Heart, Share, Wallet } from 'lucide-react'
+import { useState } from 'react'
+import useActions from '~/lib/investor/useActions'
 
 function RouteComponent() {
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const { data, isLoading, error } = useQuery({
-    queryKey: ["explore"],
+    queryKey: ['explore'],
     queryFn: async () => {
       // const res = await getPublicTasksAndUser({})
       // console.log(res)
@@ -79,7 +79,7 @@ const FeedItem = ({
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.08 }}
+      transition={{ duration: 0.3, ease: 'easeOut', delay: index * 0.08 }}
       className="bg-black/30 rounded-3xl rounded-tl-[50px] p-5 mb-3 max-w-md mx-auto"
     >
       <div className="flex items-center justify-between">
@@ -87,7 +87,7 @@ const FeedItem = ({
           <div className="w-[50px] h-[50px] bg-gradient-to-br from-blue-400 to-purple-500 rounded-full"></div>
           <div className="pl-2">
             <h2 className="text-white font-semibold">
-              {creator?.prettyName || creator?.username || ""}
+              {creator?.prettyName || creator?.username || ''}
             </h2>
             <p className="opacity-70 text-xs">
               {creator.walletAddress.slice(0, 4)}...
@@ -109,8 +109,8 @@ const FeedItem = ({
           {/* TODO: does not work with days */}
           <h2 className="text-white text-sm">Estimated time:</h2>
           <p className="text-white/50 text-xs">
-            {bountyEstimatedTimeInHours}{" "}
-            {bountyEstimatedTimeInHours === 1 ? "hour" : "hours"}
+            {bountyEstimatedTimeInHours}{' '}
+            {bountyEstimatedTimeInHours === 1 ? 'hour' : 'hours'}
           </p>
         </div>
       </div>
@@ -119,7 +119,7 @@ const FeedItem = ({
         <div className="flex gap-2">
           <button
             className={`flex p-2 gap-1 ${
-              isLiked ? "bg-pink-700/80" : "bg-neutral-700/40"
+              isLiked ? 'bg-pink-700/80' : 'bg-neutral-700/40'
             }  transition-all justify-center rounded-lg items-center w-full`}
             onClick={() => setIsLiked(!isLiked)}
           >
@@ -191,6 +191,6 @@ const FeedItem = ({
   )
 }
 
-export const Route = createFileRoute("/_layout/explore")({
+export const Route = createFileRoute('/explore')({
   component: () => <RouteComponent />,
 })

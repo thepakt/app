@@ -18,7 +18,6 @@ function RouteComponent() {
     amount: 1,
     type: "Hours",
   })
-  const router = useRouter()
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement

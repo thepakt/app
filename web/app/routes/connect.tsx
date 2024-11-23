@@ -1,9 +1,9 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router"
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
-import { useEffect } from "react"
-import { Badge } from "~/components/ui"
+import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react'
+import { useEffect } from 'react'
+import { Badge } from '~/components/ui'
 
-export const Route = createFileRoute("/_layout/connect")({
+export const Route = createFileRoute('/connect')({
   component: ConnectPage,
 })
 
@@ -12,27 +12,27 @@ function ConnectPage() {
   const from: string | null = router.state.location.search?.from || null
 
   const address = useTonAddress()
-  
+
   useEffect(() => {
     if (address)
       if (from)
         router.commitLocation({
           ...router.state.location,
           href: from,
-          searchStr: from.substring(from.indexOf("?")),
+          searchStr: from.substring(from.indexOf('?')),
         })
       else
         router.commitLocation({
           ...router.state.location,
-          href: "/explore",
+          href: '/explore',
         })
   }, [address])
 
   const intent = () => {
-    if (!from) return "continue"
-    if (from && from.substring(0, 8) == "/explore") return "explore"
-    if (from && from.substring(0, 13) == "/tasks?create") return "create"
-    return "continue"
+    if (!from) return 'continue'
+    if (from && from.substring(0, 8) == '/explore') return 'explore'
+    if (from && from.substring(0, 13) == '/tasks?create') return 'create'
+    return 'continue'
   }
 
   return (

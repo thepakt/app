@@ -6,7 +6,7 @@ export default defineConfig({
   routers: {
     client: {
       vite: {
-        plugins: () => [
+        plugins: [
           nodePolyfills({
             globals: {
               Buffer: true,
@@ -17,7 +17,7 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: () => [
+    plugins: [
       tsConfigPaths({
         projects: ["./tsconfig.json"],
       }),

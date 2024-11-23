@@ -221,7 +221,7 @@ const Sidebar = ({
     >
       <div
         className={cn(
-          "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
+          "duration-200 relative h-fit w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
           "group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           intent === "floating" || intent === "inset"
@@ -231,12 +231,12 @@ const Sidebar = ({
       />
       <div
         className={cn(
-          "duration-200 fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear sm:flex",
+          "duration-200 fixed inset-y-0 z-10 hidden h-fit min-h-[500px] w-[--sidebar-width] transition-[left,right,width] ease-linear sm:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
           intent === "floating" || intent === "inset"
-            ? "p-4 pt-12 pb-20 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
+            ? "p-4 pt-12 pb-16 group-data-[collapsible=dock]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
             : "group-data-[collapsible=dock]:w-[--sidebar-width-icon] group-data-[side=right]:border-l",
           className,
         )}
@@ -245,7 +245,8 @@ const Sidebar = ({
         <div
           data-slot="sidebar"
           className={cn(
-            "flex h-full w-full flex-col bg-tertiary group-data-[intent=inset]:bg-transparent group-data-[intent=floating]:rounded-lg group-data-[intent=floating]:bg-secondary",
+            "flex h-fit w-full flex-col bg-tertiary group-data-[intent=inset]:bg-transparent group-data-[intent=floating]:rounded-lg group-data-[intent=floating]:bg-secondary",
+            "py-4",
             intent === "inset" || state === "collapsed"
               ? "[&_[data-slot=sidebar-header]]:border-transparent [&_[data-slot=sidebar-footer]]:border-transparent"
               : "",
@@ -359,8 +360,9 @@ const Content = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="sidebar-content"
       className={cn([
-        "flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden group-data-[collapsible=dock]:items-center group-data-[collapsible=dock]:overflow-hidden",
-        state === "collapsed" ? "gap-y-6" : "gap-y-2",
+        "flex flex-col overflow-y-auto overflow-x-hidden group-data-[collapsible=dock]:items-center group-data-[collapsible=dock]:overflow-hidden",
+        state === "collapsed" ? "gap-y-1" : "gap-y-1",
+        "h-auto",
         className,
       ])}
       {...props}
@@ -490,20 +492,23 @@ const Section = ({
   const isExpanded =
     state === "collapsed" ||
     (title ? (collapsible ? (defaultExpanded ?? true) : true) : true)
+
   return (
     <Disclosure
       data-slot="sidebar-section"
       className={cn(
-        "col-span-full px-2 w-full",
+        "col-span-full px-2 w-full transition-all duration-200 ease-in-out",
+        !isExpanded && "max-h-[60px]",
         state === "collapsed" && [title && "px-0", !isMobile && "px-0"],
         state === "expanded" && [
           "[&_[data-slot=sidebar-section]]:px-0",
           title && [
             Icon
-              ? "mt-0.5 [&_[data-slot=sidebar-section-panel]]:px-6 [&_[data-slot=sidebar-section-panel]_[data-slot=icon]]:-ml-0.5"
-              : "my-2.5",
+              ? "[&_[data-slot=sidebar-section-panel]]:px-6 [&_[data-slot=sidebar-section-panel]_[data-slot=icon]]:-ml-0.5"
+              : "",
           ],
         ],
+        "my-0",
         className,
       )}
       defaultExpanded={isExpanded}
@@ -512,7 +517,7 @@ const Section = ({
       {({ isExpanded }) => (
         <>
           {typeof title === "string" && (
-            <span className="group-data-[collapsible=dock]:opacity-0 group-data-[collapsible=dock]:hidden">
+            <div className="group-data-[collapsible=dock]:opacity-0 group-data-[collapsible=dock]:hidden">
               {collapsible ? (
                 <ButtonPrimitive
                   slot="trigger"
@@ -520,8 +525,8 @@ const Section = ({
                     cn(
                       "w-full focus:outline-none flex leading-6 items-center justify-between [&>.idctr]:size-6 [&>.idctr]:duration-200",
                       Icon
-                        ? "text-fg lg:text-sm py-2 lg:py-1.5 px-3 [&_.idctr]:text-muted-fg has-[.idctr]:pr-0.5"
-                        : "text-sm text-muted-fg py-2 px-3 has-[.idctr]:pr-0",
+                        ? "text-fg lg:text-sm py-1 px-3 [&_.idctr]:text-muted-fg has-[.idctr]:pr-0.5"
+                        : "text-sm text-muted-fg py-1 px-3 has-[.idctr]:pr-0",
                       isHovered &&
                         Icon &&
                         "bg-muted text-secondary-fg [&_.text-muted-fg]:text-secondary-fg/80 [&>[data-slot=icon]]:shrink-0 items-center [&>[data-slot=icon]]:text-muted-fg relative rounded-lg lg:text-sm leading-6",
@@ -538,20 +543,21 @@ const Section = ({
                   {!Icon && <IconChevronDown className="idctr" />}
                 </ButtonPrimitive>
               ) : (
-                <h4 className="text-xl font-medium text-fg px-3 py-2 futura">
+                <h4 className="text-xl font-medium text-fg px-3 py-1 futura">
                   {title}
                 </h4>
               )}
-            </span>
+            </div>
           )}
           <DisclosurePanel>
             <div
               data-slot="sidebar-section-panel"
               className={cn(
-                "grid gap-y-0.5 group-data-[collapsible=dock]:place-content-center gap-1",
+                "grid gap-y-0.5 group-data-[collapsible=dock]:place-content-center gap-1 transition-all duration-200 ease-in-out",
+                "pt-1",
                 state === "collapsed"
                   ? "group-data-[collapsible=dock]:place-content-center"
-                  : "grid-cols-[auto_1fr] [&_[data-slot=sidebar-item]:first-child]:mt-0.5",
+                  : "grid-cols-[auto_1fr]",
               )}
             >
               {props.children}

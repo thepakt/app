@@ -41,7 +41,7 @@ export default function NavbarWrapper(props: any) {
 
   return (
     <Sidebar.Provider>
-      <Sidebar intent="floating" collapsible="dock">
+      <Sidebar intent="floating" collapsible="dock" className="h-auto min-h-0">
         <Sidebar.Content>
           <Sidebar.Section title="Might happen" className="mt-8">
             <Sidebar.Item icon={IconCircleCheck} href="tasks">

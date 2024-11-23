@@ -1,14 +1,7 @@
-import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Address } from "@ton/core"
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react"
-import { profile } from "console"
-import { ChevronRight, PencilIcon, StarIcon } from "lucide-react"
+import { useTonAddress } from "@tonconnect/ui-react"
 import { useEffect, useState } from "react"
-import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa"
-import { getProfile } from "~/actions"
-import { TodoItem } from "~/components/profile/TodoItem"
-import { UserData } from "~/components/profile/userData"
 
 interface NFTPreview {
   resolution: string
@@ -40,13 +33,13 @@ export default function RouteComponent() {
     if (!address) return
     async function fetchProfile() {
       try {
-        setIsLoading(true)
-        const profileData = await getProfile({ walletAddress: address })
-        if (!profileData) {
-          throw new Error("Failed to fetch profile data")
-        }
-        setProfileData(profileData)
-        console.log(profileData, "Profile data")
+        // setIsLoading(true)
+        // const profileData = await getProfile({ walletAddress: address })
+        // if (!profileData) {
+        //   throw new Error("Failed to fetch profile data")
+        // }
+        // setProfileData(profileData)
+        // console.log(profileData, "Profile data")
       } catch (err) {
         setError("Failed to load profile")
         console.error(err)

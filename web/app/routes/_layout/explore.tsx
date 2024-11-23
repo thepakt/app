@@ -1,26 +1,18 @@
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { Address } from "@ton/core"
 import { motion } from "framer-motion"
 import { Heart, Share, Wallet } from "lucide-react"
 import { useState } from "react"
-import {
-  createAcceptTaskNotification,
-  getModerator,
-  getPublicTasksAndUser,
-  getTaskWithItsCreator,
-} from "~/actions"
 import useActions from "~/lib/investor/useActions"
-import { toNanoDigits } from "~/lib/ton-utils"
 
 function RouteComponent() {
   const [waitingForTransaction, setWaitingForTransaction] = useState(false)
   const { data, isLoading, error } = useQuery({
     queryKey: ["explore"],
     queryFn: async () => {
-      const res = await getPublicTasksAndUser({})
-      console.log(res)
-      return res
+      // const res = await getPublicTasksAndUser({})
+      // console.log(res)
+      // return res
     },
   })
   if (error) return <></>
@@ -126,7 +118,9 @@ const FeedItem = ({
       <div className="flex flex-col gap-2 text-white/90 mt-4">
         <div className="flex gap-2">
           <button
-            className={`flex p-2 gap-1 ${isLiked ? "bg-pink-700/80" : "bg-neutral-700/40"}  transition-all justify-center rounded-lg items-center w-full`}
+            className={`flex p-2 gap-1 ${
+              isLiked ? "bg-pink-700/80" : "bg-neutral-700/40"
+            }  transition-all justify-center rounded-lg items-center w-full`}
             onClick={() => setIsLiked(!isLiked)}
           >
             <Heart className="w-3 h-3" />
@@ -135,10 +129,10 @@ const FeedItem = ({
           <button
             className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40"
             onClick={() => {
-              navigator.clipboard.writeText(
-                `https://t.me/todo-escrow_bot/task/{taskId}`,
-              )
-              alert("Copied!")
+              // navigator.clipboard.writeText(
+              //   `https://t.me/todo-escrow_bot/task/{taskId}`,
+              // )
+              // alert("Copied!")
             }}
           >
             <Share className="w-3 h-3" />
@@ -148,37 +142,37 @@ const FeedItem = ({
         <button
           onClick={async () => {
             try {
-              const digits = Number(import.meta.env.VITE_JETTON_DECIMALS)
-              const taskWithCreator = await getTaskWithItsCreator({
-                taskId,
-              })
-              const moderator = await getModerator({})
-              if (!moderator) return
-              if (!taskWithCreator.creator?.walletAddress) return
-              setWaitingForTransaction(true)
-              const createdContractAddress = await createContract({
-                performer: Address.parse(taskWithCreator.creator.walletAddress),
-                moderator: Address.parse(moderator.walletAddress),
-                tokenMaster: Address.parse(import.meta.env.VITE_MASTER_ADDRESS),
-                // TODO: support subtasks
-                tasks: [{ amount: BigInt(0) }],
-                // TODO: make it smart so it adjusts based on the decimals of the jetton
-                finishAmount: BigInt(
-                  // @ts-ignore
-                  toNanoDigits(bountyPriceInUsdt.toString(), digits),
-                ),
-              })
-              const acceptTaskNotification = await createAcceptTaskNotification(
-                {
-                  taskId: taskWithCreator.task.id,
-                  contractAddress: createdContractAddress.toString(),
-                  recieverWalletAddress: taskWithCreator.creator.walletAddress,
-                  // TODO: change to real tg name..
-                  telegramUsernameOfInvestor: "nikivi",
-                },
-              )
-              setWaitingForTransaction(false)
-              console.log(acceptTaskNotification, "acceptTaskNotification")
+              // const digits = Number(import.meta.env.VITE_JETTON_DECIMALS)
+              // const taskWithCreator = await getTaskWithItsCreator({
+              //   taskId,
+              // })
+              // const moderator = await getModerator({})
+              // if (!moderator) return
+              // if (!taskWithCreator.creator?.walletAddress) return
+              // setWaitingForTransaction(true)
+              // const createdContractAddress = await createContract({
+              //   performer: Address.parse(taskWithCreator.creator.walletAddress),
+              //   moderator: Address.parse(moderator.walletAddress),
+              //   tokenMaster: Address.parse(import.meta.env.VITE_MASTER_ADDRESS),
+              //   // TODO: support subtasks
+              //   tasks: [{ amount: BigInt(0) }],
+              //   // TODO: make it smart so it adjusts based on the decimals of the jetton
+              //   finishAmount: BigInt(
+              //     // @ts-ignore
+              //     toNanoDigits(bountyPriceInUsdt.toString(), digits)
+              //   ),
+              // })
+              // const acceptTaskNotification = await createAcceptTaskNotification(
+              //   {
+              //     taskId: taskWithCreator.task.id,
+              //     contractAddress: createdContractAddress.toString(),
+              //     recieverWalletAddress: taskWithCreator.creator.walletAddress,
+              //     // TODO: change to real tg name..
+              //     telegramUsernameOfInvestor: "nikivi",
+              //   }
+              // )
+              // setWaitingForTransaction(false)
+              // console.log(acceptTaskNotification, "acceptTaskNotification")
             } catch (err) {
               console.error(err)
               setWaitingForTransaction(false)

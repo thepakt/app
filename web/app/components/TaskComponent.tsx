@@ -5,9 +5,9 @@ import { useTonAddress } from "@tonconnect/ui-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Bell, Share, Trash, X } from "lucide-react"
 import { useState } from "react"
-import { deleteTask, getUserByWalletAddress, startWorkOnTask } from "~/actions"
 import useActions from "~/lib/investor/useActions"
 import { Meter } from "./ui/meter"
+import { $deleteTask, $getUserByWalletAddress } from "~/actions/actions"
 
 export function TaskComponent({
   task,
@@ -107,7 +107,8 @@ export function TaskComponent({
         <button
           className="flex items-center p-2 gap-1 justify-center hover:bg-neutral-700 transition-all rounded-lg w-full bg-neutral-700/40"
           onClick={async () => {
-            const deletedTask = await deleteTask({ taskId: task.id })
+            // @ts-ignore
+            const deletedTask = await $deleteTask({ taskId: task.id })
             queryClient.invalidateQueries({
               queryKey: ["tasks"],
               refetchType: "all",
@@ -155,35 +156,30 @@ export function TaskComponent({
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
                   onClick={async () => {
-                    if (!contractOfTask) return
-                    if (!address) return
-
-                    const user = await getUserByWalletAddress({
-                      walletAddress: address,
-                    })
-                    if (!user) return
-
-                    const contractStarted = await startContract(
-                      Address.parse(contractOfTask)
-                    )
-                    console.log(contractStarted, "contractStarted")
-
-                    const investorAddress = await getData(
-                      Address.parse(contractOfTask)
-                    )
-                    const investorAddressString =
-                      investorAddress.investor.toString()
-
-                    const startedWorkOnTask = await startWorkOnTask({
-                      taskId: task.id,
-                      investorWalletAddress: investorAddressString,
-                      workerTgUsername: user.username,
-                      investorTgUsername: telegramUsernameOfInvestor,
-                      taskName: task.title,
-                    })
-                    console.log(startedWorkOnTask)
-
-                    setShowModal(false)
+                    // if (!contractOfTask) return
+                    // if (!address) return
+                    // const user = await $getUserByWalletAddress({
+                    //   walletAddress: address,
+                    // })
+                    // if (!user) return
+                    // const contractStarted = await startContract(
+                    //   Address.parse(contractOfTask),
+                    // )
+                    // console.log(contractStarted, "contractStarted")
+                    // const investorAddress = await getData(
+                    //   Address.parse(contractOfTask),
+                    // )
+                    // const investorAddressString =
+                    //   investorAddress.investor.toString()
+                    // const startedWorkOnTask = await startWorkOnTask({
+                    //   taskId: task.id,
+                    //   investorWalletAddress: investorAddressString,
+                    //   workerTgUsername: user.username,
+                    //   investorTgUsername: telegramUsernameOfInvestor,
+                    //   taskName: task.title,
+                    // })
+                    // console.log(startedWorkOnTask)
+                    // setShowModal(false)
                   }}
                 >
                   Accept

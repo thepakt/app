@@ -1,10 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { useTonAddress } from "@tonconnect/ui-react"
 import { motion } from "framer-motion"
+import { ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
-import { createTask } from "~/actions"
-import { ChevronDown } from "lucide-react"
 import { GridListSubtasks } from "./ui/grid-list-subtasks"
 
 type TimeUnit = "Hours" | "Days"
@@ -461,18 +460,18 @@ Want to splash the Mona Lisa? Click. Starry Night needs some tomato stars? Doubl
               type="button"
               className="py-1 h-[44px] bg-accent w-[100%] hover:opacity-45 transition-opacity text-white text-sm font-medium rounded-md"
               onClick={async () => {
-                await createTask({
-                  task: {
-                    title: title.trim(),
-                    notes: notes,
-                    public: false,
-                    bountyEstimatedTimeInHours:
-                      date.type === "Days" ? date.amount * 24 : date.amount,
-                    bountyPriceInUsdt: Number(bounty),
-                  },
-                  userWalletAddress: address,
-                  subtasks: subtasks.map((subtask) => subtask.subtask),
-                })
+                // await $createTask({
+                //   task: {
+                //     title: title.trim(),
+                //     notes: notes,
+                //     public: false,
+                //     bountyEstimatedTimeInHours:
+                //       date.type === "Days" ? date.amount * 24 : date.amount,
+                //     bountyPriceInUsdt: Number(bounty),
+                //   },
+                //   userWalletAddress: address,
+                //   subtasks: subtasks.map((subtask) => subtask.subtask),
+                // })
                 queryClient.invalidateQueries({
                   queryKey: ["tasks"],
                   refetchType: "all",

@@ -4,61 +4,68 @@ import {
   ScrollRestoration,
   createRootRouteWithContext,
 } from "@tanstack/react-router"
-import { Body, Head, Html, Meta, Scripts } from "@tanstack/start"
+import { Meta, Scripts } from "@tanstack/start"
 import { TonConnectUIProvider } from "@tonconnect/ui-react"
 import * as React from "react"
 import { Toaster } from "react-hot-toast"
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary"
 import { NotFound } from "~/components/NotFound"
+import { ThemeProvider } from "~/components/theme-provider"
 import appCss from "~/styles/app.css?url"
 import justgetdCss from "~/styles/justgetd-index.css?url"
 import { seo } from "~/utils/seo"
-import { proxy } from "valtio"
-import { ThemeProvider } from "~/components/theme-provider"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
-  meta: () => [
-    {
-      charSet: "utf-8",
-    },
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1",
-    },
-    ...seo({
-      title: "TON",
-      description: `TON utils and other code`,
-    }),
-  ],
-  links: () => [
-    { rel: "stylesheet", href: appCss },
-    { rel: "stylesheet", href: justgetdCss },
-    { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
-    { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital@0;1&display=swap"},
-    { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/futura-font@1.0.0/styles.min.css"},
-    {
-      rel: "apple-touch-icon",
-      sizes: "180x180",
-      href: "/apple-touch-icon.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "32x32",
-      href: "/favicon-32x32.png",
-    },
-    {
-      rel: "icon",
-      type: "image/png",
-      sizes: "16x16",
-      href: "/favicon-16x16.png",
-    },
-    { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
-    { rel: "icon", href: "/favicon.ico" },
-  ],
+  head: () => ({
+    meta: [
+      {
+        charSet: "utf-8",
+      },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1",
+      },
+      ...seo({
+        title: "PAKT app",
+        description: `Work and invest in confidence`,
+      }),
+    ],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: justgetdCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital@0;1&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/npm/futura-font@1.0.0/styles.min.css",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+      { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
+      { rel: "icon", href: "/favicon.ico" },
+    ],
+  }),
   errorComponent: (props) => {
     return (
       <RootDocument>
@@ -85,17 +92,15 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <Html>
-      <Head>
+    <html>
+      <head>
         <Meta />
-      </Head>
-      <Body>
+      </head>
+      <body>
         {children}
         <ScrollRestoration />
-        {/* {!isProduction && <TanStackRouterDevtools position="bottom-right" />} */}
-        {/* <ReactQueryDevtools buttonPosition="bottom-left" /> */}
         <Scripts />
-      </Body>
-    </Html>
+      </body>
+    </html>
   )
 }

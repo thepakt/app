@@ -3,12 +3,9 @@ import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useTonAddress, useTonWallet } from "@tonconnect/ui-react"
 import { AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
-import { getActiveTasksAndNotifications } from "~/actions"
 import AddTodoButton from "~/components/AddTodoButton"
 import { DatePicker } from "~/components/DatePicker"
 import NewTask from "~/components/NewTask"
-import { TaskComponent } from "~/components/TaskComponent"
-import { TaskComponentInvested } from "~/components/TaskComponentInvested"
 
 function RouteComponent() {
   const address = useTonAddress()
@@ -53,12 +50,12 @@ function RouteComponent() {
 
   const { data, error } = useQuery({
     queryKey: ["tasks"],
-    queryFn: async (): Promise<{ tasks: any[]; taskNotifications: any[] }> => {
-      const res = await getActiveTasksAndNotifications({
-        walletAddress: address,
-      })
-      console.log(res)
-      return res
+    queryFn: async () => {
+      // const res = await getActiveTasksAndNotifications({
+      //   walletAddress: address,
+      // })
+      // console.log(res)
+      // return res
     },
     enabled: !!address,
   })
@@ -91,41 +88,43 @@ function RouteComponent() {
             {data?.tasks?.map((task) => {
               if (task?.workOnTaskHasStarted) return <></>
               return (
-                <TaskComponent
-                  key={task.id}
-                  telegramUsernameOfInvestor={
-                    Array.isArray(data?.taskNotifications) &&
-                    data.taskNotifications.find(
-                      (taskNotification: {
-                        task: { id: string }
-                        contractAddress: string
-                      }) => taskNotification.task.id === task.id,
-                    )?.telegramUsernameOfInvestor
-                  }
-                  showNotification={
-                    (data?.taskNotifications?.filter(
-                      (notification: { task: { id: string } }) =>
-                        notification.task.id === task.id,
-                    )?.length ?? 0) > 0
-                  }
-                  contractOfTask={
-                    data?.taskNotifications?.find(
-                      (taskNotification: {
-                        task: { id: string }
-                        contractAddress: string
-                      }) => taskNotification.task.id === task.id,
-                    )?.contractAddress
-                  }
-                  task={task}
-                  isExpanded={expandedTodoId === task.id}
-                  onClick={(id) => {
-                    // @ts-ignore
-                    setExpandedTodoId((prevId) => (prevId === id ? null : id))
-                  }}
-                />
+                <>
+                  {/* <TaskComponent
+                    key={task.id}
+                    telegramUsernameOfInvestor={
+                      Array.isArray(data?.taskNotifications) &&
+                      data.taskNotifications.find(
+                        (taskNotification: {
+                          task: { id: string }
+                          contractAddress: string
+                        }) => taskNotification.task.id === task.id,
+                      )?.telegramUsernameOfInvestor
+                    }
+                    showNotification={
+                      (data?.taskNotifications?.filter(
+                        (notification: { task: { id: string } }) =>
+                          notification.task.id === task.id,
+                      )?.length ?? 0) > 0
+                    }
+                    contractOfTask={
+                      data?.taskNotifications?.find(
+                        (taskNotification: {
+                          task: { id: string }
+                          contractAddress: string
+                        }) => taskNotification.task.id === task.id,
+                      )?.contractAddress
+                    }
+                    task={task}
+                    isExpanded={expandedTodoId === task.id}
+                    onClick={(id) => {
+                      // @ts-ignore
+                      setExpandedTodoId((prevId) => (prevId === id ? null : id))
+                    }}
+                  /> */}
+                </>
               )
             })}
-            {(!data?.tasks || data.tasks.length === 0) && !isNewTodoOpen && (
+            {/* {(!data?.tasks || data.tasks.length === 0) && !isNewTodoOpen && (
               <p className="text-center text-white/30 mt-4">
                 You don't have any tasks yet.
                 <br />
@@ -146,7 +145,7 @@ function RouteComponent() {
                 </span>{" "}
                 to get started
               </p>
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -162,7 +161,7 @@ function RouteComponent() {
         )}
       </AnimatePresence>
 
-      {data?.tasks?.some((task) => task.workOnTaskHasStarted) && (
+      {/* {data?.tasks?.some((task) => task.workOnTaskHasStarted) && (
         <div className="w-full flex flex-col items-start">
           <h1 className="text-md font-semibold pt-[1.2em]">
             Tasks In Progress
@@ -175,7 +174,7 @@ function RouteComponent() {
               ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 # [app.thepakt.com](https://app.thepakt.com)
 
-See [web](web).
+See [web](web) to run website.
 
-The pitch video is available [here](https://youtu.be/uxBKIh5ft2Q)
+Overview video can be seen [here](https://youtu.be/uxBKIh5ft2Q)

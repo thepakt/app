@@ -1,5 +1,3 @@
-"use client"
-
 import { IconChevronLgRight } from "justd-icons"
 import type { BreadcrumbProps, BreadcrumbsProps } from "react-aria-components"
 import {

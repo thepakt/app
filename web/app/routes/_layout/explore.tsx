@@ -191,6 +191,6 @@ const FeedItem = ({
   )
 }
 
-export const Route = createFileRoute('/explore')({
+export const Route = createFileRoute('/_layout/explore')({
   component: () => <RouteComponent />,
 })

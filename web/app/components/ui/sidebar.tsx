@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 
 import {
@@ -11,8 +9,8 @@ import {
 import type { DisclosureProps, LinkProps } from "react-aria-components"
 import {
   Link,
-  UNSTABLE_Disclosure as Disclosure,
-  UNSTABLE_DisclosurePanel as DisclosurePanel,
+  Disclosure,
+  DisclosurePanel,
 } from "react-aria-components"
 import { tv } from "tailwind-variants"
 

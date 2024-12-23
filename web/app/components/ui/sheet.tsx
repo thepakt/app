@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 
 import type { DialogTriggerProps, Modal } from "react-aria-components"

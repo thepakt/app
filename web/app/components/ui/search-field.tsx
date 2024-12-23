@@ -1,5 +1,3 @@
-"use client"
-
 import { IconSearch, IconX } from "justd-icons"
 import {
   SearchField as SearchFieldPrimitive,

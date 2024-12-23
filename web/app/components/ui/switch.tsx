@@ -1,5 +1,3 @@
-"use client"
-
 import {
   Switch as SwitchPrimitive,
   type SwitchProps as SwitchPrimitiveProps

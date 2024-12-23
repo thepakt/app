@@ -27,6 +27,6 @@ function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute('/chat')({
+export const Route = createFileRoute('/_layout/chat')({
   component: () => <RouteComponent />,
 })

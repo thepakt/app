@@ -222,6 +222,6 @@ export default function RouteComponent() {
   )
 }
 
-export const Route = createFileRoute('/profile')({
+export const Route = createFileRoute('/_layout/profile')({
   component: () => <RouteComponent />,
 })

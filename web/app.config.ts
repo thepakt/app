@@ -3,6 +3,16 @@ import tsConfigPaths from "vite-tsconfig-paths"
 import { nodePolyfills } from "vite-plugin-node-polyfills"
 
 export default defineConfig({
+  vite: {
+    plugins: [
+      tsConfigPaths({
+        projects: ["./tsconfig.json"],
+      }),
+    ],
+  },
+  server: {
+    preset: "vercel",
+  },
   routers: {
     client: {
       vite: {
@@ -16,11 +26,14 @@ export default defineConfig({
       },
     },
   },
-  vite: {
-    plugins: [
-      tsConfigPaths({
-        projects: ["./tsconfig.json"],
-      }),
-    ],
+  tsr: {
+    customScaffolding: {
+      routeTemplate: [
+        "%%tsrImports%%",
+        "\n\n",
+        "function RouteComponent() { return <></> };\n\n",
+        "%%tsrExportStart%%{\n component: RouteComponent\n }%%tsrExportEnd%%\n",
+      ].join(""),
+    },
   },
 })
